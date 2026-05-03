@@ -16,6 +16,7 @@ export type BlogDto = {
   imgUrl: string
   createdAt: string
   updatedAt: string
+  slug: string
 }
 
 export type ServiceDto = {
@@ -70,14 +71,12 @@ export function sortServicesByOrderField(services: ServiceDto[]): ServiceDto[] {
   })
 }
 
+import { apiClient } from './apiClient';
+
 export async function fetchTrendingServices(): Promise<ServiceDto[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/trending`);
-    if (!res.ok) {
-      throw new Error(`Error fetching trending services: ${res.statusText}`);
-    }
-    const data: ServiceDto[] = await res.json();
-    return data.map(normalizeServiceDto);
+    const res = await apiClient.get<ServiceDto[]>('/api/trending');
+    return res.data.map(normalizeServiceDto);
   } catch (error) {
     console.error("Failed to fetch trending services:", error);
     throw error;
@@ -86,12 +85,8 @@ export async function fetchTrendingServices(): Promise<ServiceDto[]> {
 
 export async function fetchServices(all = false): Promise<ServiceDto[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/services`);
-    if (!res.ok) {
-      throw new Error(`Error fetching services: ${res.statusText}`);
-    }
-    const data: ServiceDto[] = await res.json();
-    return data.map(normalizeServiceDto);
+    const res = await apiClient.get<ServiceDto[]>('/api/services');
+    return res.data.map(normalizeServiceDto);
   } catch (error) {
     console.error("Failed to fetch services:", error);
     throw error;
@@ -100,25 +95,18 @@ export async function fetchServices(all = false): Promise<ServiceDto[]> {
 
 export async function fetchServiceDetail(id: string): Promise<ServiceDto> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/services/${id}`);
-    if (!res.ok) {
-      throw new Error(`Error fetching service detail: ${res.statusText}`);
-    }
-    return res.json();
+    const res = await apiClient.get<ServiceDto>(`/api/services/${id}`);
+    return res.data;
   } catch (error) {
     console.error("Failed to fetch service detail:", error);
     throw error;
   }
 }
 
-
 export async function fetchFeedbacks(): Promise<FeedbackDto[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/feedback`);
-    if (!res.ok) {
-      throw new Error(`Error fetching feedbacks: ${res.statusText}`);
-    }
-    return res.json();
+    const res = await apiClient.get<FeedbackDto[]>('/api/feedback');
+    return res.data;
   } catch (error) {
     console.error("Failed to fetch feedbacks:", error);
     throw error;
@@ -127,11 +115,8 @@ export async function fetchFeedbacks(): Promise<FeedbackDto[]> {
 
 export async function fetchBlogs(): Promise<BlogDto[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/blogs`);
-    if (!res.ok) {
-      throw new Error(`Error fetching blogs: ${res.statusText}`);
-    }
-    return res.json();
+    const res = await apiClient.get<BlogDto[]>('/api/blogs');
+    return res.data;
   } catch (error) {
     console.error("Failed to fetch blogs:", error);
     throw error;
@@ -140,13 +125,20 @@ export async function fetchBlogs(): Promise<BlogDto[]> {
 
 export async function fetchBlogById(id: string): Promise<BlogDto> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/blogs/${id}`);
-    if (!res.ok) {
-      throw new Error(`Error fetching blog: ${res.statusText}`);
-    }
-    return res.json();
+    const res = await apiClient.get<BlogDto>(`/api/blogs/${id}`);
+    return res.data;
   } catch (error) {
     console.error("Failed to fetch blog:", error);
     throw error;
   }
 }
+
+export async function fetchBlogBySlug(slug: string): Promise<BlogDto> {
+  try {
+    const res = await apiClient.get<BlogDto>(`/api/blogs/${slug}`);
+    return res.data;
+  } catch (error) {
+    console.error("Failed to fetch blog:", error);
+    throw error;
+  }
+} 

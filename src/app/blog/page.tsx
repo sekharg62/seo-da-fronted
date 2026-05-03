@@ -12,21 +12,21 @@ export default function BlogListPage() {
 
   useEffect(() => {
     let mounted = true
-    ;(async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const data = await fetchBlogs()
-        if (!mounted) return
-        setBlogs(data)
-      } catch {
-        if (!mounted) return
-        setError('Failed to load blogs.')
-      } finally {
-        if (!mounted) return
-        setLoading(false)
-      }
-    })()
+      ; (async () => {
+        setLoading(true)
+        setError(null)
+        try {
+          const data = await fetchBlogs()
+          if (!mounted) return
+          setBlogs(data)
+        } catch {
+          if (!mounted) return
+          setError('Failed to load blogs.')
+        } finally {
+          if (!mounted) return
+          setLoading(false)
+        }
+      })()
     return () => {
       mounted = false
     }
@@ -74,7 +74,7 @@ export default function BlogListPage() {
                 <p className="line-clamp-3 text-xs text-slate-600 dark:text-slate-300">{blog.description}</p>
                 <div className="pt-2">
                   <Link
-                    href={`/blog/${blog.id}`}
+                    href={`/blog/${blog.slug}`}
                     className="inline-flex items-center gap-2 rounded-md text-xs font-medium text-emerald-700 outline-none transition hover:text-emerald-800 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:text-emerald-300 dark:hover:text-emerald-200 dark:focus-visible:ring-offset-slate-950"
                   >
                     Read more <ArrowRight className="h-4 w-4" aria-hidden />

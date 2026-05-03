@@ -4,37 +4,39 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { ArrowLeft, FileText } from 'lucide-react'
-import { fetchBlogById, type BlogDto } from '@/services/homeApiService'
+import { fetchBlogBySlug, type BlogDto } from '@/services/homeApiService'
 
 export default function BlogDetailPage() {
   const params = useParams()
-  const id = params.id as string
+  const slug = params.slug as string
   const [blog, setBlog] = useState<BlogDto | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  console.log("params ", params)
+
   useEffect(() => {
     let mounted = true
-    if (!id) return
-    ;(async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const data = await fetchBlogById(id)
-        if (!mounted) return
-        setBlog(data)
-      } catch {
-        if (!mounted) return
-        setError('Blog not found.')
-      } finally {
-        if (!mounted) return
-        setLoading(false)
-      }
-    })()
+    if (!slug) return
+      ; (async () => {
+        setLoading(true)
+        setError(null)
+        try {
+          const data = await fetchBlogBySlug(slug)
+          if (!mounted) return
+          setBlog(data)
+        } catch {
+          if (!mounted) return
+          setError('Blog not found.')
+        } finally {
+          if (!mounted) return
+          setLoading(false)
+        }
+      })()
     return () => {
       mounted = false
     }
-  }, [id])
+  }, [slug])
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">

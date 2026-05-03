@@ -12,21 +12,21 @@ export function HomeBlog() {
 
   useEffect(() => {
     let mounted = true
-    ;(async () => {
-      setBlogsLoading(true)
-      setBlogsError(null)
-      try {
-        const data = await fetchBlogs()
-        if (!mounted) return
-        setBlogs(data)
-      } catch {
-        if (!mounted) return
-        setBlogsError('Failed to load latest blogs.')
-      } finally {
-        if (!mounted) return
-        setBlogsLoading(false)
-      }
-    })()
+      ; (async () => {
+        setBlogsLoading(true)
+        setBlogsError(null)
+        try {
+          const data = await fetchBlogs()
+          if (!mounted) return
+          setBlogs(data)
+        } catch {
+          if (!mounted) return
+          setBlogsError('Failed to load latest blogs.')
+        } finally {
+          if (!mounted) return
+          setBlogsLoading(false)
+        }
+      })()
 
     return () => {
       mounted = false
@@ -79,7 +79,7 @@ export function HomeBlog() {
                   <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3">{blog.description}</p>
                   <div className="pt-1">
                     <Link
-                      href={`/blog/${blog.id}`}
+                      href={`/blog/${blog.slug}`}
                       className="inline-flex items-center gap-2 text-xs font-medium text-emerald-700 dark:text-emerald-300 hover:text-emerald-600 dark:hover:text-emerald-200 transition"
                     >
                       Read more
