@@ -1,59 +1,66 @@
-"use client";
-
-import { useEffect, useState } from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, FileText } from 'lucide-react'
+import { ArrowRight, BookOpen } from 'lucide-react'
 import { fetchBlogs, type BlogDto } from '@/services/homeApiService'
 
-export default function BlogListPage() {
-  const [blogs, setBlogs] = useState<BlogDto[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+export const revalidate = false // Force SSG
+export const dynamic = 'force-static'
 
-  useEffect(() => {
-    let mounted = true
-      ; (async () => {
-        setLoading(true)
-        setError(null)
-        try {
-          const data = await fetchBlogs()
-          if (!mounted) return
-          setBlogs(data)
-        } catch {
-          if (!mounted) return
-          setError('Failed to load blogs.')
-        } finally {
-          if (!mounted) return
-          setLoading(false)
-        }
-      })()
-    return () => {
-      mounted = false
-    }
-  }, [])
+export const metadata: Metadata = {
+  title: 'Blog',
+  description:
+    'Latest updates, industry insights, and stories from DigitalAccess BD — digital subscriptions, guides, and product news.',
+  alternates: { canonical: '/blog' },
+  openGraph: {
+    title: 'Blog | DigitalAccess BD',
+    description:
+      'Discover our latest updates, industry insights, and stories about digital services and subscriptions.',
+    url: '/blog',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog | DigitalAccess BD',
+    description:
+      'Discover our latest updates, industry insights, and stories about digital services and subscriptions.',
+  },
+  robots: { index: true, follow: true },
+}
+
+export default async function BlogListPage() {
+  let blogs: BlogDto[] = []
+  let error: string | null = null
+
+  try {
+    blogs = await fetchBlogs()
+  } catch {
+    error = 'Failed to load blogs.'
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-      <div className="mb-8">
-        <h1 className="mb-1 flex items-center gap-2 text-2xl font-semibold text-slate-900 md:text-3xl dark:text-slate-50">
-          <span className="rounded-lg bg-emerald-100 p-2 dark:bg-emerald-500/10">
-            <FileText className="h-5 w-5 text-emerald-700 dark:text-emerald-400" />
+      <header className="mb-10">
+        <nav className="mb-6 flex text-sm font-medium text-slate-600 dark:text-slate-400">
+          <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
+            Home
+          </Link>
+          <span className="mx-2 text-slate-300 dark:text-slate-600">/</span>
+          <span className="text-slate-900 dark:text-slate-200">Blog</span>
+        </nav>
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/50 dark:text-emerald-400">
+            <BookOpen className="h-5 w-5" aria-hidden />
           </span>
-          Latest Blog
-        </h1>
-        <p className="text-sm text-slate-600 dark:text-slate-400">Read our latest updates.</p>
-      </div>
-
-      {loading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div
-              key={i}
-              className="h-72 animate-pulse rounded-xl border border-slate-200 bg-slate-100 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 dark:shadow-none"
-            />
-          ))}
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+            Latest Blog
+          </h1>
         </div>
-      ) : error ? (
+        <p className="mt-3 max-w-xl text-sm text-slate-600 dark:text-slate-400">
+          Discover our latest updates, industry insights, and stories.
+        </p>
+      </header>
+
+      {error ? (
         <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
       ) : blogs.length === 0 ? (
         <p className="text-sm text-slate-500 dark:text-slate-400">No blogs yet.</p>
