@@ -53,6 +53,7 @@ export default function ConfirmOrderPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [orderId, setOrderId] = useState<string | null>(null)
+  const [orderNo, setOrderNo] = useState<string>('');
   const [orderData, setOrderData] = useState<OrderDto | null>(null)
 
   const [couponCode, setCouponCode] = useState('')
@@ -118,7 +119,9 @@ export default function ConfirmOrderPage() {
       // Clear the cart
       items.forEach((i) => removeItem(i.serviceId))
       setOrderData(order)
+      setOrderNo(order.orderNo)
       setOrderId(order.id)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch {
       setSubmitError(
         language === 'bn'
@@ -197,7 +200,7 @@ export default function ConfirmOrderPage() {
               : 'Your order has been received. We will contact you shortly after payment verification.'}
           </p>
           <p className="text-xs font-mono bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 text-slate-500 dark:text-slate-400 mb-6 break-all">
-            {language === 'bn' ? 'অর্ডার আইডি: ' : 'Order ID: '}{orderId}
+            {language === 'bn' ? 'অর্ডার আইডি: ' : 'Order ID: '}{orderNo}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -230,7 +233,7 @@ export default function ConfirmOrderPage() {
           </div>
 
           <div className="section-title">Order Information</div>
-          <div className="order-id">Order ID: {o.id}</div>
+          <div className="order-id">Order ID: {o.orderNo}</div>
           <div style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280' }}>
             Date: {printDate} &nbsp;|&nbsp;
             Status: <span className="badge">PENDING – Awaiting Verification</span>
@@ -578,28 +581,32 @@ export default function ConfirmOrderPage() {
                         <p className="text-slate-700 dark:text-slate-200 truncate">
                           {name} × {item.quantity}
                         </p>
-                        {(item.sharedPrice != null || item.personalPrice != null) && (
-                          <div className="mt-1 inline-flex rounded-lg border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/40 p-1">
-                            <button
-                              type="button"
-                              onClick={() => updatePriceType(item.serviceId, 'shared')}
-                              className={`px-2.5 py-1 text-xs font-medium rounded-md transition ${(item.priceType ?? 'shared') === 'shared'
-                                ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
-                                }`}
-                            >
-                              Shared
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => updatePriceType(item.serviceId, 'personal')}
-                              className={`px-2.5 py-1 text-xs font-medium rounded-md transition ${(item.priceType ?? 'shared') === 'personal'
-                                ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
-                                }`}
-                            >
-                              Personal
-                            </button>
+                        {(Number(item.sharedPrice) > 0 || Number(item.personalPrice) > 0) && (
+                          <div className="mt-1 inline-flex rounded-full border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/40 p-1">
+                            {Number(item.sharedPrice) > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => updatePriceType(item.serviceId, 'shared')}
+                                className={`px-2.5 py-1 text-xs font-medium rounded-full transition ${(item.priceType ?? 'shared') === 'shared'
+                                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
+                                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                  }`}
+                              >
+                                Shared
+                              </button>
+                            )}
+                            {Number(item.personalPrice) > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => updatePriceType(item.serviceId, 'personal')}
+                                className={`px-2.5 py-1 text-xs font-medium rounded-full transition ${(item.priceType ?? 'shared') === 'personal'
+                                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
+                                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                  }`}
+                              >
+                                Personal
+                              </button>
+                            )}
                           </div>
                         )}
                       </div>
@@ -607,9 +614,11 @@ export default function ConfirmOrderPage() {
                         {CURRENCY}{lineTotal}
                       </span>
                     </div>
-                    {(item.sharedPrice != null || item.personalPrice != null) && (
+                    {(Number(item.sharedPrice) > 0 || Number(item.personalPrice) > 0) && (
                       <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                        Shared: {CURRENCY}{Number(item.sharedPrice ?? item.offerPrice).toFixed(0)} · Personal: {CURRENCY}{Number(item.personalPrice ?? item.offerPrice).toFixed(0)}
+                        {Number(item.sharedPrice) > 0 && `Shared: ${CURRENCY}${Number(item.sharedPrice).toFixed(0)}`}
+                        {Number(item.sharedPrice) > 0 && Number(item.personalPrice) > 0 && ' · '}
+                        {Number(item.personalPrice) > 0 && `Personal: ${CURRENCY}${Number(item.personalPrice).toFixed(0)}`}
                       </p>
                     )}
                   </li>

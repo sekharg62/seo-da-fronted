@@ -66,8 +66,8 @@ export default function ProductDetail() {
 
   const [selectedPlan, setSelectedPlan] = useState<ServicePlanDto | null>(null)
   const [priceType, setPriceType] = useState<'shared' | 'personal'>('shared')
-  const [qty, setQty] = useState(1)
-
+  const [qty, setQty] = useState<number | string>(1)
+  //console.log("plan", plans)
   useEffect(() => {
     if (!id) return
     let mounted = true
@@ -86,6 +86,13 @@ export default function ProductDetail() {
         // Default: select the 1-month plan (lowest), or first plan
         const oneMonth = sorted.find((p) => p.months === 1) ?? sorted[0] ?? null
         setSelectedPlan(oneMonth)
+        if (oneMonth) {
+          if (Number(oneMonth.sharedPrice) <= 0 && Number(oneMonth.personalPrice) > 0) {
+            setPriceType('personal')
+          } else if (Number(oneMonth.personalPrice) <= 0 && Number(oneMonth.sharedPrice) > 0) {
+            setPriceType('shared')
+          }
+        }
         setLoading(false)
       })
       .catch(() => {
@@ -111,7 +118,7 @@ export default function ProductDetail() {
       sharedPrice: Number(selectedPlan.sharedPrice),
       personalPrice: Number(selectedPlan.personalPrice),
       priceType,
-      quantity: qty,
+      quantity: Number(qty) || 1,
       periodKey: selectedPlan.months === 1 ? 'month' : 'year',
     })
   }
@@ -130,7 +137,7 @@ export default function ProductDetail() {
       sharedPrice: Number(selectedPlan.sharedPrice),
       personalPrice: Number(selectedPlan.personalPrice),
       priceType,
-      quantity: qty,
+      quantity: Number(qty) || 1,
       periodKey: selectedPlan.months === 1 ? 'month' : 'year',
     })
     setDrawerOpen(false)
@@ -238,11 +245,18 @@ export default function ProductDetail() {
                       <button
                         key={plan.id}
                         type="button"
-                        onClick={() => setSelectedPlan(plan)}
+                        onClick={() => {
+                          setSelectedPlan(plan)
+                          if (priceType === 'shared' && Number(plan.sharedPrice) <= 0 && Number(plan.personalPrice) > 0) {
+                            setPriceType('personal')
+                          } else if (priceType === 'personal' && Number(plan.personalPrice) <= 0 && Number(plan.sharedPrice) > 0) {
+                            setPriceType('shared')
+                          }
+                        }}
                         disabled={service.isActive === false}
-                        className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${selectedPlan?.id === plan.id
-                            ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
-                            : 'border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-emerald-400'
+                        className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${selectedPlan?.id === plan.id
+                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+                          : 'border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-emerald-400'
                           } disabled:cursor-not-allowed disabled:opacity-50`}
                       >
                         {plan.months === 1 ? '1 Month' : `${plan.months} Months`}
@@ -251,42 +265,50 @@ export default function ProductDetail() {
                   </div>
                   {selectedPlan && (
                     <div className="mt-2 space-y-2">
-                      <div className="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/40 p-1">
-                        <button
-                          type="button"
-                          onClick={() => setPriceType('shared')}
-                          className={`px-3 py-1.5 text-xs font-semibold rounded-md transition ${priceType === 'shared'
+                      <div className="inline-flex rounded-full border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/40 p-1">
+                        {Number(selectedPlan.sharedPrice) > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setPriceType('shared')}
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-full transition ${priceType === 'shared'
                               ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
                               : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
-                            }`}
-                        >
-                          Shared
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setPriceType('personal')}
-                          className={`px-3 py-1.5 text-xs font-semibold rounded-md transition ${priceType === 'personal'
+                              }`}
+                          >
+                            Shared
+                          </button>
+                        )}
+                        {Number(selectedPlan.personalPrice) > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => setPriceType('personal')}
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-full transition ${priceType === 'personal'
                               ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
                               : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
-                            }`}
-                        >
-                          Personal
-                        </button>
+                              }`}
+                          >
+                            Personal
+                          </button>
+                        )}
                       </div>
 
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-700 dark:text-slate-200">
-                        <div>
-                          <span className="text-xs text-slate-500 dark:text-slate-400">Shared</span>{' '}
-                          <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                            {CURRENCY}{Number(selectedPlan.sharedPrice).toLocaleString()}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="text-xs text-slate-500 dark:text-slate-400">Personal</span>{' '}
-                          <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                            {CURRENCY}{Number(selectedPlan.personalPrice).toLocaleString()}
-                          </span>
-                        </div>
+                        {Number(selectedPlan.sharedPrice) > 0 && (
+                          <div>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">Shared</span>{' '}
+                            <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                              {CURRENCY}{Number(selectedPlan.sharedPrice).toLocaleString()}
+                            </span>
+                          </div>
+                        )}
+                        {Number(selectedPlan.personalPrice) > 0 && (
+                          <div>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">Personal</span>{' '}
+                            <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                              {CURRENCY}{Number(selectedPlan.personalPrice).toLocaleString()}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -296,12 +318,12 @@ export default function ProductDetail() {
               {/* Quantity */}
               <div>
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Quantity</p>
-                <div className="inline-flex items-center gap-2">
+                <div className="inline-flex items-center ">
                   <button
                     type="button"
-                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    onClick={() => setQty((q) => Math.max(1, (Number(q) || 1) - 1))}
                     disabled={service.isActive === false}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
                   >
                     <Minus className="h-4 w-4" />
                   </button>
@@ -310,15 +332,28 @@ export default function ProductDetail() {
                     min={1}
                     max={99}
                     value={qty}
-                    onChange={(e) => setQty(Math.min(99, Math.max(1, parseInt(e.target.value, 10) || 1)))}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (v === '') {
+                        setQty('');
+                      } else {
+                        const num = parseInt(v, 10);
+                        if (!isNaN(num)) {
+                          setQty(Math.min(99, num));
+                        }
+                      }
+                    }}
+                    onBlur={() => {
+                      if (qty === '' || Number(qty) < 1) setQty(1);
+                    }}
                     disabled={service.isActive === false}
-                    className="h-9 w-16 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-center text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    className="h-9 w-16 rounded-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-center text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   />
                   <button
                     type="button"
-                    onClick={() => setQty((q) => Math.min(99, q + 1))}
+                    onClick={() => setQty((q) => Math.min(99, (Number(q) || 1) + 1))}
                     disabled={service.isActive === false}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -333,7 +368,7 @@ export default function ProductDetail() {
                     {CURRENCY}
                     {(
                       Number(priceType === 'personal' ? selectedPlan.personalPrice : selectedPlan.sharedPrice) *
-                      qty
+                      (Number(qty) || 1)
                     ).toLocaleString()}
                   </span>
                 </p>
@@ -345,7 +380,7 @@ export default function ProductDetail() {
                   type="button"
                   disabled={!selectedPlan || service.isActive === false}
                   onClick={handleAddToCart}
-                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-500 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-emerald-500 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ShoppingCart className="h-4 w-4" />
                   Add to Cart
@@ -354,7 +389,7 @@ export default function ProductDetail() {
                   type="button"
                   disabled={!selectedPlan || service.isActive === false}
                   onClick={handleBuyNow}
-                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm hover:bg-emerald-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm hover:bg-emerald-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Buy Now
                 </button>
