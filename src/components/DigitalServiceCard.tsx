@@ -17,7 +17,7 @@ function formatStartPrice(price: number | string | undefined | null): number | n
 export function DigitalServiceCard({ service }: Props) {
   const startPrice = formatStartPrice(service.price)
   const outOfStock = service.isActive === false
-  
+  console.log(service)
   return (
     <Link
       href={`/product/${service.id}`}

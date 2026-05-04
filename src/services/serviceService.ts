@@ -31,6 +31,14 @@ export async function GetServicesList(): Promise<ServiceDto[]> {
   return res.data;
 }
 
+/** Public service detail by slug, e.g. `chatgpt-4382d1` → `/api/public/service-details/chatgpt-4382d1` */
+export async function fetchServiceDetailsBySlug(slug: string): Promise<ServiceDto> {
+  const res = await apiClient.get<ServiceDto>(
+    `/api/public/service-details/${encodeURIComponent(slug)}`,
+  )
+  return res.data;
+}
+
 // Public — no auth token needed
 export async function postOrderForm(payload: PostOrderFormPayload) {
   const res = await apiClient.post(`/api/public/post-order-form`, payload)

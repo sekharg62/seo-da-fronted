@@ -13,7 +13,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 export async function fetchServicePlans(serviceId?: string): Promise<ServicePlanDto[]> {
   try {
     const query = serviceId ? `?serviceId=${encodeURIComponent(serviceId)}` : ''
-    const res = await fetch(`${API_BASE_URL}/api/service-plans${query}`)
+    const res = await fetch(`${API_BASE_URL}/api/public/service-plans${query}`)
     if (!res.ok) {
       throw new Error(`Failed to fetch service plans: ${res.statusText}`)
     }
