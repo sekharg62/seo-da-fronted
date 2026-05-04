@@ -16,7 +16,7 @@ export const siteConfig = {
   companyName: 'DigitalAccess BD',
 
   contact: {
-    email: 'support@digitalaccess-bd.com',
+    email: 'daccessbd@gmail.com',
     /** Human-readable phone (footer, etc.) */
     phoneDisplay: '+880 1521-585818',
     /** Use in tel: links (digits / + as stored) */
@@ -24,9 +24,14 @@ export const siteConfig = {
     /** WhatsApp: digits only with country code, no + (for https://wa.me/…) */
     whatsappDigits: '8801521585818',
   },
+  /** Printable bill / receipt header (ConfirmOrder) */
+  billing: {
+    tagline: 'Premium Digital Subscriptions',
+    addressLine: 'Dhaka, Bangladesh',
+  },
 
   /** Public site URL if you need it elsewhere */
-  websiteUrl: 'https://digitalaccess-bd.com',
+  websiteUrl: 'https://digitalaccessda.com',
 
   /**
    * Receive-money numbers for checkout.
