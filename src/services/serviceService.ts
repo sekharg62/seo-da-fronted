@@ -27,7 +27,7 @@ export type ServiceDto = {
 
 // for post order form
 export async function GetServicesList(): Promise<ServiceDto[]> {
-  const res = await apiClient.get(`/api/services-list`)
+  const res = await apiClient.get(`/api/public/services-list`)
   return res.data;
 }
 

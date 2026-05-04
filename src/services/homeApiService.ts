@@ -75,7 +75,7 @@ import { apiClient } from './apiClient';
 
 export async function fetchTrendingServices(): Promise<ServiceDto[]> {
   try {
-    const res = await apiClient.get<ServiceDto[]>('/api/trending');
+    const res = await apiClient.get<ServiceDto[]>('/api/public/trending');
     return res.data.map(normalizeServiceDto);
   } catch (error) {
     console.error("Failed to fetch trending services:", error);
@@ -85,7 +85,7 @@ export async function fetchTrendingServices(): Promise<ServiceDto[]> {
 
 export async function fetchServices(all = false): Promise<ServiceDto[]> {
   try {
-    const res = await apiClient.get<ServiceDto[]>('/api/services');
+    const res = await apiClient.get<ServiceDto[]>('/api/public/services');
     return res.data.map(normalizeServiceDto);
   } catch (error) {
     console.error("Failed to fetch services:", error);
@@ -95,7 +95,7 @@ export async function fetchServices(all = false): Promise<ServiceDto[]> {
 
 export async function fetchServiceDetail(id: string): Promise<ServiceDto> {
   try {
-    const res = await apiClient.get<ServiceDto>(`/api/services/${id}`);
+    const res = await apiClient.get<ServiceDto>(`/api/public/services/${id}`);
     return res.data;
   } catch (error) {
     console.error("Failed to fetch service detail:", error);
@@ -105,7 +105,7 @@ export async function fetchServiceDetail(id: string): Promise<ServiceDto> {
 
 export async function fetchFeedbacks(): Promise<FeedbackDto[]> {
   try {
-    const res = await apiClient.get<FeedbackDto[]>('/api/feedback');
+    const res = await apiClient.get<FeedbackDto[]>('/api/public/feedback');
     return res.data;
   } catch (error) {
     console.error("Failed to fetch feedbacks:", error);

@@ -77,6 +77,6 @@ export type CreateOrderPayload = {
 }
 
 export async function createOrder(payload: CreateOrderPayload): Promise<OrderDto> {
-  const res = await apiClient.post<OrderDto>('/api/orders', payload)
+  const res = await apiClient.post<OrderDto>('/api/public/orders', payload)
   return res.data
 }

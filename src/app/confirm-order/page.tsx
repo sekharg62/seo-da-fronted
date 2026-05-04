@@ -320,7 +320,7 @@ export default function ConfirmOrderPage() {
     setCouponApplying(true)
     setCouponError(null)
     try {
-      const res = await apiClient.get<{ couponCode: string; discount: number }>(`/api/coupons/validate?code=${encodeURIComponent(code)}`)
+      const res = await apiClient.get<{ couponCode: string; discount: number }>(`/api/public/coupons/validate?code=${encodeURIComponent(code)}`)
       const disc = Number(res.data.discount)
       if (!Number.isFinite(disc) || disc < 0 || disc > 100) throw new Error('Invalid discount')
       setDiscountPercent(Math.round(disc))
@@ -491,8 +491,8 @@ export default function ConfirmOrderPage() {
                   <label
                     key={key}
                     className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition ${form.paymentMethod === key
-                        ? 'border-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20'
-                        : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                      ? 'border-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20'
+                      : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                       }`}
                   >
                     <input
@@ -584,8 +584,8 @@ export default function ConfirmOrderPage() {
                               type="button"
                               onClick={() => updatePriceType(item.serviceId, 'shared')}
                               className={`px-2.5 py-1 text-xs font-medium rounded-md transition ${(item.priceType ?? 'shared') === 'shared'
-                                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
+                                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                                 }`}
                             >
                               Shared
@@ -594,8 +594,8 @@ export default function ConfirmOrderPage() {
                               type="button"
                               onClick={() => updatePriceType(item.serviceId, 'personal')}
                               className={`px-2.5 py-1 text-xs font-medium rounded-md transition ${(item.priceType ?? 'shared') === 'personal'
-                                  ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
+                                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                                 }`}
                             >
                               Personal
