@@ -14,7 +14,7 @@ export function CartIcon({ cartLabel }: Props) {
     <button
       type="button"
       onClick={() => setDrawerOpen(true)}
-      className="relative flex items-center justify-center rounded-lg p-2 border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900/60 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition"
+      className="relative flex items-center justify-center rounded-full p-2 border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900/60 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition"
       aria-label={cartLabel ? `${cartLabel}: ${totalItems}` : `Cart: ${totalItems} items`}
     >
       <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />

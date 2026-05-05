@@ -148,7 +148,7 @@ export function HomeHero() {
             </p>
           </div>
 
-          <div className="mt-auto grid min-w-0 grid-cols-1 gap-2.5 pt-1 sm:grid-cols-2 sm:gap-3">
+          <div className="mt-auto hidden min-w-0 gap-2.5 pt-1 sm:grid sm:grid-cols-2 sm:gap-3">
             <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-slate-900/[0.04] backdrop-blur-md transition hover:border-emerald-300/50 hover:shadow-lg hover:shadow-emerald-900/[0.05] dark:border-slate-700/90 dark:bg-slate-900/55 dark:shadow-black/25 dark:hover:border-emerald-500/35">
               <div className="flex min-w-0 items-center gap-2">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 shadow-inner ring-1 ring-emerald-500/15 dark:from-emerald-500/25 dark:ring-emerald-400/20">

@@ -63,7 +63,7 @@ export default function Navbar() {
   );
 
   return (
-    <header className="fixed w-full top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
+    <header className="sticky top-0 z-30 w-full border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:gap-4 md:py-3.5 lg:gap-6">
         <div className="flex items-center justify-between gap-3 md:contents">
           <Link href="/" className="flex min-w-0 shrink-0 items-center gap-2 transition hover:opacity-90">
