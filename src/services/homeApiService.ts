@@ -76,7 +76,7 @@ import { apiClient } from './apiClient';
 export async function fetchTrendingServices(): Promise<ServiceDto[]> {
   try {
     const res = await apiClient.get<ServiceDto[]>('/api/public/trending');
-    return res.data.map(normalizeServiceDto);
+    return res.data;
   } catch (error) {
     console.error("Failed to fetch trending services:", error);
     throw error;

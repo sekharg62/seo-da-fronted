@@ -26,11 +26,13 @@ export function ServiceImage({ service, variant = 'card' }: Props) {
     }
 
     return (
-      <img
-        src={service.imgUrl}
-        alt={service.name}
-        className="h-60 w-full rounded-xl bg-white object-cover dark:bg-slate-800"
-      />
+      <div className="relative w-full overflow-hidden rounded-xl bg-white dark:bg-slate-900/70 aspect-4/3">
+        <img
+          src={service.imgUrl}
+          alt={service.name}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
     )
   }
 
@@ -47,7 +49,7 @@ export function ServiceImage({ service, variant = 'card' }: Props) {
   }
 
   return (
-    <div className={`w-full h-36 flex items-center justify-center rounded-xl ${meta.bg}`}>
+    <div className={`w-full aspect-4/3 flex items-center justify-center rounded-xl ${meta.bg}`}>
       <span className={`text-4xl font-bold ${meta.text}`}>
         {service.name.slice(0, 2).toUpperCase()}
       </span>

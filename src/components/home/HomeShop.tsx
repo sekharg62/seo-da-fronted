@@ -61,7 +61,7 @@ export function HomeShop() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {apiServices.slice(0, 8).map((service) => (
+            {apiServices.map((service) => (
               <DigitalServiceCard key={service.id} service={service} />
             ))}
           </div>
