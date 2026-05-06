@@ -13,9 +13,9 @@ export const siteConfig = {
 
   contact: {
     email: 'daccessbd@gmail.com',
-    phoneDisplay: '+880 1814-118556',
-    phoneTel: '+8801814118556',
-    whatsappDigits: '8801814118556',
+    phoneDisplay: '+880 1521-585818',
+    phoneTel: '+8801521585818',
+    whatsappDigits: '8801521585818',
   },
 
   websiteUrl: 'https://digitalaccessda.com',
@@ -27,17 +27,17 @@ export const siteConfig = {
 
   checkoutPayment: {
     bkash: {
-      accountNumber: '01814118556',
+      accountNumber: '01521585818',
       instructionKey: 'instructionsBkash',
       logoSrc: '/bikash.svg',
     },
     nagad: {
-      accountNumber: '01814118556',
+      accountNumber: '01751311438',
       instructionKey: 'instructionsNagad',
       logoSrc: '/nagad.png',
     },
     rocket: {
-      accountNumber: '01814118556',
+      accountNumber: '01751311438',
       instructionKey: 'instructionsRocket',
       logoSrc: '/rocket.webp',
     },
