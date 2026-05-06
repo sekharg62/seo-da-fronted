@@ -66,6 +66,12 @@ export const siteConfig = {
     tiktok: 'https://www.tiktok.com/@digitalaccessda',
   },
 
+  /** Credit line in footer */
+  technologyPartner: {
+    name: 'NodeCraft',
+    url: 'https://node-craft-sekhar.vercel.app/',
+  },
+
   footerPaymentMethods: [
     { src: '/bikash.svg', altKey: 'paymentBkash' },
     { src: '/nagad.png', altKey: 'paymentNagad' },

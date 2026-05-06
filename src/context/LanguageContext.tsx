@@ -102,6 +102,7 @@ const translations = {
     footerMessengerLabel: 'Messenger',
     footerYoutubeLabel: 'YouTube',
     footerTiktokLabel: 'TikTok',
+    footerTechnologyPartnerLabel: 'Technology partner:',
 
     contactTitle: 'Contact Us',
     contactSubtitle: 'Get in touch for support or inquiries.',
@@ -261,6 +262,7 @@ const translations = {
     footerMessengerLabel: 'মেসেঞ্জার',
     footerYoutubeLabel: 'ইউটিউব',
     footerTiktokLabel: 'টিকটক',
+    footerTechnologyPartnerLabel: 'প্রযুক্তি অংশীদার:',
 
     contactTitle: 'যোগাযোগ করুন',
     contactSubtitle: 'সহায়তা বা প্রশ্নের জন্য আমাদের সাথে যোগাযোগ করুন।',

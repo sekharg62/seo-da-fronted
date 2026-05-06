@@ -220,6 +220,18 @@ export default function Footer() {
             </div>
           </div>
         </div>
+
+        <p className="mt-8 border-t border-emerald-200/50 pt-3 text-center text-[10px] leading-relaxed text-slate-500 dark:border-slate-700/50 dark:text-slate-400">
+          <span>{t('footerTechnologyPartnerLabel')}</span>{' '}
+          <a
+            href={siteConfig.technologyPartner.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-600 underline-offset-2 transition-colors hover:text-emerald-700 hover:underline dark:text-slate-300 dark:hover:text-emerald-400"
+          >
+            {siteConfig.technologyPartner.name}
+          </a>
+        </p>
       </div>
     </footer>
   );
