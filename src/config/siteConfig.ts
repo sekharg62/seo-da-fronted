@@ -30,7 +30,7 @@ export const siteConfig = {
     addressLine: 'Dhaka, Bangladesh',
   },
 
-  /** Public site URL if you need it elsewhere */
+  /** Public site URL — used for sitemap, robots, and canonical links */
   websiteUrl: 'https://digitalaccessda.com',
 
   /**

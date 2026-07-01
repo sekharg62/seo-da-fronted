@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { DM_Sans, Anek_Bangla } from "next/font/google";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
@@ -50,6 +51,8 @@ export const metadata: Metadata = {
   },
 };
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-R6M0BVZVQJ";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -87,24 +90,6 @@ export default function RootLayout({
       <head>
         <link rel="icon" type="image/png" id="app-favicon" href="/Blue.png" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        
-        {/* Google tag (gtag.js) */}
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-R6M0BVZVQJ"
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-R6M0BVZVQJ');
-            `,
-          }}
-        />
 
         {/* Google Tag Manager */}
         <Script
@@ -127,6 +112,8 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-full flex-col antialiased">
+        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe

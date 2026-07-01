@@ -66,7 +66,7 @@ const STATS = [
     icon: ShoppingBag,
   },
   {
-    target: 3283,
+    target: 3284,
     suffix: '+',
     titleKey: 'homeStatCustomers' as const,
     subKey: 'homeStatCustomersSub' as const,
