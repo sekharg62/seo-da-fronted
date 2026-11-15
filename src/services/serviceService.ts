@@ -6,6 +6,8 @@ export type PostOrderFormPayload = {
   email: string
   paymentMethod: string
   transactionId: string
+  /** Required by the API for bkash / nagad / rocket / binance */
+  userPaymentMethodNumber?: string
   price: number | string
   serviceId?: string
   serviceName?: string

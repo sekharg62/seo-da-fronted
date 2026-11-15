@@ -38,6 +38,8 @@ export type OrderDto = {
   totalPrice: number | string
   paymentMethod: string
   transactionId?: string | null
+  /** Number the customer paid from (bKash/Nagad/Rocket) or Binance Pay ID */
+  userPaymentMethodNumber?: string | null
   orderNotes?: string | null
   status: OrderStatus
   createdAt: string
@@ -73,6 +75,8 @@ export type CreateOrderPayload = {
   totalPrice: number
   paymentMethod: string
   transactionId?: string
+  /** Required by the API for bkash / nagad / rocket / binance */
+  userPaymentMethodNumber?: string
   orderNotes?: string
 }
 

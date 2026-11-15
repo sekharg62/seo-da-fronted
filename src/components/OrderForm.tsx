@@ -6,6 +6,7 @@ import { MobilePhoneInput } from '@/components/MobilePhoneInput'
 import { SuccessPage } from '@/components/SuccessPage'
 import { ErrorPage } from '@/components/ErrorPage'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { needsPayerNumber, payerNumberError, payerNumberHint, payerNumberLabel, payerNumberPlaceholder, transactionIdHint } from '@/lib/payerNumber'
 import { siteConfig } from '@/siteConfig'
 import { GetServicesList, postOrderForm } from '@/services/serviceService'
 
@@ -21,6 +22,7 @@ const initial = {
   serviceName: '',
   price: '',
   paymentMethod: '',
+  userPaymentMethodNumber: '',
 }
 
 /**
@@ -28,8 +30,10 @@ const initial = {
  * Rendered by the /create-order route; the footer's "Create order" button links there.
  */
 export function OrderForm() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const lang = language === 'bn' ? 'bn' : 'en'
   const [form, setForm] = useState(initial)
+  const [payerTouched, setPayerTouched] = useState(false)
   const [paymentOpen, setPaymentOpen] = useState(false)
   const [services, setServices] = useState<{ id: string; name: string }[]>([])
   const [submitting, setSubmitting] = useState(false)
@@ -62,6 +66,12 @@ export function OrderForm() {
       setFormError('Please fill in all required fields.')
       return
     }
+    const payerError = payerNumberError(form.paymentMethod, form.userPaymentMethodNumber, lang)
+    if (payerError) {
+      setPayerTouched(true)
+      setFormError(payerError)
+      return
+    }
     const payload = {
       name: form.name.trim(),
       phone: form.phone.trim(),
@@ -71,14 +81,22 @@ export function OrderForm() {
       serviceName: form.serviceId.trim() ? undefined : form.serviceName.trim(),
       price: form.price.trim(),
       paymentMethod: form.paymentMethod.trim(),
+      userPaymentMethodNumber: needsPayerNumber(form.paymentMethod) ? form.userPaymentMethodNumber.trim() : undefined,
     }
     try {
       setSubmitting(true)
       await postOrderForm(payload)
       setForm(initial)
+      setPayerTouched(false)
       setSuccess(true)
       window.setTimeout(() => setSuccess(false), 3000)
-    } catch {
+    } catch (err) {
+      const response = (err as { response?: { status?: number; data?: { message?: unknown } } })?.response
+      if (response?.status === 400 && typeof response.data?.message === 'string') {
+        // Validation problem (e.g. invalid bKash number): keep the form and show the message inline
+        setFormError(response.data.message)
+        return
+      }
       setApiError('Something went wrong while submitting your order. Please try again.')
       window.setTimeout(() => setApiError(null), 3500)
     } finally {
@@ -184,7 +202,7 @@ export function OrderForm() {
               />
             </label>
 
-            <label className="block sm:col-span-2">
+            <label className="block">
               <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
                 {t('postOrderFieldServiceName')}{' '}
                 <span className="text-red-600 dark:text-red-400">*</span>
@@ -212,23 +230,6 @@ export function OrderForm() {
                   <option key={item.id} value={item.name} />
                 ))}
               </datalist>
-            </label>
-            <label className="block sm:col-span-2">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                {t('transactionId')}{' '}
-                <span className="font-normal text-slate-500 dark:text-slate-400">
-                  (Transaction ID or last 4 digits)
-                </span>{' '}
-                <span className="text-red-600 dark:text-red-400">*</span>
-              </span>
-              <input
-                type="text"
-                name="transactionId"
-                value={form.transactionId}
-                onChange={(e) => setForm((f) => ({ ...f, transactionId: e.target.value }))}
-                className={inputClass}
-                required
-              />
             </label>
             <label className="block">
               <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -327,6 +328,53 @@ export function OrderForm() {
                   </div>
                 ) : null}
               </div>
+            </label>
+
+            {needsPayerNumber(form.paymentMethod) && (() => {
+              const error = payerTouched ? payerNumberError(form.paymentMethod, form.userPaymentMethodNumber, lang) : null
+              return (
+                <label className="block">
+                  <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    {payerNumberLabel(form.paymentMethod, lang)} <span className="text-red-600 dark:text-red-400">*</span>
+                  </span>
+                  <input
+                    type="text"
+                    name="userPaymentMethodNumber"
+                    inputMode={form.paymentMethod === 'binance' ? 'text' : 'tel'}
+                    value={form.userPaymentMethodNumber}
+                    onChange={(e) => setForm((f) => ({ ...f, userPaymentMethodNumber: e.target.value }))}
+                    onBlur={() => setPayerTouched(true)}
+                    placeholder={payerNumberPlaceholder(form.paymentMethod)}
+                    aria-invalid={!!error}
+                    className={`${inputClass} font-mono ${error ? 'border-red-400 dark:border-red-500/60' : ''}`}
+                    required
+                  />
+                  <span className={`mt-1 block text-xs ${error ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                    {error ?? payerNumberHint(form.paymentMethod, lang)}
+                  </span>
+                </label>
+              )
+            })()}
+
+            <label className="block sm:col-span-2">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                {t('transactionId')}{' '}
+                <span className="font-normal text-slate-500 dark:text-slate-400">
+                  (Transaction ID or last 4 digits)
+                </span>{' '}
+                <span className="text-red-600 dark:text-red-400">*</span>
+              </span>
+              <input
+                type="text"
+                name="transactionId"
+                value={form.transactionId}
+                onChange={(e) => setForm((f) => ({ ...f, transactionId: e.target.value }))}
+                className={inputClass}
+                required
+              />
+              {transactionIdHint(form.paymentMethod, lang) && (
+                <span className="mt-1 block text-xs text-slate-500 dark:text-slate-400">{transactionIdHint(form.paymentMethod, lang)}</span>
+              )}
             </label>
           </div>
 

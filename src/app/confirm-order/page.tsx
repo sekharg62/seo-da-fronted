@@ -11,6 +11,7 @@ import { siteConfig, formatWhatsappLocalFromDigits } from '@/siteConfig'
 import { MobilePhoneInput } from '@/components/MobilePhoneInput'
 import { CartItemThumb } from '@/components/CartItemThumb'
 import { productHref } from '@/lib/productUrl'
+import { needsPayerNumber, payerNumberError, payerNumberHint, payerNumberLabel, payerNumberPlaceholder, transactionIdHint } from '@/lib/payerNumber'
 
 const CURRENCY = '৳'
 
@@ -49,7 +50,9 @@ export default function ConfirmOrderPage() {
     orderNotes: '',
     paymentMethod: '' as '' | 'bkash' | 'nagad' | 'rocket' | 'binance',
     transactionId: '',
+    userPaymentMethodNumber: '',
   })
+  const [payerTouched, setPayerTouched] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [orderId, setOrderId] = useState<string | null>(null)
@@ -83,7 +86,8 @@ export default function ConfirmOrderPage() {
     form.phone.trim() !== '' &&
     form.email.trim() !== '' &&
     form.paymentMethod !== '' &&
-    form.transactionId.trim() !== ''
+    form.transactionId.trim() !== '' &&
+    payerNumberError(form.paymentMethod, form.userPaymentMethodNumber, 'en') === null
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -108,6 +112,7 @@ export default function ConfirmOrderPage() {
         totalPrice: finalTotal,
         paymentMethod: form.paymentMethod,
         transactionId: form.transactionId.trim(),
+        userPaymentMethodNumber: needsPayerNumber(form.paymentMethod) ? form.userPaymentMethodNumber.trim() : undefined,
         orderNotes:
           [
             form.orderNotes.trim() || null,
@@ -121,11 +126,15 @@ export default function ConfirmOrderPage() {
       setOrderNo(order.orderNo)
       setOrderId(order.id)
       window.scrollTo({ top: 0, behavior: 'smooth' })
-    } catch {
+    } catch (err) {
+      // 400 = validation message from the API (e.g. invalid bKash number) — show it as-is
+      const apiMessage = (err as { response?: { status?: number; data?: { message?: unknown } } })?.response
       setSubmitError(
-        language === 'bn'
-          ? 'অর্ডার জমা দিতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।'
-          : 'Failed to submit order. Please try again.',
+        apiMessage?.status === 400 && typeof apiMessage.data?.message === 'string'
+          ? apiMessage.data.message
+          : language === 'bn'
+            ? 'অর্ডার জমা দিতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।'
+            : 'Failed to submit order. Please try again.',
       )
     } finally {
       setSubmitting(false)
@@ -202,6 +211,12 @@ export default function ConfirmOrderPage() {
             {language === 'bn' ? 'অর্ডার আইডি: ' : 'Order ID: '}{orderNo}
           </p>
 
+          {o.userPaymentMethodNumber && (
+            <p className="-mt-2 mb-4 text-xs text-slate-500 dark:text-slate-400">
+              {language === 'bn' ? 'পেমেন্ট করা হয়েছে: ' : 'Paid from: '}
+              <span className="font-mono text-slate-700 dark:text-slate-200">{o.userPaymentMethodNumber}</span> ({o.paymentMethod})
+            </p>
+          )}
           <ul className="mb-6 space-y-2 text-left">
             {o.orderItems.map((item) => (
               <li
@@ -318,6 +333,12 @@ export default function ConfirmOrderPage() {
             <span className="value" style={{ textTransform: 'uppercase' }}>{o.paymentMethod}</span>
             <span className="label">Transaction ID</span>
             <span className="value" style={{ fontFamily: 'monospace' }}>{o.transactionId ?? '—'}</span>
+            {o.userPaymentMethodNumber && (
+              <>
+                <span className="label">Paid From</span>
+                <span className="value" style={{ fontFamily: 'monospace' }}>{o.userPaymentMethodNumber}</span>
+              </>
+            )}
             <span className="label">Amount Paid</span>
             <span className="value" style={{ color: '#059669', fontWeight: 700 }}>৳{Number(o.totalPrice).toFixed(0)}</span>
           </div>
@@ -604,6 +625,38 @@ export default function ConfirmOrderPage() {
               </div>
             )}
 
+            {needsPayerNumber(form.paymentMethod) && (() => {
+              const lang = language === 'bn' ? 'bn' : 'en'
+              const error = payerTouched ? payerNumberError(form.paymentMethod, form.userPaymentMethodNumber, lang) : null
+              return (
+                <div className="mt-4">
+                  <label htmlFor="payer-number" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    {payerNumberLabel(form.paymentMethod, lang)} <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <input
+                    id="payer-number"
+                    type="text"
+                    inputMode={form.paymentMethod === 'binance' ? 'text' : 'tel'}
+                    autoComplete={form.paymentMethod === 'binance' ? 'off' : 'tel'}
+                    value={form.userPaymentMethodNumber}
+                    onChange={(e) => setForm((f) => ({ ...f, userPaymentMethodNumber: e.target.value }))}
+                    onBlur={() => setPayerTouched(true)}
+                    aria-invalid={!!error}
+                    aria-describedby="payer-number-hint"
+                    className={`w-full rounded-lg border bg-white dark:bg-slate-800 px-3 py-2 font-mono text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-1 ${
+                      error
+                        ? 'border-red-400 focus:border-red-500 focus:ring-red-500 dark:border-red-500/60'
+                        : 'border-slate-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500'
+                    }`}
+                    placeholder={payerNumberPlaceholder(form.paymentMethod)}
+                  />
+                  <p id="payer-number-hint" className={`mt-1 text-xs ${error ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                    {error ?? payerNumberHint(form.paymentMethod, lang)}
+                  </p>
+                </div>
+              )
+            })()}
+
             <div className="mt-4">
               <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('transactionId' as any)} <span className="text-red-500 ml-1">*</span></label>
               <input
@@ -613,6 +666,11 @@ export default function ConfirmOrderPage() {
                 className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 placeholder={language === 'bn' ? 'ট্রানজেকশন আইডি লিখুন' : 'Enter transaction ID'}
               />
+              {transactionIdHint(form.paymentMethod, language === 'bn' ? 'bn' : 'en') && (
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                  {transactionIdHint(form.paymentMethod, language === 'bn' ? 'bn' : 'en')}
+                </p>
+              )}
             </div>
           </section>
         </div>
