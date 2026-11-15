@@ -2,8 +2,9 @@ import type { MetadataRoute } from 'next'
 import { getSiteUrl } from '@/lib/siteUrl'
 import { fetchBlogs } from '@/services/homeApiService'
 import { getActiveServices } from '@/lib/catalog'
+import { LEGAL_LAST_UPDATED } from '@/content/legal'
 
-const LEGAL_LAST_MODIFIED = new Date('2026-07-01')
+const LEGAL_LAST_MODIFIED = new Date(LEGAL_LAST_UPDATED)
 
 function parseLastModified(...values: (string | undefined)[]): Date | undefined {
   for (const value of values) {
