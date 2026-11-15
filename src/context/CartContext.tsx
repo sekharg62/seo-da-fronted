@@ -14,6 +14,10 @@ export type CartItem = {
   serviceId: string
   nameEn: string
   nameBn: string
+  /** product image (absent for items saved before images were stored) */
+  imgUrl?: string | null
+  /** product slug, used to link back to the product page */
+  slug?: string
   /** selected unit price (based on priceType) */
   offerPrice: number
   /** available plan prices */
@@ -27,7 +31,7 @@ export type CartItem = {
 
 type CartContextValue = {
   items: CartItem[]
-  addItem: (item: Omit<CartItem, 'quantity'> & { quantity?: number }) => void
+  addItem: (item: Omit<CartItem, 'quantity'> & { quantity?: number }, options?: { openDrawer?: boolean }) => void
   updateQuantity: (serviceId: string, quantity: number) => void
   updatePriceType: (serviceId: string, priceType: 'shared' | 'personal') => void
   removeItem: (serviceId: string) => void
@@ -35,6 +39,8 @@ type CartContextValue = {
   totalAmount: number
   drawerOpen: boolean
   setDrawerOpen: (open: boolean) => void
+  /** false until the cart has been restored from localStorage */
+  hydrated: boolean
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined)
@@ -76,20 +82,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   function addItem(
     input: Omit<CartItem, 'quantity'> & { quantity?: number },
+    options: { openDrawer?: boolean } = {},
   ) {
     const quantity = Math.max(1, input.quantity ?? 1)
     setItems((prev) => {
       const existing = prev.find((i) => i.serviceId === input.serviceId)
       if (existing) {
+        // Merge quantity and refresh product details (price/plan/image may have changed)
         return prev.map((i) =>
           i.serviceId === input.serviceId
-            ? { ...i, quantity: i.quantity + quantity }
+            ? { ...i, ...input, quantity: i.quantity + quantity }
             : i,
         )
       }
       return [...prev, { ...input, quantity }]
     })
-    setDrawerOpen(true)
+    if (options.openDrawer !== false) setDrawerOpen(true)
   }
 
   function updateQuantity(serviceId: string, quantity: number) {
@@ -144,6 +152,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         totalAmount,
         drawerOpen,
         setDrawerOpen,
+        hydrated: mounted,
       }}
     >
       {children}

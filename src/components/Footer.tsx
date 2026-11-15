@@ -54,7 +54,6 @@ export default function Footer() {
   const exploreColumns: { href: string; label: string }[][] = [
     [
       { href: '/', label: t('footerLinkHome') },
-      { href: '/checkout', label: t('checkout') },
       { href: '/post-order', label: t('footerLinkPostOrder') },
     ],
     [

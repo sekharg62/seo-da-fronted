@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { X, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { useLanguage } from '@/context/LanguageContext'
+import { CartItemThumb } from './CartItemThumb'
 
 const CURRENCY = '৳'
 
@@ -98,6 +99,7 @@ export function CartDrawer() {
                     key={item.serviceId}
                     className="flex hover:bg-slate-100 dark:hover:bg-slate-700 transition gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-3"
                   >
+                    <CartItemThumb name={name} imgUrl={item.imgUrl} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <p className="text-sm font-medium text-slate-900 dark:text-slate-100 line-clamp-2">
@@ -157,13 +159,6 @@ export function CartDrawer() {
               <span>{CURRENCY}{totalAmount}</span>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
-              <Link
-                href="/checkout"
-                onClick={() => setDrawerOpen(false)}
-                className="flex-1 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 px-4 py-2.5 text-center text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
-              >
-                {t('viewCart' as any)}
-              </Link>
               <Link
                 href="/confirm-order"
                 onClick={() => setDrawerOpen(false)}

@@ -13,6 +13,7 @@ export type PostOrderFormPayload = {
 
 export type ServiceDto = {
   id: string
+  slug: string
   name: string
   description?: string | null
   imgUrl?: string | null

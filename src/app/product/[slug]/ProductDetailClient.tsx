@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Minus, Plus, ShoppingCart, Zap, Globe, ShieldCheck, HeadphonesIcon } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
-import { fetchServiceDetail, fetchServices, type ServiceDto } from '@/services/homeApiService'
-import { fetchServicePlans, type ServicePlanDto } from '@/services/servicePlanService'
+import type { ServicePlanDto } from '@/services/servicePlanService'
+import type { ServiceDetailDto } from '@/lib/catalog'
 import { ServiceImage } from '@/components/ServiceImage'
 
 const CURRENCY = '৳'
@@ -53,95 +53,57 @@ const TRUST_BADGE_VARIANTS = [
   },
 ] as const
 
-export default function ProductDetail() {
-  const params = useParams()
-  const id = params.id as string
+function defaultPlan(plans: ServicePlanDto[]): ServicePlanDto | null {
+  return plans.find((p) => p.months === 1) ?? plans[0] ?? null
+}
+
+function defaultPriceType(plan: ServicePlanDto | null): 'shared' | 'personal' {
+  if (plan && Number(plan.sharedPrice) <= 0 && Number(plan.personalPrice) > 0) return 'personal'
+  return 'shared'
+}
+
+/** Interactive part of the product page. Data is fetched + cached on the server (see page.tsx). */
+export default function ProductDetailClient({ service }: { service: ServiceDetailDto }) {
   const router = useRouter()
   const { addItem, setDrawerOpen } = useCart()
 
-  const [service, setService] = useState<ServiceDto | null>(null)
-  const [plans, setPlans] = useState<ServicePlanDto[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const plans = service.servicePlans
 
-  const [selectedPlan, setSelectedPlan] = useState<ServicePlanDto | null>(null)
-  const [priceType, setPriceType] = useState<'shared' | 'personal'>('shared')
+  const [selectedPlan, setSelectedPlan] = useState<ServicePlanDto | null>(() => defaultPlan(plans))
+  const [priceType, setPriceType] = useState<'shared' | 'personal'>(() => defaultPriceType(defaultPlan(plans)))
   const [qty, setQty] = useState<number | string>(1)
-  //console.log("plan", plans)
-  useEffect(() => {
-    if (!id) return
-    let mounted = true
-    setLoading(true)
-    setError(null)
 
-    Promise.all([
-      fetchServiceDetail(id),
-      fetchServicePlans(id),
-    ])
-      .then(([service, plansData]) => {
-        if (!mounted) return
-        const sorted = [...plansData].sort((a, b) => a.months - b.months)
-        setService(service)
-        setPlans(sorted)
-        // Default: select the 1-month plan (lowest), or first plan
-        const oneMonth = sorted.find((p) => p.months === 1) ?? sorted[0] ?? null
-        setSelectedPlan(oneMonth)
-        if (oneMonth) {
-          if (Number(oneMonth.sharedPrice) <= 0 && Number(oneMonth.personalPrice) > 0) {
-            setPriceType('personal')
-          } else if (Number(oneMonth.personalPrice) <= 0 && Number(oneMonth.sharedPrice) > 0) {
-            setPriceType('shared')
-          }
-        }
-        setLoading(false)
-      })
-      .catch(() => {
-        if (!mounted) return
-        setError('Failed to load service.')
-        setLoading(false)
-      })
-
-    return () => { mounted = false }
-  }, [id])
-
-  function handleAddToCart() {
-    if (!service || !selectedPlan) return
-    if (service.isActive === false) return
+  function buildCartItem() {
+    if (!selectedPlan || service.isActive === false) return null
     const sharedPrice = Number(selectedPlan.sharedPrice)
     const personalPrice = Number(selectedPlan.personalPrice)
-    const offerPrice = priceType === 'personal' ? personalPrice : sharedPrice
-    addItem({
+    return {
       serviceId: service.id,
+      slug: service.slug,
+      imgUrl: service.imgUrl ?? null,
       nameEn: service.name,
       nameBn: service.name,
-      offerPrice,
-      sharedPrice: Number(selectedPlan.sharedPrice),
-      personalPrice: Number(selectedPlan.personalPrice),
+      offerPrice: priceType === 'personal' ? personalPrice : sharedPrice,
+      sharedPrice,
+      personalPrice,
       priceType,
       quantity: Number(qty) || 1,
-      periodKey: selectedPlan.months === 1 ? 'month' : 'year',
-    })
+      periodKey: selectedPlan.months === 1 ? ('month' as const) : ('year' as const),
+    }
   }
 
+  function handleAddToCart() {
+    const item = buildCartItem()
+    if (item) addItem(item)
+  }
+
+  /** Buy Now skips the cart and goes straight to the order form. */
   function handleBuyNow() {
-    if (!service || !selectedPlan) return
-    if (service.isActive === false) return
-    const sharedPrice = Number(selectedPlan.sharedPrice)
-    const personalPrice = Number(selectedPlan.personalPrice)
-    const offerPrice = priceType === 'personal' ? personalPrice : sharedPrice
-    addItem({
-      serviceId: service.id,
-      nameEn: service.name,
-      nameBn: service.name,
-      offerPrice,
-      sharedPrice: Number(selectedPlan.sharedPrice),
-      personalPrice: Number(selectedPlan.personalPrice),
-      priceType,
-      quantity: Number(qty) || 1,
-      periodKey: selectedPlan.months === 1 ? 'month' : 'year',
-    })
+    const item = buildCartItem()
+    if (!item) return
+    addItem(item, { openDrawer: false })
     setDrawerOpen(false)
-    router.push('/checkout')
+    router.push('/confirm-order')
   }
 
   return (
@@ -151,34 +113,12 @@ export default function ProductDetail() {
         <Link href="/" className="hover:text-emerald-500 transition">Home</Link>
         <span>/</span>
         <Link href="/shop" className="hover:text-emerald-500 transition">Shop</Link>
-        {service && (
-          <>
-            <span>/</span>
-            <span className="text-slate-700 dark:text-slate-300">{service.name}</span>
-          </>
-        )}
+        <span>/</span>
+        <span className="text-slate-700 dark:text-slate-300">{service.name}</span>
       </nav>
 
-      {loading && (
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="h-72 rounded-2xl bg-slate-200 dark:bg-slate-800 animate-pulse" />
-          <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className={`h-${i === 1 ? 8 : 4} rounded-lg bg-slate-200 dark:bg-slate-800 animate-pulse`} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {!loading && error && (
-        <div className="text-center py-20">
-          <p className="text-red-400 mb-4">{error}</p>
-          <Link href="/shop" className="text-emerald-500 hover:underline text-sm">← Back to shop</Link>
-        </div>
-      )}
-
-      {!loading && !error && service && (
-        <>
+      <h1 className="sr-only">{service.name}</h1>
+      <>
           {service.isActive === false && (
             <div className="mb-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-100">
               <span className="font-semibold">Out of stock.</span> This product is currently unavailable.
@@ -417,8 +357,7 @@ export default function ProductDetail() {
             </div>
           </div>
 
-        </>
-      )}
+      </>
     </div>
   )
 }

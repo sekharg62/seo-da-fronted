@@ -1,15 +1,16 @@
 "use client"
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import Link from 'next/link'
-import { Copy, Check, CheckCircle, Download } from 'lucide-react'
+import { Copy, Check, CheckCircle, Download, Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 import { useCart } from '@/context/CartContext'
 import { createOrder, type OrderDto } from '@/services/orderService'
 import { apiClient } from '@/services/apiClient'
 import { siteConfig, formatWhatsappLocalFromDigits } from '@/siteConfig'
 import { MobilePhoneInput } from '@/components/MobilePhoneInput'
+import { CartItemThumb } from '@/components/CartItemThumb'
+import { productHref } from '@/lib/productUrl'
 
 const CURRENCY = '৳'
 
@@ -37,8 +38,7 @@ function CopyButton({ text, copyLabel, copiedLabel }: { text: string; copyLabel:
 
 export default function ConfirmOrderPage() {
   const { t, language } = useLanguage()
-  const { items, totalAmount, totalItems, removeItem, updatePriceType } = useCart()
-  const router = useRouter()
+  const { items, totalAmount, totalItems, removeItem, updatePriceType, updateQuantity, hydrated } = useCart()
 
   const [form, setForm] = useState({
     fullName: '',
@@ -55,6 +55,8 @@ export default function ConfirmOrderPage() {
   const [orderId, setOrderId] = useState<string | null>(null)
   const [orderNo, setOrderNo] = useState<string>('');
   const [orderData, setOrderData] = useState<OrderDto | null>(null)
+  /** serviceId → image, captured before the cart is cleared (fallback for the success screen) */
+  const [orderedImages, setOrderedImages] = useState<Record<string, string | null | undefined>>({})
 
   const [couponCode, setCouponCode] = useState('')
   const [couponApplying, setCouponApplying] = useState(false)
@@ -64,10 +66,6 @@ export default function ConfirmOrderPage() {
 
   const discountAmount = Math.round((totalAmount * discountPercent) / 100)
   const finalTotal = Math.max(0, totalAmount - discountAmount)
-
-  useEffect(() => {
-    if (totalItems === 0 && !orderId) router.replace('/checkout')
-  }, [totalItems, router, orderId])
 
   const paymentConfig =
     form.paymentMethod && CHECKOUT_PAYMENT_METHODS.includes(form.paymentMethod)
@@ -116,6 +114,7 @@ export default function ConfirmOrderPage() {
             appliedCoupon ? `Coupon: ${appliedCoupon} (-${discountPercent}%)` : null,
           ].filter(Boolean).join(' | ') || undefined,
       })
+      setOrderedImages(Object.fromEntries(items.map((i) => [i.serviceId, i.imgUrl])))
       // Clear the cart
       items.forEach((i) => removeItem(i.serviceId))
       setOrderData(order)
@@ -199,9 +198,33 @@ export default function ConfirmOrderPage() {
               ? 'আপনার অর্ডার গ্রহণ করা হয়েছে। পেমেন্ট যাচাই হলে আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।'
               : 'Your order has been received. We will contact you shortly after payment verification.'}
           </p>
-          <p className="text-xs font-mono bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 text-slate-500 dark:text-slate-400 mb-6 break-all">
+          <p className="text-xs font-mono bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 text-slate-500 dark:text-slate-400 mb-4 break-all">
             {language === 'bn' ? 'অর্ডার আইডি: ' : 'Order ID: '}{orderNo}
           </p>
+
+          <ul className="mb-6 space-y-2 text-left">
+            {o.orderItems.map((item) => (
+              <li
+                key={item.id}
+                className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-2.5"
+              >
+                <CartItemThumb
+                  name={item.serviceName}
+                  imgUrl={item.service?.imgUrl ?? (item.serviceId ? orderedImages[item.serviceId] : null)}
+                  className="h-12 w-12"
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-slate-900 dark:text-slate-100">{item.serviceName}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {item.quantity} × {CURRENCY}{Number(item.price).toFixed(0)}
+                  </p>
+                </div>
+                <span className="shrink-0 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                  {CURRENCY}{(Number(item.price) * item.quantity).toFixed(0)}
+                </span>
+              </li>
+            ))}
+          </ul>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
@@ -315,7 +338,37 @@ export default function ConfirmOrderPage() {
     )
   }
 
-  if (totalItems === 0) return null
+  if (!hydrated) {
+    return (
+      <div className="mx-auto w-full max-w-6xl px-4 py-6 md:py-10" aria-busy="true">
+        <div className="mb-6 h-8 w-56 rounded-lg bg-slate-200 dark:bg-slate-800 animate-pulse" />
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+          <div className="flex-1 h-96 rounded-2xl bg-slate-200 dark:bg-slate-800 animate-pulse" />
+          <div className="lg:w-96 h-72 rounded-2xl bg-slate-200 dark:bg-slate-800 animate-pulse" />
+        </div>
+      </div>
+    )
+  }
+
+  if (totalItems === 0) {
+    return (
+      <div className="mx-auto w-full max-w-6xl px-4 py-10 md:py-16">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-8 md:p-12 text-center">
+          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
+            <ShoppingCart className="h-10 w-10 text-slate-400 dark:text-slate-500" strokeWidth={1.25} aria-hidden />
+          </div>
+          <p className="text-slate-600 dark:text-slate-300 mb-2">{t('emptyCart' as any)}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">{t('emptyCartHint' as any)}</p>
+          <Link
+            href="/shop"
+            className="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm transition hover:bg-emerald-400"
+          >
+            {t('continueShopping' as any)}
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   async function applyCoupon() {
     const code = couponCode.trim()
@@ -570,17 +623,35 @@ export default function ConfirmOrderPage() {
             <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
               {t('orderSummary' as any)}
             </h2>
-            <ul className="space-y-3 mb-4 max-h-64 overflow-y-auto">
+            <ul className="space-y-3 mb-4 max-h-[26rem] overflow-y-auto pr-1">
               {items.map((item) => {
                 const name = language === 'bn' ? item.nameBn : item.nameEn
                 const lineTotal = item.offerPrice * item.quantity
                 return (
-                  <li key={item.serviceId} className="text-sm">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <p className="text-slate-700 dark:text-slate-200 truncate">
-                          {name} × {item.quantity}
-                        </p>
+                  <li
+                    key={item.serviceId}
+                    className="text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/40 p-3"
+                  >
+                    <div className="flex items-start gap-3">
+                      {item.slug ? (
+                        <Link href={productHref({ id: item.serviceId, slug: item.slug })} className="shrink-0">
+                          <CartItemThumb name={name} imgUrl={item.imgUrl} />
+                        </Link>
+                      ) : (
+                        <CartItemThumb name={name} imgUrl={item.imgUrl} />
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="font-medium text-slate-800 dark:text-slate-100 line-clamp-2">{name}</p>
+                          <button
+                            type="button"
+                            onClick={() => removeItem(item.serviceId)}
+                            className="shrink-0 rounded p-1 text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-red-600 dark:hover:text-red-400 transition"
+                            aria-label={t('remove' as any)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
                         {(Number(item.sharedPrice) > 0 || Number(item.personalPrice) > 0) && (
                           <div className="mt-1 inline-flex rounded-full border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/40 p-1">
                             {Number(item.sharedPrice) > 0 && (
@@ -609,18 +680,41 @@ export default function ConfirmOrderPage() {
                             )}
                           </div>
                         )}
+                        {(Number(item.sharedPrice) > 0 || Number(item.personalPrice) > 0) && (
+                          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            {Number(item.sharedPrice) > 0 && `Shared: ${CURRENCY}${Number(item.sharedPrice).toFixed(0)}`}
+                            {Number(item.sharedPrice) > 0 && Number(item.personalPrice) > 0 && ' · '}
+                            {Number(item.personalPrice) > 0 && `Personal: ${CURRENCY}${Number(item.personalPrice).toFixed(0)}`}
+                          </p>
+                        )}
+                        <div className="mt-2 flex items-center justify-between gap-2">
+                          <div className="inline-flex items-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800">
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.serviceId, item.quantity - 1)}
+                              className="flex h-7 w-7 items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-l-lg transition"
+                              aria-label="Decrease quantity"
+                            >
+                              <Minus className="h-3.5 w-3.5" />
+                            </button>
+                            <span className="min-w-7 text-center text-xs font-semibold text-slate-900 dark:text-slate-100" aria-live="polite">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.serviceId, Math.min(99, item.quantity + 1))}
+                              className="flex h-7 w-7 items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-r-lg transition"
+                              aria-label="Increase quantity"
+                            >
+                              <Plus className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                          <span className="font-semibold text-slate-900 dark:text-slate-100 shrink-0">
+                            {CURRENCY}{lineTotal}
+                          </span>
+                        </div>
                       </div>
-                      <span className="font-medium text-slate-900 dark:text-slate-100 shrink-0">
-                        {CURRENCY}{lineTotal}
-                      </span>
                     </div>
-                    {(Number(item.sharedPrice) > 0 || Number(item.personalPrice) > 0) && (
-                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                        {Number(item.sharedPrice) > 0 && `Shared: ${CURRENCY}${Number(item.sharedPrice).toFixed(0)}`}
-                        {Number(item.sharedPrice) > 0 && Number(item.personalPrice) > 0 && ' · '}
-                        {Number(item.personalPrice) > 0 && `Personal: ${CURRENCY}${Number(item.personalPrice).toFixed(0)}`}
-                      </p>
-                    )}
                   </li>
                 )
               })}

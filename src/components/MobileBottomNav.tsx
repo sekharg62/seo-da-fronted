@@ -27,7 +27,7 @@ export function MobileBottomNav() {
     pathname === '/shop' || pathname.startsWith('/shop/') || pathname.startsWith('/product/')
   const blogActive = pathname === '/blog' || pathname.startsWith('/blog/')
   const cartActive =
-    drawerOpen || pathname.startsWith('/checkout') || pathname.startsWith('/confirm-order')
+    drawerOpen || pathname.startsWith('/confirm-order')
 
   return (
     <nav

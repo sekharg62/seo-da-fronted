@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { getSiteUrl } from '@/lib/siteUrl'
-import { fetchBlogs, fetchServices } from '@/services/homeApiService'
+import { fetchBlogs } from '@/services/homeApiService'
+import { getActiveServices } from '@/lib/catalog'
 
 const LEGAL_LAST_MODIFIED = new Date('2026-07-01')
 
@@ -61,11 +62,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    const services = await fetchServices()
+    const services = await getActiveServices()
     for (const service of services) {
-      if (!service.isActive) continue
+      if (!service.isActive || !service.slug) continue
       routes.push({
-        url: `${baseUrl}/product/${service.id}`,
+        url: `${baseUrl}/product/${service.slug}`,
         lastModified: parseLastModified(service.updatedAt, service.createdAt),
         changeFrequency: 'weekly',
         priority: 0.8,

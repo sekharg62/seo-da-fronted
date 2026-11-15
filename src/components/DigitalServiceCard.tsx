@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { ServiceDto } from '@/services/homeApiService'
+import { productHref } from '@/lib/productUrl'
 import { ServiceImage } from './ServiceImage'
 
 const CURRENCY = '৳'
@@ -17,10 +18,9 @@ function formatStartPrice(price: number | string | undefined | null): number | n
 export function DigitalServiceCard({ service }: Props) {
   const startPrice = formatStartPrice(service.price)
   const outOfStock = service.isActive === false
-  console.log(service)
   return (
     <Link
-      href={`/product/${service.id}`}
+      href={productHref(service)}
       className={[
         'group relative overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/70',
         'flex flex-col transition-all duration-200',

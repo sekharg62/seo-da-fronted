@@ -26,7 +26,7 @@ export type OrderItemDto = {
   price: number | string
   createdAt: string
   updatedAt: string
-  service?: { id: string; name: string; price: number | string } | null
+  service?: { id: string; name: string; price: number | string; imgUrl?: string | null; slug?: string } | null
   credentials: OrderItemCredentialDto[]
 }
 

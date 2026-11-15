@@ -21,6 +21,7 @@ export type BlogDto = {
 
 export type ServiceDto = {
   id: string
+  slug: string
   name: string
   description?: string | null
   imgUrl?: string | null
@@ -93,9 +94,10 @@ export async function fetchServices(all = false): Promise<ServiceDto[]> {
   }
 }
 
-export async function fetchServiceDetail(id: string): Promise<ServiceDto> {
+/** Accepts a slug (preferred) or legacy id. */
+export async function fetchServiceDetail(slugOrId: string): Promise<ServiceDto> {
   try {
-    const res = await apiClient.get<ServiceDto>(`/api/public/services/${id}`);
+    const res = await apiClient.get<ServiceDto>(`/api/public/service-details/${encodeURIComponent(slugOrId)}`);
     return res.data;
   } catch (error) {
     console.error("Failed to fetch service detail:", error);
