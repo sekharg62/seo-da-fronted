@@ -31,7 +31,7 @@ export const siteConfig = {
   },
 
   /** Public site URL — used for sitemap, robots, and canonical links */
-  websiteUrl: 'https://digitalaccessda.com',
+  websiteUrl: 'https://www.digitalaccessda.com',
 
   /**
    * Receive-money numbers for checkout.

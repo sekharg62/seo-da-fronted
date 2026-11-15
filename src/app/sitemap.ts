@@ -56,6 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: parseLastModified(blog.updatedAt, blog.createdAt),
         changeFrequency: 'monthly',
         priority: 0.7,
+        ...(blog.imgUrl ? { images: [blog.imgUrl] } : {}),
       })
     }
   } catch {
@@ -71,6 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: parseLastModified(service.updatedAt, service.createdAt),
         changeFrequency: 'weekly',
         priority: 0.8,
+        ...(service.imgUrl ? { images: [service.imgUrl] } : {}),
       })
     }
   } catch {

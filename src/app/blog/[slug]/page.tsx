@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, FileText } from 'lucide-react'
 import { fetchBlogBySlug, fetchBlogs, type BlogDto } from '@/services/homeApiService'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { getSiteUrl } from '@/lib/siteUrl'
+import { siteConfig } from '@/config/siteConfig'
 
 export const revalidate = false
 export const dynamic = 'force-static'
@@ -74,7 +76,8 @@ export async function generateMetadata({
 }
 
 function blogPostingJsonLd(blog: BlogDto, slug: string) {
-  const url = `https://digitalaccess-bd.com/blog/${slug}`
+  const siteUrl = getSiteUrl()
+  const url = `${siteUrl}/blog/${slug}`
   const data = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -84,13 +87,16 @@ function blogPostingJsonLd(blog: BlogDto, slug: string) {
     dateModified: blog.updatedAt,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     image: blog.imgUrl || undefined,
+    author: { '@type': 'Organization', name: siteConfig.websiteName, url: siteUrl },
     publisher: {
       '@type': 'Organization',
-      name: 'DigitalAccess BD',
-      url: 'https://digitalaccess-bd.com',
+      '@id': `${siteUrl}/#organization`,
+      name: siteConfig.websiteName,
+      url: siteUrl,
+      logo: { '@type': 'ImageObject', url: `${siteUrl}/Blue.png` },
     },
   }
-  return JSON.stringify(data)
+  return JSON.stringify(data).replace(/</g, '\\u003c')
 }
 
 export default async function BlogDetailPage({

@@ -5,6 +5,7 @@ import { getSiteUrl } from '@/lib/siteUrl'
 import { getActiveServices, getServiceDetail, type ServiceDetailDto } from '@/lib/catalog'
 import ProductDetailClient from './ProductDetailClient'
 import { serviceDetails, serviceSummary } from '@/lib/serviceText'
+import { optimizedImage } from '@/lib/imageUrl'
 import { RelatedProducts } from './RelatedProducts'
 import type { ServiceDto } from '@/services/homeApiService'
 
@@ -56,7 +57,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const url = `/product/${service.slug}`
   const title = `${service.name} Subscription`
   const description = toMetaDescription(service)
-  const images = service.imgUrl ? [{ url: service.imgUrl, alt: service.name }] : undefined
+  const ogImage = optimizedImage(service.imgUrl, 1200)
+  const images = ogImage ? [{ url: ogImage, alt: `${service.name} subscription` }] : undefined
 
   return {
     title,
@@ -67,7 +69,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       card: service.imgUrl ? 'summary_large_image' : 'summary',
       title,
       description,
-      images: service.imgUrl ? [service.imgUrl] : undefined,
+      images: ogImage ? [ogImage] : undefined,
     },
     robots: { index: service.isActive !== false, follow: true },
   }

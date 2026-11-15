@@ -11,12 +11,16 @@ import {
   type ServiceDto
 } from '@/services/homeApiService'
 
-export function HomeShop() {
+/** `initialServices` comes from the server so products are in the HTML (SEO); falls back to a client fetch. */
+export function HomeShop({ initialServices }: { initialServices?: ServiceDto[] }) {
   const { t } = useLanguage()
-  const [apiServices, setApiServices] = useState<ServiceDto[]>([])
-  const [servicesLoading, setServicesLoading] = useState(true)
+  const [apiServices, setApiServices] = useState<ServiceDto[]>(() =>
+    initialServices ? sortServicesByOrderField(initialServices) : [],
+  )
+  const [servicesLoading, setServicesLoading] = useState(!initialServices)
 
   useEffect(() => {
+    if (initialServices) return
     let mounted = true
     ;(async () => {
       setServicesLoading(true)
@@ -31,7 +35,7 @@ export function HomeShop() {
       }
     })()
     return () => { mounted = false }
-  }, [])
+  }, [initialServices])
 
   return (
     <section

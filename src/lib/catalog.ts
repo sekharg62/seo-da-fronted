@@ -41,3 +41,22 @@ export const getActiveServices = cache(async (): Promise<ServiceDto[]> => {
   if (!res.ok) throw new Error(`Failed to load services: ${res.status}`)
   return res.json()
 })
+
+/** Homepage "trending" list (same endpoint the client used to call). */
+export const getTrendingServices = cache(async (): Promise<ServiceDto[]> => {
+  const res = await fetch(`${apiBaseUrl()}/api/public/trending`, {
+    next: { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [catalogTags.all] },
+  })
+  if (!res.ok) throw new Error(`Failed to load trending services: ${res.status}`)
+  return res.json()
+})
+
+export type CategoryDto = { id: string; name: string; description?: string | null }
+
+export const getCategories = cache(async (): Promise<CategoryDto[]> => {
+  const res = await fetch(`${apiBaseUrl()}/api/categories`, {
+    next: { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [catalogTags.all, 'categories'] },
+  })
+  if (!res.ok) throw new Error(`Failed to load categories: ${res.status}`)
+  return res.json()
+})

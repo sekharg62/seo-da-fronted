@@ -1,6 +1,7 @@
 import type { ServiceDto } from '@/services/homeApiService'
 import { getServiceIconMeta } from '@/lib/digitalServices'
 import Image from 'next/image'
+import { optimizedImage } from '@/lib/imageUrl'
 
 export type ServiceImageVariant = 'card' | 'detail'
 
@@ -17,8 +18,9 @@ export function ServiceImage({ service, variant = 'card' }: Props) {
       return (
         <div className="flex w-full items-center justify-center rounded-md border border-slate-200 bg-slate-100 p-2 dark:border-slate-700 dark:bg-slate-800/80">
           <img
-            src={service.imgUrl}
-            alt={service.name}
+            src={optimizedImage(service.imgUrl, 1000)}
+            alt={`${service.name} subscription`}
+            fetchPriority="high"
             className="mx-auto max-h-[min(75vh,640px)] w-auto max-w-full object-contain"
           />
         </div>

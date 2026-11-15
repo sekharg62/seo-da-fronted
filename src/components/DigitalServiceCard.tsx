@@ -6,6 +6,7 @@ import type { ServiceDto } from '@/services/homeApiService'
 import { useLanguage } from '@/context/LanguageContext'
 import { productHref } from '@/lib/productUrl'
 import { getServiceIconMeta } from '@/lib/digitalServices'
+import { optimizedImage } from '@/lib/imageUrl'
 
 const CURRENCY = '৳'
 
@@ -51,8 +52,10 @@ export function DigitalServiceCard({ service }: Props) {
       <div className="relative aspect-4/3 overflow-hidden bg-slate-100 dark:bg-slate-800">
         {service.imgUrl ? (
           <img
-            src={service.imgUrl}
-            alt=""
+            src={optimizedImage(service.imgUrl, 600)}
+            alt={`${service.name} subscription`}
+            width={600}
+            height={450}
             loading="lazy"
             decoding="async"
             className={`absolute inset-0 h-full w-full object-cover object-top transition-transform duration-300 ${

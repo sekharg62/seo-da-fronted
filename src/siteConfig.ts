@@ -18,7 +18,7 @@ export const siteConfig = {
     whatsappDigits: '8801521585818',
   },
 
-  websiteUrl: 'https://digitalaccessda.com',
+  websiteUrl: 'https://www.digitalaccessda.com',
 
   billing: {
     tagline: 'Premium Digital Subscriptions',
