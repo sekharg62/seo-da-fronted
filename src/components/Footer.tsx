@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Mail, Phone } from 'lucide-react'
+import { ClipboardPlus, Mail, Phone } from 'lucide-react'
 import { FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa'
 import { SiMessenger } from 'react-icons/si'
 import { useLanguage } from '@/context/LanguageContext'
@@ -52,7 +52,6 @@ export default function Footer() {
   const exploreColumns: { href: string; label: string }[][] = [
     [
       { href: '/', label: t('footerLinkHome') },
-      { href: '/post-order', label: t('footerLinkPostOrder') },
     ],
     [
       { href: '/shop', label: t('footerLinkShop') },
@@ -107,6 +106,14 @@ export default function Footer() {
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
               © {new Date().getFullYear()} {companyName}. {t('allRightsReserved')}
             </p>
+            <Link
+              href="/create-order"
+              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm shadow-emerald-500/20 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950"
+            >
+              <ClipboardPlus className="h-4 w-4" aria-hidden />
+              {t('footerCreateOrder' as any)}
+            </Link>
+            <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">{t('footerCreateOrderHint' as any)}</p>
           </div>
 
           <div className="lg:px-2">

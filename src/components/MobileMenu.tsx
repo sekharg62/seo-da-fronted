@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BookOpen, ChevronRight, FileText, Home, LayoutGrid, Mail, Menu, MessageCircle, Phone, ReceiptText, Shield, X } from 'lucide-react'
+import { BookOpen, ChevronRight, FileText, Home, LayoutGrid, Mail, Menu, MessageCircle, Phone, Shield, X } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 import { siteConfig } from '@/config/siteConfig'
 import { LEGAL_LINKS, NAV_LINKS } from '@/lib/navLinks'
@@ -14,7 +14,6 @@ const NAV_ICONS: Record<string, typeof Home> = {
   '/': Home,
   '/shop': LayoutGrid,
   '/blog': BookOpen,
-  '/post-order': ReceiptText,
 }
 const LEGAL_ICONS: Record<string, typeof Home> = { '/terms': FileText, '/privacy': Shield }
 

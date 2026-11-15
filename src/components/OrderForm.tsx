@@ -5,6 +5,7 @@ import { useLanguage } from '@/context/LanguageContext'
 import { MobilePhoneInput } from '@/components/MobilePhoneInput'
 import { SuccessPage } from '@/components/SuccessPage'
 import { ErrorPage } from '@/components/ErrorPage'
+import { Breadcrumb } from '@/components/Breadcrumb'
 import { siteConfig } from '@/siteConfig'
 import { GetServicesList, postOrderForm } from '@/services/serviceService'
 
@@ -22,7 +23,11 @@ const initial = {
   paymentMethod: '',
 }
 
-export default function PostOrderForm() {
+/**
+ * "Create order" form for customers who already paid (bKash/Nagad/Rocket/Binance).
+ * Rendered by the /create-order route; the footer's "Create order" button links there.
+ */
+export function OrderForm() {
   const { t } = useLanguage()
   const [form, setForm] = useState(initial)
   const [paymentOpen, setPaymentOpen] = useState(false)
@@ -69,8 +74,7 @@ export default function PostOrderForm() {
     }
     try {
       setSubmitting(true)
-      const order = await postOrderForm(payload)
-      console.log('[PostOrderForm] created order:', order)
+      await postOrderForm(payload)
       setForm(initial)
       setSuccess(true)
       window.setTimeout(() => setSuccess(false), 3000)
@@ -102,7 +106,8 @@ export default function PostOrderForm() {
   }, [])
 
   return (
-    <main className="mx-auto max-w-2xl flex-1 px-4 pt-24 pb-8 sm:pt-10 sm:pb-12">
+    <div className="mx-auto w-full max-w-2xl px-4 py-8 md:py-12">
+      <Breadcrumb items={[{ label: t('footerCreateOrder' as any) }]} jsonLd={false} />
       <div className="mb-8 text-center sm:text-left">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
           {t('postOrderFormTitle')}
@@ -328,12 +333,12 @@ export default function PostOrderForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 sm:w-auto sm:min-w-[12rem]"
+            className="w-full rounded-xl bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-60 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 sm:w-auto sm:min-w-[12rem]"
           >
             {submitting ? 'Submitting…' : t('postOrderSubmit')}
           </button>
         </form>
       )}
-    </main>
+    </div>
   )
 }
