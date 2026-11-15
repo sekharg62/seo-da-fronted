@@ -1,0 +1,244 @@
+"use client";
+
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { createPortal } from 'react-dom'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { BookOpen, ChevronRight, FileText, Home, LayoutGrid, Mail, Menu, MessageCircle, Phone, ReceiptText, Shield, X } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
+import { siteConfig } from '@/config/siteConfig'
+import { LEGAL_LINKS, NAV_LINKS } from '@/lib/navLinks'
+import { LanguageSwitcher, ThemeToggle } from './HeaderControls'
+
+const NAV_ICONS: Record<string, typeof Home> = {
+  '/': Home,
+  '/shop': LayoutGrid,
+  '/blog': BookOpen,
+  '/post-order': ReceiptText,
+}
+const LEGAL_ICONS: Record<string, typeof Home> = { '/terms': FileText, '/privacy': Shield }
+
+const noopSubscribe = () => () => {}
+
+/**
+ * Hamburger button + slide-in navigation drawer (mobile / tablet only).
+ * Rendered through a portal on <body>: the sticky header uses backdrop-blur, which would
+ * otherwise trap this `position: fixed` drawer inside the header box.
+ */
+export function MobileMenu() {
+  const { t } = useLanguage()
+  const pathname = usePathname() ?? '/'
+  const titleId = useId()
+  const panelId = useId()
+
+  const [open, setOpen] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement | null>(null)
+  const closeRef = useRef<HTMLButtonElement | null>(null)
+  const panelRef = useRef<HTMLDivElement | null>(null)
+  const isClient = useSyncExternalStore(noopSubscribe, () => true, () => false)
+
+  // Close when navigating (state adjusted during render — no effect needed)
+  const [lastPath, setLastPath] = useState(pathname)
+  if (pathname !== lastPath) {
+    setLastPath(pathname)
+    setOpen(false)
+  }
+
+  useEffect(() => {
+    if (!open) return
+    const trigger = triggerRef.current
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    closeRef.current?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        return
+      }
+      // Keep Tab focus inside the drawer
+      if (e.key === 'Tab' && panelRef.current) {
+        const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        )
+        const first = focusables[0]
+        const last = focusables[focusables.length - 1]
+        if (!first || !last) return
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+    // Drawer is hidden from md up; close it if the viewport grows past that
+    const mq = window.matchMedia('(min-width: 768px)')
+    const onResize = () => mq.matches && setOpen(false)
+
+    document.addEventListener('keydown', onKeyDown)
+    mq.addEventListener('change', onResize)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKeyDown)
+      mq.removeEventListener('change', onResize)
+      trigger?.focus()
+    }
+  }, [open])
+
+  const { contact } = siteConfig
+
+  const drawer = (
+    <div className={`fixed inset-0 z-50 md:hidden ${open ? '' : 'pointer-events-none'}`} aria-hidden={!open}>
+      {/* Backdrop */}
+      <div
+        onClick={() => setOpen(false)}
+        className={`absolute inset-0 bg-slate-950/50 backdrop-blur-sm transition-opacity duration-300 ${open ? 'opacity-100' : 'opacity-0'}`}
+      />
+
+      {/* Panel */}
+      <div
+        ref={panelRef}
+        id={panelId}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        inert={!open}
+        className={`absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col bg-white shadow-2xl transition-transform duration-300 ease-out dark:bg-slate-950 ${
+          open ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-800">
+          <div className="flex min-w-0 items-center gap-2">
+            <img src="/Blue.png" alt="" width={32} height={32} className="h-8 w-8 dark:hidden" />
+            <img src="/White.png" alt="" width={32} height={32} className="hidden h-8 w-8 dark:block" />
+            <h2 id={titleId} className="truncate text-base font-semibold text-slate-900 dark:text-slate-50">
+              {t('appName' as any)}
+            </h2>
+          </div>
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label={t('navCloseMenu' as any)}
+            className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
+          <nav aria-label={t('navPrimaryAriaLabel' as any)}>
+            <ul className="space-y-1">
+              {NAV_LINKS.map(({ href, labelKey, match }) => {
+                const active = match(pathname)
+                const Icon = NAV_ICONS[href] ?? Home
+                return (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={() => setOpen(false)}
+                      aria-current={active ? 'page' : undefined}
+                      className={`flex items-center gap-3 rounded-xl px-3 py-3 text-[15px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                        active
+                          ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
+                          : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5 shrink-0" aria-hidden />
+                      <span className="flex-1">{t(labelKey as any)}</span>
+                      <ChevronRight className={`h-4 w-4 shrink-0 ${active ? 'opacity-100' : 'opacity-40'}`} aria-hidden />
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </nav>
+
+          <div className="my-4 border-t border-slate-200 dark:border-slate-800" />
+
+          <ul className="space-y-1">
+            {LEGAL_LINKS.map(({ href, labelKey }) => {
+              const Icon = LEGAL_ICONS[href] ?? FileText
+              const active = pathname.startsWith(href)
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    aria-current={active ? 'page' : undefined}
+                    className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
+                      active
+                        ? 'text-emerald-700 dark:text-emerald-400'
+                        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-900'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" aria-hidden />
+                    {t(labelKey as any)}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+
+          <div className="mt-4 space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900/60">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-sm text-slate-600 dark:text-slate-300">{t('navLanguage' as any)}</span>
+              <LanguageSwitcher />
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-sm text-slate-600 dark:text-slate-300">{t('navTheme' as any)}</span>
+              <ThemeToggle />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2 border-t border-slate-200 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] text-sm dark:border-slate-800">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t('footerContactTitle' as any)}</p>
+          <a
+            href={`https://wa.me/${contact.whatsappDigits}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400"
+          >
+            <MessageCircle className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden />
+            WhatsApp
+          </a>
+          <a
+            href={`tel:${contact.phoneTel.replace(/\s/g, '')}`}
+            className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400"
+          >
+            <Phone className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden />
+            {contact.phoneDisplay}
+          </a>
+          <a
+            href={`mailto:${contact.email}`}
+            className="flex items-center gap-2 break-all text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400"
+          >
+            <Mail className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden />
+            {contact.email}
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+
+  return (
+    <>
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={t('navOpenMenu' as any)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        aria-haspopup="dialog"
+        className="-ml-1.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
+      >
+        <Menu className="h-6 w-6" />
+      </button>
+      {isClient && createPortal(drawer, document.body)}
+    </>
+  )
+}

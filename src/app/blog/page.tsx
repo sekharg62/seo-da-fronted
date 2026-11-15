@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, BookOpen } from 'lucide-react'
 import { fetchBlogs, type BlogDto } from '@/services/homeApiService'
+import { Breadcrumb } from '@/components/Breadcrumb'
 
 export const revalidate = false // Force SSG
 export const dynamic = 'force-static'
@@ -40,13 +41,7 @@ export default async function BlogListPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
       <header className="mb-10">
-        <nav className="mb-6 flex text-sm font-medium text-slate-600 dark:text-slate-400">
-          <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">
-            Home
-          </Link>
-          <span className="mx-2 text-slate-300 dark:text-slate-600">/</span>
-          <span className="text-slate-900 dark:text-slate-200">Blog</span>
-        </nav>
+        <Breadcrumb items={[{ label: 'Blog' }]} />
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-950/50 dark:text-emerald-400">
             <BookOpen className="h-5 w-5" aria-hidden />

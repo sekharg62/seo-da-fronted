@@ -129,7 +129,7 @@ export default function RootLayout({
             <CartProvider>
               <Navbar />
               {/* Main content wrapper with top padding to account for fixed navbar */}
-              <main className="flex-1 max-md:pb-[calc(5rem+env(safe-area-inset-bottom,0px))]">
+              <main id="main-content" tabIndex={-1} className="flex-1 outline-none max-md:pb-[calc(5rem+env(safe-area-inset-bottom,0px))]">
                 {children}
               </main>
               <FloatingContactWidget />
