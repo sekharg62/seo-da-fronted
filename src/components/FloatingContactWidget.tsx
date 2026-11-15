@@ -4,7 +4,6 @@ import { useState, type ReactNode } from 'react'
 import { MessageCircle, Phone, X } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { SiMessenger } from 'react-icons/si'
-import { useTheme } from '@/context/ThemeContext'
 import { siteConfig } from '@/siteConfig'
 
 export type FloatingContactWidgetProps = {
@@ -29,8 +28,6 @@ export function FloatingContactWidget({
   className = '',
 }: FloatingContactWidgetProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
 
   const telHref = phoneNumber.startsWith('tel:') ? phoneNumber : `tel:${phoneNumber.replace(/\s/g, '')}`
   const waHref = whatsappNumber.startsWith('http') ? whatsappNumber : `https://wa.me/${whatsappNumber.replace(/\s/g, '')}`
@@ -38,35 +35,15 @@ export function FloatingContactWidget({
   const buttonBase =
     'flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2'
 
-  const triggerButton = `${buttonBase} ${
-    isDark
-      ? 'bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-slate-950'
-      : 'bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white'
-  }`
+  const triggerButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-slate-950`
 
-  const phoneButton = `${buttonBase} ${
-    isDark
-      ? 'bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-slate-950'
-      : 'bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white'
-  }`
+  const phoneButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-slate-950`
 
-  const whatsappButton = `${buttonBase} ${
-    isDark
-      ? 'bg-[#25D366] text-white hover:bg-[#20BD5A] focus:ring-[#25D366] ring-offset-slate-950'
-      : 'bg-[#25D366] text-white hover:bg-[#20BD5A] focus:ring-[#25D366] ring-offset-white'
-  }`
+  const whatsappButton = `${buttonBase} bg-[#25D366] text-white hover:bg-[#20BD5A] focus:ring-[#25D366] ring-offset-white dark:ring-offset-slate-950`
 
-  const messengerButton = `${buttonBase} ${
-    isDark
-      ? 'bg-[#0084FF] text-white hover:bg-[#0073E6] focus:ring-[#0084FF] ring-offset-slate-950'
-      : 'bg-[#0084FF] text-white hover:bg-[#0073E6] focus:ring-[#0084FF] ring-offset-white'
-  }`
+  const messengerButton = `${buttonBase} bg-[#0084FF] text-white hover:bg-[#0073E6] focus:ring-[#0084FF] ring-offset-white dark:ring-offset-slate-950`
 
-  const closeButton = `${buttonBase} ${
-    isDark
-      ? 'bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-500 ring-offset-slate-950'
-      : 'bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-500 ring-offset-white'
-  }`
+  const closeButton = `${buttonBase} bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-500 ring-offset-white dark:ring-offset-slate-950`
 
   const items: Array<
     | {
@@ -126,7 +103,7 @@ export function FloatingContactWidget({
 
   return (
     <div
-      className={`fixed right-6 z-50 flex flex-col items-center gap-2 bottom-6 max-md:bottom-[calc(5.75rem+env(safe-area-inset-bottom,0px))] ${className}`}
+      className={`floating-contact fixed right-6 z-50 flex flex-col items-center gap-2 bottom-6 max-md:bottom-[calc(5.75rem+env(safe-area-inset-bottom,0px))] max-md:[html[data-buybar=on]_&]:bottom-[calc(9.75rem+env(safe-area-inset-bottom,0px))] transition-[bottom] duration-200 ${className}`}
       aria-label="Contact options"
     >
       {isOpen ? (

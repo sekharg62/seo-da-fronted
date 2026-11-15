@@ -6,7 +6,6 @@ import { Mail, Phone } from 'lucide-react'
 import { FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa'
 import { SiMessenger } from 'react-icons/si'
 import { useLanguage } from '@/context/LanguageContext'
-import { useTheme } from '@/context/ThemeContext'
 import { siteConfig } from '@/config/siteConfig'
 
 function sectionHeading(text: string) {
@@ -48,7 +47,6 @@ function PaymentMethodLogo({
 
 export default function Footer() {
   const { t } = useLanguage()
-  const { theme } = useTheme()
 
   /** Three columns, balanced lengths — reads top-to-bottom per column like a newspaper. */
   const exploreColumns: { href: string; label: string }[][] = [
@@ -99,11 +97,9 @@ export default function Footer() {
         <div className="grid gap-10 lg:grid-cols-3 lg:items-start lg:gap-10">
           <div>
             <Link href="/" className="inline-flex items-center gap-2 hover:opacity-90 transition">
-              <img
-                src={theme === 'dark' ? '/White.png' : '/Blue.png'}
-                alt={websiteName}
-                className="h-10 w-10"
-              />
+              {/* CSS picks the logo for the theme, so server and client markup match */}
+              <img src="/Blue.png" alt={websiteName} className="h-10 w-10 dark:hidden" />
+              <img src="/White.png" alt="" aria-hidden className="hidden h-10 w-10 dark:block" />
               <span className="text-base font-semibold tracking-tight text-slate-900 dark:text-slate-50">
                 {websiteName}
               </span>

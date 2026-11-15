@@ -4,6 +4,8 @@ import { siteConfig } from '@/config/siteConfig'
 import { getSiteUrl } from '@/lib/siteUrl'
 import { getActiveServices, getServiceDetail, type ServiceDetailDto } from '@/lib/catalog'
 import ProductDetailClient from './ProductDetailClient'
+import { RelatedProducts } from './RelatedProducts'
+import type { ServiceDto } from '@/services/homeApiService'
 
 /** ISR: pages are static, refreshed at most every 5 min or instantly via /api/revalidate. */
 export const revalidate = 300
@@ -100,14 +102,28 @@ function productJsonLd(service: ServiceDetailDto): string {
   }).replace(/</g, '\\u003c')
 }
 
+/** Up to 4 other active products, same category first. Never blocks the page if the list fails. */
+async function getRelated(service: ServiceDetailDto): Promise<ServiceDto[]> {
+  try {
+    const all = (await getActiveServices()).filter((s) => s.id !== service.id && s.isActive !== false)
+    const same = all.filter((s) => service.categoryId && s.categoryId === service.categoryId)
+    const others = all.filter((s) => !same.includes(s))
+    return [...same, ...others].slice(0, 4)
+  } catch {
+    return []
+  }
+}
+
 export default async function ProductPage({ params }: Params) {
   const service = await loadService((await params).slug)
+  const related = await getRelated(service)
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productJsonLd(service) }} />
       {/* key resets plan/qty state when navigating between products */}
       <ProductDetailClient key={service.id} service={service} />
+      <RelatedProducts services={related} />
     </>
   )
 }
