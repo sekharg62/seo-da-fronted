@@ -48,10 +48,10 @@ export function HomeShop() {
           </p>
         </div>
         {servicesLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 overflow-hidden animate-pulse">
-                <div className="h-36 bg-slate-200 dark:bg-slate-800" />
+                <div className="aspect-4/3 bg-slate-200 dark:bg-slate-800" />
                 <div className="p-3 space-y-2">
                   <div className="h-4 w-3/4 rounded bg-slate-200 dark:bg-slate-800" />
                   <div className="h-3 w-1/2 rounded bg-slate-200 dark:bg-slate-800" />
@@ -60,7 +60,7 @@ export function HomeShop() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
             {apiServices.map((service) => (
               <DigitalServiceCard key={service.id} service={service} />
             ))}

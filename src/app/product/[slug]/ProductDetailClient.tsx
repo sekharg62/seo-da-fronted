@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import {
   Check,
   CreditCard,
-  Flame,
   HeadphonesIcon,
   MessageCircle,
   Minus,
@@ -32,7 +31,6 @@ type AccountType = 'shared' | 'personal'
 
 const TEXT = {
   en: {
-    trending: 'Trending',
     outOfStock: 'Out of stock',
     outOfStockNote: 'This product is currently unavailable. Message us on WhatsApp to be notified when it is back.',
     inStock: 'In stock',
@@ -74,7 +72,6 @@ const TEXT = {
     noPlans: 'Pricing is not available yet. Contact us on WhatsApp for details.',
   },
   bn: {
-    trending: 'ট্রেন্ডিং',
     outOfStock: 'স্টক নেই',
     outOfStockNote: 'পণ্যটি এই মুহূর্তে পাওয়া যাচ্ছে না। আবার স্টকে এলে জানতে হোয়াটসঅ্যাপে মেসেজ দিন।',
     inStock: 'স্টকে আছে',
@@ -264,11 +261,6 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
         <div className="md:sticky md:top-24 md:self-start">
           <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
             <div className="absolute left-3 top-3 z-10 flex flex-wrap gap-2">
-              {service.isTrending && !outOfStock && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-orange-500 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
-                  <Flame className="h-3.5 w-3.5" aria-hidden /> {tx.trending}
-                </span>
-              )}
               {outOfStock && (
                 <span className="rounded-full bg-rose-500 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
                   {tx.outOfStock}
