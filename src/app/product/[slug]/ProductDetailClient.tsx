@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Minus, Plus, ShoppingCart, Zap, Globe, ShieldCheck, HeadphonesIcon } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import type { ServicePlanDto } from '@/services/servicePlanService'
 import type { ServiceDetailDto } from '@/lib/catalog'
 import { ServiceImage } from '@/components/ServiceImage'
+import { Breadcrumb } from '@/components/Breadcrumb'
 
 const CURRENCY = '৳'
 
@@ -108,14 +108,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-8 md:py-12">
-      {/* Breadcrumb */}
-      <nav className="text-xs text-slate-500 dark:text-slate-400 mb-6 flex items-center gap-1.5">
-        <Link href="/" className="hover:text-emerald-500 transition">Home</Link>
-        <span>/</span>
-        <Link href="/shop" className="hover:text-emerald-500 transition">Shop</Link>
-        <span>/</span>
-        <span className="text-slate-700 dark:text-slate-300">{service.name}</span>
-      </nav>
+      <Breadcrumb items={[{ label: 'Shop', href: '/shop' }, { label: service.name }]} />
 
       <h1 className="sr-only">{service.name}</h1>
       <>

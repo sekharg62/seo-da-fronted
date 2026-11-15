@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, FileText } from 'lucide-react'
 import { fetchBlogBySlug, fetchBlogs, type BlogDto } from '@/services/homeApiService'
+import { Breadcrumb } from '@/components/Breadcrumb'
 
 export const revalidate = false
 export const dynamic = 'force-static'
@@ -112,6 +113,7 @@ export default async function BlogDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: blogPostingJsonLd(blog, slug) }}
       />
+      <Breadcrumb items={[{ label: 'Blog', href: '/blog' }, { label: blog.title }]} className="mb-4" />
       <div className="flex items-center justify-between mb-6">
         <Link
           href="/blog"
@@ -119,12 +121,6 @@ export default async function BlogDetailPage({
         >
           <ArrowLeft className="h-4 w-4" />
           All Blogs
-        </Link>
-        <Link
-          href="/"
-          className="text-xs sm:text-sm text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition"
-        >
-          Home
         </Link>
       </div>
       <article className="overflow-hidden rounded-xl border border-slate-200 bg-white/70 dark:border-slate-800 dark:bg-slate-900/60">
