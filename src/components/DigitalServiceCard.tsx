@@ -62,6 +62,9 @@ export function DigitalServiceCard({ service }: Props) {
         ].join(' ')}
       >
         <p className="truncate text-base font-semibold text-slate-900 dark:text-slate-50">{service.name}</p>
+        {service.shortDesc?.trim() ? (
+          <p className="line-clamp-2 text-xs leading-snug text-slate-500 dark:text-slate-400">{service.shortDesc.trim()}</p>
+        ) : null}
         {startPrice !== null ? (
           <p className={outOfStock ? 'text-sm font-medium text-slate-500 dark:text-slate-400' : 'text-sm font-medium text-emerald-500'}>
             Starts from: <span className="font-bold">{CURRENCY}{startPrice.toFixed(0)}</span>

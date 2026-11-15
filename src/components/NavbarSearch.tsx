@@ -8,6 +8,7 @@ import { fetchServices, type ServiceDto } from '@/services/homeApiService'
 import { useLanguage } from '@/context/LanguageContext'
 import { productHref } from '@/lib/productUrl'
 import { CartItemThumb } from './CartItemThumb'
+import { serviceSummary } from '@/lib/serviceText'
 
 const CURRENCY = '৳'
 const MAX_RESULTS = 6
@@ -18,7 +19,7 @@ function rankServices(services: ServiceDto[], query: string): ServiceDto[] {
   const scored: { s: ServiceDto; score: number }[] = []
   for (const s of services) {
     const name = s.name.toLowerCase()
-    const desc = (s.description ?? '').toLowerCase()
+    const desc = `${s.shortDesc ?? ''} ${s.description ?? ''}`.toLowerCase()
     let score = 0
     if (name.startsWith(query)) score = 3
     else if (name.split(/[\s\-—]+/).some((w) => w.startsWith(query))) score = 2.5
@@ -211,8 +212,8 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
                       <CartItemThumb name={service.name} imgUrl={service.imgUrl} className="h-10 w-10" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-semibold leading-tight text-slate-800 dark:text-slate-100">{service.name}</p>
-                        {service.description ? (
-                          <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">{service.description}</p>
+                        {serviceSummary(service) ? (
+                          <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">{serviceSummary(service)}</p>
                         ) : null}
                       </div>
                       {Number.isFinite(price) && price > 0 && (

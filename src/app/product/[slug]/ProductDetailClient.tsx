@@ -23,6 +23,7 @@ import type { ServicePlanDto } from '@/services/servicePlanService'
 import type { ServiceDetailDto } from '@/lib/catalog'
 import { ServiceImage } from '@/components/ServiceImage'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { serviceDetails, serviceSummary } from '@/lib/serviceText'
 
 const CURRENCY = '৳'
 const MAX_QTY = 99
@@ -250,8 +251,8 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
   const whatsappHref = `https://wa.me/${siteConfig.contact.whatsappDigits}?text=${encodeURIComponent(
     tx.whatsappMsg(service.name, planText || service.name),
   )}`
-  const description = service.description?.trim() ?? ''
-  const shortDescription = description.split(/\n+/).find((l) => l.trim())?.trim() ?? ''
+  const description = serviceDetails(service)
+  const shortDescription = serviceSummary(service)
   const paymentLogos = Object.entries(siteConfig.checkoutPayment)
 
   return (

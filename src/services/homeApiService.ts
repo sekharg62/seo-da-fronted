@@ -24,6 +24,10 @@ export type ServiceDto = {
   slug: string
   name: string
   description?: string | null
+  /** One–two line summary set in admin */
+  shortDesc?: string | null
+  /** Full details (only in the product detail response) */
+  longDesc?: string | null
   imgUrl?: string | null
   price: number | string
   isActive: boolean

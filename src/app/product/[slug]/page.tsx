@@ -4,6 +4,7 @@ import { siteConfig } from '@/config/siteConfig'
 import { getSiteUrl } from '@/lib/siteUrl'
 import { getActiveServices, getServiceDetail, type ServiceDetailDto } from '@/lib/catalog'
 import ProductDetailClient from './ProductDetailClient'
+import { serviceDetails, serviceSummary } from '@/lib/serviceText'
 import { RelatedProducts } from './RelatedProducts'
 import type { ServiceDto } from '@/services/homeApiService'
 
@@ -44,7 +45,7 @@ async function loadService(rawSlug: string): Promise<ServiceDetailDto> {
 }
 
 function toMetaDescription(service: ServiceDetailDto): string {
-  const text = (service.description || `Buy ${service.name} subscription at the best price in Bangladesh.`)
+  const text = (serviceSummary(service) || `Buy ${service.name} subscription at the best price in Bangladesh.`)
     .trim()
     .replace(/\s+/g, ' ')
   return text.length <= 160 ? text : `${text.slice(0, 157)}…`
@@ -85,7 +86,7 @@ function productJsonLd(service: ServiceDetailDto): string {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: service.name,
-    description: service.description || undefined,
+    description: serviceSummary(service) || serviceDetails(service) || undefined,
     image: service.imgUrl || undefined,
     sku: service.id,
     url: `${siteUrl}/product/${service.slug}`,
