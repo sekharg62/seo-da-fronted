@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ClipboardPlus, Mail, Phone } from 'lucide-react'
+import { ClipboardPlus, Mail, PackageSearch, Phone } from 'lucide-react'
 import { FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa'
 import { SiMessenger } from 'react-icons/si'
 import { useLanguage } from '@/context/LanguageContext'
@@ -106,13 +106,22 @@ export default function Footer() {
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
               © {new Date().getFullYear()} {companyName}. {t('allRightsReserved')}
             </p>
+            <div className="mt-4 flex flex-wrap gap-2">
             <Link
               href="/create-order"
-              className="mt-4 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm shadow-emerald-500/20 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950"
+              className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm shadow-emerald-500/20 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950"
             >
               <ClipboardPlus className="h-4 w-4" aria-hidden />
               {t('footerCreateOrder' as any)}
             </Link>
+            <Link
+              href="/track-order"
+              className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/70 px-4 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-300 dark:hover:bg-emerald-500/10"
+            >
+              <PackageSearch className="h-4 w-4" aria-hidden />
+              {t('footerTrackOrder' as any)}
+            </Link>
+            </div>
             <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">{t('footerCreateOrderHint' as any)}</p>
           </div>
 

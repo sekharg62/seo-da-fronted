@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState, useSyncExternalStore, type FormEvent } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { MobilePhoneInput } from '@/components/MobilePhoneInput'
 import { SuccessPage } from '@/components/SuccessPage'
 import { ErrorPage } from '@/components/ErrorPage'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { WhatsAppOrderBox } from '@/components/WhatsAppOrderBox'
+import Link from 'next/link'
+import { Download, PackageSearch } from 'lucide-react'
+import { printOrderBillAsync } from '@/lib/orderBill'
+import { saveOrder, savedOrdersSnapshot, subscribeSavedOrders } from '@/lib/orderHistory'
+import { trackOrder } from '@/services/trackService'
 import { needsPayerNumber, payerNumberError, payerNumberHint, payerNumberLabel, payerNumberPlaceholder, transactionIdHint } from '@/lib/payerNumber'
 import { siteConfig } from '@/siteConfig'
 import { GetServicesList, postOrderForm } from '@/services/serviceService'
@@ -38,7 +44,22 @@ export function OrderForm() {
   const [services, setServices] = useState<{ id: string; name: string }[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+  /** Set after a successful submit; the success screen stays until "Create another order" */
+  const [success, setSuccess] = useState<null | { orderNo?: string; phone: string; paymentMethod: string; payerNumber?: string }>(null)
+  const [billError, setBillError] = useState<string | null>(null)
+  // How many orders this device already has (for the "track your orders" suggestion)
+  const savedCount = useSyncExternalStore(
+    subscribeSavedOrders,
+    () => {
+      try {
+        const list = JSON.parse(savedOrdersSnapshot())
+        return Array.isArray(list) ? list.length : 0
+      } catch {
+        return 0
+      }
+    },
+    () => 0,
+  )
   const [apiError, setApiError] = useState<string | null>(null)
 
   const paymentOptions = [
@@ -85,11 +106,28 @@ export function OrderForm() {
     }
     try {
       setSubmitting(true)
-      await postOrderForm(payload)
+      const result = (await postOrderForm(payload)) as { orderNo?: string } | undefined
+      const orderNo = typeof result?.orderNo === 'string' ? result.orderNo : undefined
+      setSuccess({
+        orderNo,
+        phone: payload.phone,
+        paymentMethod: payload.paymentMethod,
+        payerNumber: payload.userPaymentMethodNumber,
+      })
+      setBillError(null)
+      if (orderNo) {
+        // Remember on this device for /track-order
+        saveOrder({
+          orderNo,
+          phone: payload.phone,
+          createdAt: new Date().toISOString(),
+          summary: payload.serviceName ?? services.find((s) => s.id === payload.serviceId)?.name ?? form.serviceName.trim(),
+          total: Number(payload.price),
+        })
+      }
       setForm(initial)
       setPayerTouched(false)
-      setSuccess(true)
-      window.setTimeout(() => setSuccess(false), 3000)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
       const response = (err as { response?: { status?: number; data?: { message?: unknown } } })?.response
       if (response?.status === 400 && typeof response.data?.message === 'string') {
@@ -135,12 +173,69 @@ export function OrderForm() {
         </p>
       </div>
 
+      {!success && savedCount > 0 && (
+        <Link
+          href="/track-order"
+          className="mb-5 flex items-center gap-3 rounded-xl border border-emerald-300/60 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 transition hover:bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-100 dark:hover:bg-emerald-500/15"
+        >
+          <PackageSearch className="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
+          <span className="min-w-0 flex-1">
+            {lang === 'bn'
+              ? `এই ডিভাইস থেকে ${savedCount}টি অর্ডার করেছেন। আগের অর্ডারের অবস্থা দেখবেন?`
+              : `You have ${savedCount} order${savedCount > 1 ? 's' : ''} from this device. Check the status of a previous order?`}
+          </span>
+          <span className="shrink-0 font-semibold">{lang === 'bn' ? 'ট্র্যাক →' : 'Track →'}</span>
+        </Link>
+      )}
+
       {success ? (
-        <SuccessPage
-          title="Order submitted successfully"
-          message="We received your request. Our team will process it shortly."
-          hint="This form will reset automatically in a few seconds."
-        />
+        <div className="space-y-4">
+          <SuccessPage
+            title={lang === 'bn' ? 'অর্ডার সফলভাবে জমা হয়েছে' : 'Order submitted successfully'}
+            message={
+              lang === 'bn'
+                ? 'আপনার অনুরোধ পেয়েছি। আমাদের টিম শীঘ্রই এটি প্রসেস করবে।'
+                : 'We received your request. Our team will process it shortly.'
+            }
+          />
+          <WhatsAppOrderBox
+            orderNo={success.orderNo}
+            paymentMethod={success.paymentMethod}
+            payerNumber={success.payerNumber}
+          />
+          {success.orderNo && (
+            <div className="grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={async () => {
+                  const { orderNo, phone } = success
+                  if (!orderNo) return
+                  const ok = await printOrderBillAsync(() => trackOrder(orderNo, phone))
+                  setBillError(ok ? null : lang === 'bn' ? 'বিল খুলতে পপ-আপ অনুমতি দিন বা আবার চেষ্টা করুন।' : 'Allow pop-ups or try again to open the bill.')
+                }}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
+              >
+                <Download className="h-4 w-4" aria-hidden />
+                {lang === 'bn' ? 'বিল ডাউনলোড করুন' : 'Download bill'}
+              </button>
+              <Link
+                href={`/track-order?id=${success.orderNo}`}
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-emerald-500/10"
+              >
+                <PackageSearch className="h-4 w-4" aria-hidden />
+                {lang === 'bn' ? 'অর্ডার ট্র্যাক করুন' : 'Track order'}
+              </Link>
+            </div>
+          )}
+          {billError && <p className="text-xs text-red-600 dark:text-red-400">{billError}</p>}
+          <button
+            type="button"
+            onClick={() => setSuccess(null)}
+            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            {lang === 'bn' ? 'আরেকটি অর্ডার তৈরি করুন' : 'Create another order'}
+          </button>
+        </div>
       ) : apiError ? (
         <ErrorPage
           title="Order submission failed"

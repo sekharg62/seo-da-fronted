@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BookOpen, ChevronRight, FileText, Home, LayoutGrid, Mail, Menu, MessageCircle, Phone, Shield, X } from 'lucide-react'
+import { BookOpen, ChevronRight, ClipboardPlus, PackageSearch, FileText, Home, LayoutGrid, Mail, Menu, MessageCircle, Phone, Shield, X } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 import { siteConfig } from '@/config/siteConfig'
 import { LEGAL_LINKS, NAV_LINKS } from '@/lib/navLinks'
@@ -156,6 +156,24 @@ export function MobileMenu() {
           </nav>
 
           <div className="my-4 border-t border-slate-200 dark:border-slate-800" />
+
+          <div className="mb-3 grid grid-cols-2 gap-2">
+            <Link
+              href="/create-order"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 px-3 py-2.5 text-sm font-semibold text-emerald-950"
+            >
+              <ClipboardPlus className="h-4 w-4" aria-hidden /> {t('footerCreateOrder' as any)}
+            </Link>
+            <Link
+              href="/track-order"
+              onClick={() => setOpen(false)}
+              aria-current={pathname.startsWith('/track-order') ? 'page' : undefined}
+              className="flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/70 px-3 py-2.5 text-sm font-semibold text-emerald-700 dark:text-emerald-300"
+            >
+              <PackageSearch className="h-4 w-4" aria-hidden /> {t('footerTrackOrder' as any)}
+            </Link>
+          </div>
 
           <ul className="space-y-1">
             {LEGAL_LINKS.map(({ href, labelKey }) => {

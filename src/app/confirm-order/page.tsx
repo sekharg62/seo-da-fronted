@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Copy, Check, CheckCircle, Download, Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react'
+import { Copy, Check, CheckCircle, Download, Minus, Plus, PackageSearch, ShoppingCart, Trash2 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 import { useCart } from '@/context/CartContext'
 import { createOrder, type OrderDto } from '@/services/orderService'
@@ -10,6 +10,9 @@ import { apiClient } from '@/services/apiClient'
 import { siteConfig, formatWhatsappLocalFromDigits } from '@/siteConfig'
 import { MobilePhoneInput } from '@/components/MobilePhoneInput'
 import { CartItemThumb } from '@/components/CartItemThumb'
+import { WhatsAppOrderBox } from '@/components/WhatsAppOrderBox'
+import { printOrderBill } from '@/lib/orderBill'
+import { saveOrder } from '@/lib/orderHistory'
 import { productHref } from '@/lib/productUrl'
 import { needsPayerNumber, payerNumberError, payerNumberHint, payerNumberLabel, payerNumberPlaceholder, transactionIdHint } from '@/lib/payerNumber'
 
@@ -46,7 +49,6 @@ export default function ConfirmOrderPage() {
     phone: '',
     whatsappNumber: '',
     email: '',
-    address: '',
     orderNotes: '',
     paymentMethod: '' as '' | 'bkash' | 'nagad' | 'rocket' | 'binance',
     transactionId: '',
@@ -56,7 +58,6 @@ export default function ConfirmOrderPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [orderId, setOrderId] = useState<string | null>(null)
-  const [orderNo, setOrderNo] = useState<string>('');
   const [orderData, setOrderData] = useState<OrderDto | null>(null)
   /** serviceId → image, captured before the cart is cleared (fallback for the success screen) */
   const [orderedImages, setOrderedImages] = useState<Record<string, string | null | undefined>>({})
@@ -101,7 +102,6 @@ export default function ConfirmOrderPage() {
           email: form.email.trim(),
           phone: form.phone.trim(),
           whatsappNumber: form.whatsappNumber.trim() || undefined,
-          address: form.address.trim() || undefined,
         },
         items: items.map((i) => ({
           serviceId: i.serviceId,
@@ -120,10 +120,19 @@ export default function ConfirmOrderPage() {
           ].filter(Boolean).join(' | ') || undefined,
       })
       setOrderedImages(Object.fromEntries(items.map((i) => [i.serviceId, i.imgUrl])))
+      // Remember on this device for /track-order (order ID + phone are needed to look it up)
+      saveOrder({
+        orderNo: order.orderNo,
+        phone: form.phone.trim(),
+        createdAt: order.createdAt,
+        summary: order.orderItems.length > 1
+          ? `${order.orderItems[0]?.serviceName} +${order.orderItems.length - 1}`
+          : order.orderItems[0]?.serviceName,
+        total: Number(order.totalPrice),
+      })
       // Clear the cart
       items.forEach((i) => removeItem(i.serviceId))
       setOrderData(order)
-      setOrderNo(order.orderNo)
       setOrderId(order.id)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
@@ -143,57 +152,7 @@ export default function ConfirmOrderPage() {
 
   if (orderId && orderData) {
     const o = orderData
-    const printDate = new Date(o.createdAt).toLocaleString('en-GB', {
-      day: '2-digit', month: 'long', year: 'numeric',
-      hour: '2-digit', minute: '2-digit',
-    })
 
-    const handlePrint = () => {
-      const printContents = document.getElementById('bill-printable')?.innerHTML
-      if (!printContents) return
-      const win = window.open('', '_blank', 'width=800,height=900')
-      if (!win) return
-      win.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="UTF-8" />
-          <title>Order Bill – ${siteConfig.websiteName}</title>
-          <style>
-            * { box-sizing: border-box; margin: 0; padding: 0; }
-            body { font-family: 'Segoe UI', Arial, sans-serif; color: #111; background: #fff; padding: 40px; }
-            .header { text-align: center; margin-bottom: 28px; border-bottom: 2px solid #10b981; padding-bottom: 18px; }
-            .header h1 { font-size: 26px; font-weight: 800; color: #059669; letter-spacing: -0.5px; }
-            .header .tagline { font-size: 12px; color: #6b7280; margin-top: 2px; }
-            .header .address { font-size: 12px; color: #374151; margin-top: 6px; }
-            .header .contact { font-size: 12px; color: #374151; margin-top: 2px; }
-            .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin-bottom: 6px; margin-top: 20px; }
-            .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; font-size: 13px; }
-            .info-grid .label { color: #6b7280; }
-            .info-grid .value { color: #111; font-weight: 500; }
-            .order-id { font-family: monospace; font-size: 11px; background: #f3f4f6; padding: 6px 10px; border-radius: 6px; color: #374151; margin-top: 6px; word-break: break-all; }
-            table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
-            thead tr { background: #f0fdf4; }
-            th { text-align: left; padding: 8px 10px; font-weight: 600; color: #059669; border-bottom: 1px solid #d1fae5; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-            td { padding: 8px 10px; border-bottom: 1px solid #f3f4f6; color: #374151; }
-            .text-right { text-align: right; }
-            .total-row td { font-weight: 700; font-size: 14px; color: #059669; border-top: 2px solid #d1fae5; padding-top: 10px; }
-            .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; background: #fef3c7; color: #92400e; }
-            .footer { margin-top: 36px; text-align: center; font-size: 11px; color: #9ca3af; border-top: 1px solid #f3f4f6; padding-top: 14px; }
-            @media print {
-              body { padding: 20px; }
-              @page { margin: 15mm; }
-            }
-          </style>
-        </head>
-        <body>
-          ${printContents}
-          <script>window.onload = function() { window.print(); }<\/script>
-        </body>
-        </html>
-      `)
-      win.document.close()
-    }
 
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-4 text-center py-12">
@@ -207,16 +166,13 @@ export default function ConfirmOrderPage() {
               ? 'আপনার অর্ডার গ্রহণ করা হয়েছে। পেমেন্ট যাচাই হলে আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।'
               : 'Your order has been received. We will contact you shortly after payment verification.'}
           </p>
-          <p className="text-xs font-mono bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 text-slate-500 dark:text-slate-400 mb-4 break-all">
-            {language === 'bn' ? 'অর্ডার আইডি: ' : 'Order ID: '}{orderNo}
-          </p>
+          <WhatsAppOrderBox
+            className="mb-5"
+            orderNo={o.orderNo}
+            paymentMethod={o.paymentMethod}
+            payerNumber={o.userPaymentMethodNumber}
+          />
 
-          {o.userPaymentMethodNumber && (
-            <p className="-mt-2 mb-4 text-xs text-slate-500 dark:text-slate-400">
-              {language === 'bn' ? 'পেমেন্ট করা হয়েছে: ' : 'Paid from: '}
-              <span className="font-mono text-slate-700 dark:text-slate-200">{o.userPaymentMethodNumber}</span> ({o.paymentMethod})
-            </p>
-          )}
           <ul className="mb-6 space-y-2 text-left">
             {o.orderItems.map((item) => (
               <li
@@ -241,15 +197,22 @@ export default function ConfirmOrderPage() {
             ))}
           </ul>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center">
             <button
               type="button"
-              onClick={handlePrint}
+              onClick={() => printOrderBill(o)}
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-6 py-2.5 text-sm font-semibold text-emerald-950 hover:bg-emerald-400 transition"
             >
               <Download className="h-4 w-4" />
               {language === 'bn' ? 'বিল ডাউনলোড করুন' : 'Download Bill'}
             </button>
+            <Link
+              href={`/track-order?id=${o.orderNo}`}
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-500 bg-transparent px-6 py-2.5 text-sm font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition"
+            >
+              <PackageSearch className="h-4 w-4" />
+              {language === 'bn' ? 'অর্ডার ট্র্যাক করুন' : 'Track order'}
+            </Link>
             <Link
               href="/"
               className="inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent px-6 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
@@ -259,102 +222,6 @@ export default function ConfirmOrderPage() {
           </div>
         </div>
 
-        {/* Hidden printable bill — rendered off-screen, cloned into print window */}
-        <div id="bill-printable" className="hidden">
-          <div className="header">
-            <h1>{siteConfig.websiteName}</h1>
-            <div className="tagline">{siteConfig.billing.tagline}</div>
-            <div className="address">{siteConfig.billing.addressLine}</div>
-            <div className="contact">
-              Email: {siteConfig.contact.email} &nbsp;|&nbsp; WhatsApp: {whatsappLocal} &nbsp;|&nbsp;               Phone: {siteConfig.contact.phoneDisplay}
-            </div>
-          </div>
-
-          <div className="section-title">Order Information</div>
-          <div className="order-id">Order ID: {o.orderNo}</div>
-          <div style={{ marginTop: '8px', fontSize: '12px', color: '#6b7280' }}>
-            Date: {printDate} &nbsp;|&nbsp;
-            Status: <span className="badge">PENDING – Awaiting Verification</span>
-          </div>
-
-          <div className="section-title">Customer Details</div>
-          <div className="info-grid">
-            <span className="label">Name</span>
-            <span className="value">{o.customer.fullName}</span>
-            <span className="label">Phone</span>
-            <span className="value">{o.customer.phone ?? '—'}</span>
-            <span className="label">Email</span>
-            <span className="value">{o.customer.email ?? '—'}</span>
-            {o.customer.whatsappNumber && (
-              <>
-                <span className="label">WhatsApp</span>
-                <span className="value">{o.customer.whatsappNumber}</span>
-              </>
-            )}
-            {o.customer.address && (
-              <>
-                <span className="label">Address</span>
-                <span className="value">{o.customer.address}</span>
-              </>
-            )}
-          </div>
-
-          <div className="section-title">Services Purchased</div>
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Service</th>
-                <th className="text-right">Qty</th>
-                <th className="text-right">Unit Price</th>
-                <th className="text-right">Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              {o.orderItems.map((item, idx) => (
-                <tr key={item.id}>
-                  <td>{idx + 1}</td>
-                  <td>{item.serviceName}</td>
-                  <td className="text-right">{item.quantity}</td>
-                  <td className="text-right">৳{Number(item.price).toFixed(0)}</td>
-                  <td className="text-right">৳{(Number(item.price) * item.quantity).toFixed(0)}</td>
-                </tr>
-              ))}
-              <tr className="total-row">
-                <td colSpan={4} className="text-right">Total Amount Paid</td>
-                <td className="text-right">৳{Number(o.totalPrice).toFixed(0)}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div className="section-title">Payment Details</div>
-          <div className="info-grid">
-            <span className="label">Payment Method</span>
-            <span className="value" style={{ textTransform: 'uppercase' }}>{o.paymentMethod}</span>
-            <span className="label">Transaction ID</span>
-            <span className="value" style={{ fontFamily: 'monospace' }}>{o.transactionId ?? '—'}</span>
-            {o.userPaymentMethodNumber && (
-              <>
-                <span className="label">Paid From</span>
-                <span className="value" style={{ fontFamily: 'monospace' }}>{o.userPaymentMethodNumber}</span>
-              </>
-            )}
-            <span className="label">Amount Paid</span>
-            <span className="value" style={{ color: '#059669', fontWeight: 700 }}>৳{Number(o.totalPrice).toFixed(0)}</span>
-          </div>
-          {o.orderNotes && (
-            <div style={{ marginTop: '10px', fontSize: '12px', color: '#374151' }}>
-              <strong>Notes:</strong> {o.orderNotes}
-            </div>
-          )}
-
-          <div className="footer">
-            <p>Thank you for choosing {siteConfig.websiteName}!</p>
-            <p style={{ marginTop: '4px' }}>
-              This is a system-generated receipt. For support, contact us via WhatsApp: {whatsappLocal}
-            </p>
-          </div>
-        </div>
       </div>
     )
   }
@@ -466,16 +333,6 @@ export default function ConfirmOrderPage() {
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   placeholder="email@example.com"
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('address' as any)}</label>
-                <input
-                  type="text"
-                  value={form.address}
-                  onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
-                  className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
-                  placeholder={language === 'bn' ? 'ঠিকানা' : 'Address'}
                 />
               </div>
               <div className="sm:col-span-2">
