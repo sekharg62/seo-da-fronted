@@ -51,19 +51,19 @@ export function HomeFaq() {
   return (
     <section
       id="faq"
-      className="bg-white dark:bg-transparent"
+      className="bg-white dark:bg-black"
     >
       <div className="mx-auto grid w-full max-w-[96rem] gap-6 px-4 py-8 sm:px-6 md:py-10 lg:grid-cols-[1fr_2fr] lg:gap-12">
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-neutral-50 md:text-2xl">
+          <h2 className="mb-1 text-xl font-semibold text-gray-900 dark:text-neutral-50 md:text-2xl">
             {t('faqTitle' as any)}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-neutral-400">
+          <p className="text-sm text-gray-500 dark:text-neutral-400">
             {t('faqSubtitle' as any)}
           </p>
         </div>
 
-        <div className="divide-y divide-slate-200 overflow-hidden rounded-lg border border-slate-200 bg-white dark:divide-neutral-800 dark:border-neutral-800 dark:bg-neutral-950">
+        <div className="divide-y divide-gray-200 overflow-hidden rounded-lg border border-gray-200 bg-white dark:divide-neutral-800 dark:border-neutral-800 dark:bg-[#0f0f0f]">
           {faqItems.map((item, index) => {
             const isOpen = openFaqIndex === index
             const q = language === 'bn' ? item.qBn : item.qEn
@@ -76,17 +76,17 @@ export function HomeFaq() {
                   aria-expanded={isOpen}
                   aria-controls={`faq-a-${index}`}
                   onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                  className={`flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-4 text-left text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500 sm:px-5 sm:text-base ${
+                  className={`flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-4 text-left text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-500 sm:px-5 sm:text-base ${
                     isOpen
-                      ? 'text-emerald-700 dark:text-emerald-400'
-                      : 'text-slate-900 hover:bg-slate-50 dark:text-neutral-100 dark:hover:bg-neutral-800/50'
+                      ? 'text-amber-700 dark:text-amber-400'
+                      : 'text-gray-900 hover:bg-slate-50 dark:text-neutral-100 dark:hover:bg-neutral-800/50'
                   }`}
                 >
                   <span>{q}</span>
                   <ChevronDown
                     aria-hidden
                     className={`h-5 w-5 shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-emerald-600' : 'text-slate-400'
+                      isOpen ? 'rotate-180 text-amber-700' : 'text-slate-400'
                     }`}
                   />
                 </button>

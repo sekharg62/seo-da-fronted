@@ -18,12 +18,12 @@ function Brand() {
     <Link
       href="/"
       aria-label={`${name} — ${t("footerLinkHome" as any)}`}
-      className="flex min-w-0 shrink-0 items-center gap-2 rounded-lg transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+      className="flex min-w-0 shrink-0 items-center gap-2 rounded-lg transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
     >
       {/* Both logos are rendered; CSS picks one, avoiding a flash/hydration mismatch on theme load */}
       <img src="/Blue.png" alt="" width={40} height={40} className="h-9 w-9 shrink-0 dark:hidden sm:h-10 sm:w-10" />
       <img src="/White.png" alt="" width={40} height={40} className="hidden h-9 w-9 shrink-0 dark:block sm:h-10 sm:w-10" />
-      <span className="truncate text-base font-semibold tracking-tight text-slate-900 dark:text-neutral-50 sm:text-[17px]">
+      <span className="truncate text-base font-semibold tracking-tight text-gray-900 dark:text-neutral-50 sm:text-[17px]">
         {name}
       </span>
     </Link>
@@ -43,15 +43,15 @@ function DesktopNavLinks() {
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${
                   active
-                    ? "text-emerald-700 dark:text-emerald-400"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-neutral-300 dark:hover:bg-neutral-800/70 dark:hover:text-white"
+                    ? "text-amber-700 dark:text-amber-400"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-gray-900 dark:text-neutral-300 dark:hover:bg-neutral-800/70 dark:hover:text-white"
                 }`}
               >
                 {t(labelKey as any)}
                 {active && (
-                  <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-emerald-500" aria-hidden />
+                  <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-amber-500" aria-hidden />
                 )}
               </Link>
             </li>
@@ -75,13 +75,13 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-30 w-full border-b backdrop-blur transition-shadow ${
         scrolled
-          ? "border-slate-200 bg-white/95 shadow-sm shadow-slate-900/5 dark:border-neutral-800 dark:bg-neutral-950/90 dark:shadow-black/30"
-          : "border-transparent bg-white/80 dark:bg-neutral-950"
+          ? "border-gray-200 bg-white/95 shadow-sm shadow-gray-900/5 dark:border-neutral-800 dark:bg-neutral-950/90 dark:shadow-black/30"
+          : "border-transparent bg-white/80 dark:bg-[#0f0f0f]"
       }`}
     >
       <a
         href="#main-content"
-        className="sr-only rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50"
+        className="sr-only rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-neutral-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50"
       >
         {t("navSkipToContent" as any)}
       </a>

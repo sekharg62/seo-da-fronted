@@ -35,9 +35,9 @@ export function FloatingContactWidget({
   const buttonBase =
     'flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2'
 
-  const triggerButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-neutral-950`
+  const triggerButton = `${buttonBase} bg-amber-500 text-white hover:bg-amber-400 focus:ring-amber-400 ring-offset-white dark:ring-offset-neutral-950`
 
-  const phoneButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-neutral-950`
+  const phoneButton = `${buttonBase} bg-amber-500 text-white hover:bg-amber-400 focus:ring-amber-400 ring-offset-white dark:ring-offset-neutral-950`
 
   const whatsappButton = `${buttonBase} bg-[#25D366] text-white hover:bg-[#20BD5A] focus:ring-[#25D366] ring-offset-white dark:ring-offset-neutral-950`
 

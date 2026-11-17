@@ -7,14 +7,14 @@ import { useCart } from '@/context/CartContext'
 import { useLanguage } from '@/context/LanguageContext'
 
 const navItemBase =
-  'relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 px-1 text-[11px] font-semibold leading-none transition-colors touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500'
+  'relative flex min-w-0 flex-1 flex-col items-center justify-center gap-1 py-2 px-1 text-[11px] font-semibold leading-none transition-colors touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-500'
 
 function navItemClass(active: boolean) {
   return [
     navItemBase,
     active
-      ? 'text-emerald-600 dark:text-emerald-400 after:absolute after:inset-x-4 after:top-0 after:h-0.5 after:rounded-b-full after:bg-emerald-500'
-      : 'text-slate-500 active:text-slate-800 dark:text-neutral-400 dark:active:text-neutral-200',
+      ? 'text-amber-700 dark:text-amber-400 after:absolute after:inset-x-4 after:top-0 after:h-0.5 after:rounded-b-full after:bg-amber-500'
+      : 'text-gray-500 active:text-slate-800 dark:text-neutral-400 dark:active:text-neutral-200',
   ].join(' ')
 }
 
@@ -31,7 +31,7 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950 md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 bg-white/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md dark:border-neutral-800 dark:bg-[#0f0f0f] md:hidden"
       aria-label={t('mobileNavAriaLabel' as any)}
     >
       <div className="mx-auto flex max-w-lg items-stretch justify-between">
@@ -55,7 +55,7 @@ export function MobileBottomNav() {
             <ShoppingCart className="h-[22px] w-[22px]" aria-hidden />
             {totalItems > 0 ? (
               <span
-                className="absolute -right-2.5 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-emerald-500 px-1 text-[9px] font-bold text-emerald-950"
+                className="absolute -right-2.5 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-400 px-1 text-[9px] font-bold text-neutral-950"
                 aria-hidden
               >
                 {totalItems > 99 ? '99+' : totalItems}

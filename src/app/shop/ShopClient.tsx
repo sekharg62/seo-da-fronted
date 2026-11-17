@@ -28,10 +28,10 @@ export default function ShopClient({ services, categories, error = null }: Props
   return (
     <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-8 md:py-12">
           <div className="mb-6 md:mb-8">
-            <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-neutral-50 mb-1">
+            <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-neutral-50 mb-1">
               {t('shopPageTitle' as any)}
             </h1>
-            <p className="text-sm text-slate-500 dark:text-neutral-400">
+            <p className="text-sm text-gray-500 dark:text-neutral-400">
               {t('shopPageSubtitle' as any)}
             </p>
           </div>
@@ -44,8 +44,8 @@ export default function ShopClient({ services, categories, error = null }: Props
                 className={[
                   'shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition',
                   selectedCategoryId === ''
-                    ? 'border-emerald-500 bg-emerald-500 text-emerald-950 shadow-sm'
-                    : 'border-slate-200 dark:border-neutral-800 bg-white/60 dark:bg-neutral-950 text-slate-700 dark:text-neutral-200 hover:bg-white dark:hover:bg-neutral-950',
+                    ? 'border-amber-500 bg-amber-400 text-neutral-950 shadow-sm'
+                    : 'border-gray-200 dark:border-neutral-800 bg-white/60 dark:bg-[#0f0f0f] text-slate-700 dark:text-neutral-200 hover:bg-white dark:hover:bg-neutral-950',
                 ].join(' ')}
               >
                 All
@@ -59,8 +59,8 @@ export default function ShopClient({ services, categories, error = null }: Props
                   className={[
                     'shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition',
                     selectedCategoryId === c.id
-                      ? 'border-emerald-500 bg-emerald-500 text-emerald-950 shadow-sm'
-                      : 'border-slate-200 dark:border-neutral-800 bg-white/60 dark:bg-neutral-950 text-slate-700 dark:text-neutral-200 hover:bg-white dark:hover:bg-neutral-950',
+                      ? 'border-amber-500 bg-amber-400 text-neutral-950 shadow-sm'
+                      : 'border-gray-200 dark:border-neutral-800 bg-white/60 dark:bg-[#0f0f0f] text-slate-700 dark:text-neutral-200 hover:bg-white dark:hover:bg-neutral-950',
                   ].join(' ')}
                 >
                   {c.name}
@@ -74,7 +74,7 @@ export default function ShopClient({ services, categories, error = null }: Props
           )}
 
           {!error && filteredServices.length === 0 && (
-            <div className="text-center py-20 text-slate-500 dark:text-neutral-400">
+            <div className="text-center py-20 text-gray-500 dark:text-neutral-400">
               No services {selectedCategoryId ? 'found for this category.' : 'available.'}
             </div>
           )}

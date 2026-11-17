@@ -162,7 +162,7 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         aria-label={placeholder}
-        className="w-full rounded-xl border border-slate-200/90 bg-slate-50/90 py-2.5 pl-10 pr-16 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-400/60 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 dark:border-neutral-700/90 dark:bg-neutral-950 dark:text-emerald-50 dark:placeholder:text-neutral-500 dark:focus:border-emerald-500/40 dark:focus:bg-neutral-950 dark:focus:ring-emerald-400/15 [&::-webkit-search-cancel-button]:appearance-none"
+        className="w-full rounded-xl border border-gray-200/90 bg-slate-50/90 py-2.5 pl-10 pr-16 text-sm text-gray-900 outline-none transition placeholder:text-slate-400 focus:border-amber-400/60 focus:bg-white focus:ring-4 focus:ring-amber-500/10 dark:border-neutral-700/90 dark:bg-[#0f0f0f] dark:text-amber-50 dark:placeholder:text-neutral-500 dark:focus:border-amber-500/40 dark:focus:bg-neutral-950 dark:focus:ring-amber-400/15 [&::-webkit-search-cancel-button]:appearance-none"
       />
 
       <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1">
@@ -175,21 +175,21 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
               inputRef.current?.focus()
             }}
             aria-label={t('navClearSearch' as any)}
-            className="rounded-md p-1 text-slate-400 transition hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-neutral-900 dark:hover:text-neutral-200"
+            className="rounded-md p-1 text-slate-400 transition hover:bg-gray-200 hover:text-slate-700 dark:hover:bg-neutral-900 dark:hover:text-neutral-200"
           >
             <X className="h-4 w-4" />
           </button>
         ) : (
-          <kbd className="hidden rounded-md border border-slate-300 bg-white px-1.5 py-0.5 font-sans text-[10px] font-medium text-slate-400 dark:border-neutral-700 dark:bg-neutral-950 lg:inline-block">
+          <kbd className="hidden rounded-md border border-slate-300 bg-white px-1.5 py-0.5 font-sans text-[10px] font-medium text-slate-400 dark:border-neutral-700 dark:bg-[#0f0f0f] lg:inline-block">
             /
           </kbd>
         )}
       </div>
 
       {showPanel && (
-        <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-xl shadow-slate-900/10 dark:border-neutral-800 dark:bg-neutral-950 dark:shadow-black/40">
+        <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-xl border border-gray-200/80 bg-white shadow-xl shadow-gray-900/10 dark:border-neutral-800 dark:bg-[#0f0f0f] dark:shadow-black/40">
           {status === 'loading' || status === 'idle' ? (
-            <p className="p-3 text-sm text-slate-500" role="status">{t('navSearching' as any)}</p>
+            <p className="p-3 text-sm text-gray-500" role="status">{t('navSearching' as any)}</p>
           ) : results.length ? (
             <ul id={listboxId} role="listbox" aria-label={t('navSearchResults' as any)} className="max-h-[60vh] overflow-y-auto py-1">
               {results.map((service, index) => {
@@ -206,20 +206,20 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
                       }}
                       onMouseEnter={() => setActiveIndex(index)}
                       className={`flex items-center gap-3 px-3 py-2 text-sm transition ${
-                        active ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'hover:bg-slate-50 dark:hover:bg-neutral-950'
+                        active ? 'bg-amber-50 dark:bg-amber-500/10' : 'hover:bg-slate-50 dark:hover:bg-neutral-950'
                       }`}
                     >
                       <CartItemThumb name={service.name} imgUrl={service.imgUrl} className="h-10 w-10" />
                       <div className="min-w-0 flex-1">
                         <p className="truncate font-semibold leading-tight text-slate-800 dark:text-neutral-100">{service.name}</p>
                         {serviceSummary(service) ? (
-                          <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-neutral-400">{serviceSummary(service)}</p>
+                          <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-neutral-400">{serviceSummary(service)}</p>
                         ) : null}
                       </div>
                       {Number.isFinite(price) && price > 0 && (
-                        <span className="shrink-0 text-right text-xs text-slate-500 dark:text-neutral-400">
+                        <span className="shrink-0 text-right text-xs text-gray-500 dark:text-neutral-400">
                           {t('navStartsFrom' as any)}
-                          <span className="block text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                          <span className="block text-sm font-semibold text-amber-700 dark:text-amber-400">
                             {CURRENCY}{price.toLocaleString()}
                           </span>
                         </span>
@@ -230,7 +230,7 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
               })}
             </ul>
           ) : (
-            <p className="p-3 text-sm text-slate-500" role="status">
+            <p className="p-3 text-sm text-gray-500" role="status">
               {status === 'error' ? 'Could not load products. Please try again.' : t('navNoResults' as any)}
             </p>
           )}

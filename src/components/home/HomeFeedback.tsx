@@ -60,21 +60,21 @@ export function HomeFeedback() {
   return (
     <section
       id="customer-feedback"
-      className="bg-slate-50 dark:bg-white/[0.025]"
+      className="bg-slate-50 dark:bg-[#0a0a0a]"
     >
       <div className="mx-auto w-full max-w-[96rem] px-4 py-8 sm:px-6 md:py-10">
         <div className="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
-          <h2 className="text-xl font-semibold text-slate-900 dark:text-neutral-50 md:text-2xl">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-neutral-50 md:text-2xl">
             {t('customerFeedbackTitle')}
           </h2>
           {count > 0 && (
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-black leading-none text-slate-900 dark:text-white">
+              <span className="text-3xl font-black leading-none text-gray-900 dark:text-white">
                 {average.toFixed(1)}
               </span>
               <div>
                 <FeedbackStars stars={average} />
-                <p className="mt-1 text-xs text-slate-500 dark:text-neutral-400">
+                <p className="mt-1 text-xs text-gray-500 dark:text-neutral-400">
                   {bn ? `${count}টি রিভিউ` : `Based on ${count} review${count === 1 ? '' : 's'}`}
                 </p>
               </div>
@@ -85,13 +85,13 @@ export function HomeFeedback() {
         {feedbackLoading ? (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
             {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="h-44 animate-pulse rounded-lg border border-slate-200 bg-slate-100 dark:border-neutral-800 dark:bg-neutral-900" />
+              <div key={i} className="h-44 animate-pulse rounded-lg border border-gray-200 bg-slate-100 dark:border-neutral-800 dark:bg-neutral-900" />
             ))}
           </div>
         ) : feedbackError ? (
           <div className="py-3 text-sm text-red-400">{feedbackError}</div>
         ) : count === 0 ? (
-          <div className="py-3 text-sm text-slate-500">No feedback found.</div>
+          <div className="py-3 text-sm text-gray-500">No feedback found.</div>
         ) : (
           <div className="da-fb-viewport relative">
             <style>{`
@@ -118,7 +118,7 @@ export function HomeFeedback() {
                   {block.map((fb, i) => (
                     <figure
                     key={`${fb.id}-${i}`}
-                  className="flex h-full w-72 shrink-0 flex-col justify-between gap-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-950 sm:w-80 sm:p-5"
+                  className="flex h-full w-72 shrink-0 flex-col justify-between gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-[#0f0f0f] sm:w-80 sm:p-5"
                 >
                   <div>
                     <FeedbackStars stars={fb.stars} />
@@ -127,7 +127,7 @@ export function HomeFeedback() {
                     </blockquote>
                   </div>
                   <figcaption className="flex items-center gap-3 border-t border-slate-100 pt-4 dark:border-neutral-800">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-emerald-50 dark:bg-emerald-950/50">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-amber-50 dark:bg-amber-950/50">
                       {fb.profileUrl ? (
                         <img
                           src={fb.profileUrl}
@@ -137,15 +137,15 @@ export function HomeFeedback() {
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300">
+                        <span className="text-sm font-bold text-amber-700 dark:text-amber-300">
                           {(fb.name ?? '').trim().slice(0, 1).toUpperCase() || '?'}
                         </span>
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-bold text-slate-900 dark:text-neutral-50">{fb.name}</p>
+                      <p className="truncate text-sm font-bold text-gray-900 dark:text-neutral-50">{fb.name}</p>
                       {fb.position ? (
-                        <p className="truncate text-xs text-slate-500 dark:text-neutral-400">{fb.position}</p>
+                        <p className="truncate text-xs text-gray-500 dark:text-neutral-400">{fb.position}</p>
                       ) : null}
                     </div>
                   </figcaption>

@@ -14,7 +14,7 @@ const HIGHLIGHT_CHAR_MS = 46
 const HIGHLIGHT_HOLD_MS = 2600
 
 const HIGHLIGHT_GRADIENT =
-  'home-hero-title-highlight inline-block bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 bg-[length:200%_auto] bg-clip-text text-transparent dark:from-emerald-400 dark:via-teal-400 dark:to-emerald-400'
+  'home-hero-title-highlight inline-block bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 bg-[length:200%_auto] bg-clip-text text-transparent dark:from-amber-400 dark:via-yellow-400 dark:to-amber-400'
 
 function HeroAnimatedHighlight() {
   const [phraseIndex, setPhraseIndex] = useState(0)
@@ -112,13 +112,13 @@ export function HomeHero() {
       <HomeHeroBackground />
       <div className="relative z-10 mx-auto min-w-0 w-full max-w-[96rem] grid grid-cols-1 gap-6 px-4 py-6 sm:px-6 sm:py-8 md:grid-cols-2 md:gap-8 md:py-10 md:items-stretch lg:py-14">
         <div className="flex min-w-0 w-full max-w-xl flex-col space-y-4 sm:space-y-5 md:max-w-none md:space-y-6">
-          <div className="inline-flex w-fit max-w-full shrink-0 self-start items-center gap-2 rounded-full border border-emerald-400/20 bg-white/80 px-3 py-1.5 text-[11px] font-medium text-emerald-900 shadow-md shadow-emerald-900/[0.06] backdrop-blur-xl ring-1 ring-white/80 dark:border-emerald-500/30 dark:bg-neutral-950 dark:text-emerald-100 dark:shadow-black/30 dark:ring-white/[0.1] sm:px-4 sm:text-xs">
-            <Sparkles className="h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
+          <div className="inline-flex w-fit max-w-full shrink-0 self-start items-center gap-2 rounded-full border border-amber-400/20 bg-white/80 px-3 py-1.5 text-[11px] font-medium text-amber-900 shadow-md shadow-amber-900/[0.06] backdrop-blur-xl ring-1 ring-white/80 dark:border-amber-500/30 dark:bg-[#0f0f0f] dark:text-amber-100 dark:shadow-black/30 dark:ring-white/[0.1] sm:px-4 sm:text-xs">
+            <Sparkles className="h-3.5 w-3.5 shrink-0 text-amber-700 dark:text-amber-400" aria-hidden />
             <span className="break-words text-left leading-snug">{t('homeBadge' as any)}</span>
           </div>
           <div className="min-w-0 space-y-3 sm:space-y-5">
             <div className="space-y-3 sm:space-y-4">
-              <h1 className="home-hero-headline break-words text-[1.45rem] font-semibold leading-[1.2] tracking-tight text-slate-900 dark:text-neutral-50 sm:text-4xl sm:leading-[1.15] md:text-[2.5rem] md:leading-tight lg:text-[2.75rem] lg:leading-[1.08]">
+              <h1 className="home-hero-headline break-words text-[1.45rem] font-semibold leading-[1.2] tracking-tight text-gray-900 dark:text-neutral-50 sm:text-4xl sm:leading-[1.15] md:text-[2.5rem] md:leading-tight lg:text-[2.75rem] lg:leading-[1.08]">
                 <span className="block">{t('homeHeroTitlePrefix' as any)}</span>
                 <HeroTitleHighlightRow />
                 <span className="mt-1 block sm:mt-1.5">{t('homeHeroTitleSuffix' as any)}</span>
@@ -134,7 +134,7 @@ export function HomeHero() {
               <span className="home-hero-cta-border-spin" aria-hidden />
               <Link
                 href="#shop"
-                className="home-hero-cta-premium group relative z-10 inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-600 px-6 py-2 text-sm font-semibold text-emerald-950 shadow-lg shadow-emerald-500/30 ring-1 ring-white/40 transition hover:from-emerald-300 hover:to-emerald-500 hover:shadow-emerald-500/40 active:scale-[0.98] dark:shadow-emerald-900/45 dark:ring-emerald-200/20 sm:px-8 sm:py-2"
+                className="home-hero-cta-premium group relative z-10 inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-b from-amber-400 to-amber-600 px-6 py-2 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/30 ring-1 ring-white/40 transition hover:from-amber-300 hover:to-amber-500 hover:shadow-amber-500/40 active:scale-[0.98] dark:shadow-amber-900/45 dark:ring-amber-200/20 sm:px-8 sm:py-2"
               >
                 <span className="relative z-10 truncate">{t('homeCtaExploreProducts' as any)}</span>
                 <ArrowRight
@@ -149,29 +149,29 @@ export function HomeHero() {
           </div>
 
           <div className="mt-auto hidden min-w-0 gap-2.5 pt-1 sm:grid sm:grid-cols-2 sm:gap-3">
-            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-slate-900/[0.04] backdrop-blur-md transition hover:border-emerald-300/50 hover:shadow-lg hover:shadow-emerald-900/[0.05] dark:border-neutral-700/90 dark:bg-neutral-950 dark:shadow-black/25 dark:hover:border-emerald-500/35">
+            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-gray-900/[0.04] backdrop-blur-md transition hover:border-amber-300/50 hover:shadow-lg hover:shadow-amber-900/[0.05] dark:border-neutral-700/90 dark:bg-[#0f0f0f] dark:shadow-black/25 dark:hover:border-amber-500/35">
               <div className="flex min-w-0 items-center gap-2">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 shadow-inner ring-1 ring-emerald-500/15 dark:from-emerald-500/25 dark:ring-emerald-400/20">
-                  <Wallet className="h-4 w-4 text-emerald-700 dark:text-emerald-400" aria-hidden />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/10 shadow-inner ring-1 ring-amber-500/15 dark:from-amber-500/25 dark:ring-amber-400/20">
+                  <Wallet className="h-4 w-4 text-amber-700 dark:text-amber-400" aria-hidden />
                 </div>
                 <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-neutral-100 text-xs leading-snug sm:text-[13px]">
                   {t('homeBullet1Title' as any)}
                 </p>
               </div>
-              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-slate-500 break-words dark:text-neutral-400 sm:text-xs">
+              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-gray-500 break-words dark:text-neutral-400 sm:text-xs">
                 {t('homeBullet1Body' as any)}
               </p>
             </div>
-            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-slate-900/[0.04] backdrop-blur-md transition hover:border-emerald-300/50 hover:shadow-lg hover:shadow-emerald-900/[0.05] dark:border-neutral-700/90 dark:bg-neutral-950 dark:shadow-black/25 dark:hover:border-emerald-500/35">
+            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-gray-900/[0.04] backdrop-blur-md transition hover:border-amber-300/50 hover:shadow-lg hover:shadow-amber-900/[0.05] dark:border-neutral-700/90 dark:bg-[#0f0f0f] dark:shadow-black/25 dark:hover:border-amber-500/35">
               <div className="flex min-w-0 items-center gap-2">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 shadow-inner ring-1 ring-emerald-500/15 dark:from-emerald-500/25 dark:ring-emerald-400/20">
-                  <Headphones className="h-4 w-4 text-emerald-700 dark:text-emerald-400" aria-hidden />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-yellow-500/10 shadow-inner ring-1 ring-amber-500/15 dark:from-amber-500/25 dark:ring-amber-400/20">
+                  <Headphones className="h-4 w-4 text-amber-700 dark:text-amber-400" aria-hidden />
                 </div>
                 <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-neutral-100 text-xs leading-snug sm:text-[13px]">
                   {t('homeBullet2Title' as any)}
                 </p>
               </div>
-              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-slate-500 break-words dark:text-neutral-400 sm:text-xs">
+              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-gray-500 break-words dark:text-neutral-400 sm:text-xs">
                 {t('homeBullet2Body' as any)}
               </p>
             </div>
@@ -181,7 +181,7 @@ export function HomeHero() {
         <HomeHeroStats />
 
         <div
-          className="col-span-full mt-2 h-px max-w-md justify-self-center bg-gradient-to-r from-transparent via-emerald-400/35 to-transparent dark:via-emerald-500/25 md:mt-4 md:max-w-lg"
+          className="col-span-full mt-2 h-px max-w-md justify-self-center bg-gradient-to-r from-transparent via-amber-400/35 to-transparent dark:via-amber-500/25 md:mt-4 md:max-w-lg"
           aria-hidden
         />
       </div>

@@ -47,24 +47,24 @@ export function CartDrawer() {
       <button
         type="button"
         onClick={() => setDrawerOpen(false)}
-        className="absolute inset-0 bg-slate-950/50 dark:bg-neutral-950"
+        className="absolute inset-0 bg-slate-950/50 dark:bg-[#0f0f0f]"
         aria-hidden="true"
       />
 
       {/* Drawer panel */}
       <div
-        className="relative flex w-full max-w-sm sm:max-w-md flex-col bg-white dark:bg-neutral-950 shadow-xl border-l border-slate-200 dark:border-neutral-800 animate-slide-in-right"
+        className="relative flex w-full max-w-sm sm:max-w-md flex-col bg-white dark:bg-[#0f0f0f] shadow-xl border-l border-gray-200 dark:border-neutral-800 animate-slide-in-right"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-slate-200 dark:border-neutral-800 px-4 py-3">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-neutral-50">
+        <div className="flex shrink-0 items-center justify-between border-b border-gray-200 dark:border-neutral-800 px-4 py-3">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-neutral-50">
             {t('shoppingCart' as any)}
           </h2>
           <button
             type="button"
             onClick={() => setDrawerOpen(false)}
-            className="rounded-lg p-2 text-slate-500 dark:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-900 transition"
+            className="rounded-lg p-2 text-gray-500 dark:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-900 transition"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
@@ -78,13 +78,13 @@ export function CartDrawer() {
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-900">
                 <ShoppingCart className="h-10 w-10 text-slate-400 dark:text-neutral-500" strokeWidth={1.25} aria-hidden />
               </div>
-              <p className="text-sm text-slate-500 dark:text-neutral-400">
+              <p className="text-sm text-gray-500 dark:text-neutral-400">
                 {t('emptyCart' as any)}
               </p>
               <Link
                 href="/shop"
                 onClick={() => setDrawerOpen(false)}
-                className="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm transition hover:bg-emerald-400"
+                className="inline-flex items-center justify-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-semibold text-neutral-950 shadow-sm transition hover:bg-amber-300"
               >
                 {t('continueShopping' as any)}
               </Link>
@@ -97,25 +97,25 @@ export function CartDrawer() {
                 return (
                   <li
                     key={item.serviceId}
-                    className="flex hover:bg-slate-100 dark:hover:bg-neutral-800 transition gap-3 rounded-xl border border-slate-200 dark:border-neutral-700 bg-slate-50/50 dark:bg-neutral-800/50 p-3"
+                    className="flex hover:bg-slate-100 dark:hover:bg-neutral-800 transition gap-3 rounded-xl border border-gray-200 dark:border-neutral-700 bg-slate-50/50 dark:bg-neutral-800/50 p-3"
                   >
                     <CartItemThumb name={name} imgUrl={item.imgUrl} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <p className="text-sm font-medium text-slate-900 dark:text-neutral-100 line-clamp-2">
+                        <p className="text-sm font-medium text-gray-900 dark:text-neutral-100 line-clamp-2">
                           {name}
                         </p>
                         <button
                           type="button"
                           onClick={() => removeItem(item.serviceId)}
-                          className="shrink-0 rounded p-1 text-slate-400 hover:bg-slate-200 dark:hover:bg-neutral-800 hover:text-red-600 dark:hover:text-red-400 transition"
+                          className="shrink-0 rounded p-1 text-slate-400 hover:bg-gray-200 dark:hover:bg-neutral-800 hover:text-red-600 dark:hover:text-red-400 transition"
                           aria-label={t('remove' as any)}
                         >
                           <X className="h-4 w-4" />
                         </button>
                       </div>
                       <div className="mt-2 flex items-center gap-2">
-                        <div className="inline-flex items-center rounded-lg border border-slate-200 dark:border-neutral-600 bg-white dark:bg-neutral-900">
+                        <div className="inline-flex items-center rounded-lg border border-gray-200 dark:border-neutral-600 bg-white dark:bg-neutral-900">
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.serviceId, item.quantity - 1)}
@@ -125,7 +125,7 @@ export function CartDrawer() {
                             <Minus className="h-3.5 w-3.5" />
                           </button>
                           <span
-                            className="flex h-8 min-w-8 items-center justify-center text-sm font-medium text-slate-900 dark:text-neutral-100 border-x border-slate-200 dark:border-neutral-600"
+                            className="flex h-8 min-w-8 items-center justify-center text-sm font-medium text-gray-900 dark:text-neutral-100 border-x border-gray-200 dark:border-neutral-600"
                             aria-live="polite"
                           >
                             {item.quantity}
@@ -140,7 +140,7 @@ export function CartDrawer() {
                           </button>
                         </div>
                       </div>
-                      <p className="mt-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                      <p className="mt-1.5 text-sm font-semibold text-amber-700 dark:text-amber-400">
                         {item.quantity} × {CURRENCY}{item.offerPrice} = {CURRENCY}{lineTotal}
                       </p>
                     </div>
@@ -153,8 +153,8 @@ export function CartDrawer() {
 
         {/* Footer */}
         {totalItems > 0 && (
-          <div className="shrink-0 border-t border-slate-200 dark:border-neutral-800 p-4 space-y-3">
-            <div className="flex items-center justify-between text-base font-semibold text-slate-900 dark:text-neutral-50">
+          <div className="shrink-0 border-t border-gray-200 dark:border-neutral-800 p-4 space-y-3">
+            <div className="flex items-center justify-between text-base font-semibold text-gray-900 dark:text-neutral-50">
               <span>{t('subtotal' as any)}</span>
               <span>{CURRENCY}{totalAmount}</span>
             </div>
@@ -162,7 +162,7 @@ export function CartDrawer() {
               <Link
                 href="/confirm-order"
                 onClick={() => setDrawerOpen(false)}
-                className="flex-1 rounded-lg bg-emerald-500 px-4 py-2.5 text-center text-sm font-semibold text-emerald-950 shadow-sm hover:bg-emerald-400 transition"
+                className="flex-1 rounded-lg bg-amber-400 px-4 py-2.5 text-center text-sm font-semibold text-neutral-950 shadow-sm hover:bg-amber-300 transition"
               >
                 {t('checkout' as any)}
               </Link>

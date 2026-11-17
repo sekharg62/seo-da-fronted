@@ -1,9 +1,9 @@
 export function SuccessPage({ title, message, hint }: { title: string; message: string; hint?: string }) {
   return (
-    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm dark:border-emerald-500/25 dark:bg-emerald-500/10">
+    <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm dark:border-amber-500/25 dark:bg-amber-500/10">
       <div className="mb-4 flex items-center gap-4">
         <div
-          className="da-success-check relative grid h-16 w-16 place-items-center rounded-full bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-700/20 dark:bg-emerald-500 dark:ring-emerald-300/15"
+          className="da-success-check relative grid h-16 w-16 place-items-center rounded-full bg-amber-600 text-white shadow-sm ring-1 ring-amber-700/20 dark:bg-amber-500 dark:ring-amber-300/15"
           aria-hidden
         >
           <svg viewBox="0 0 52 52" className="h-10 w-10" fill="none">
@@ -11,11 +11,11 @@ export function SuccessPage({ title, message, hint }: { title: string; message: 
             <path className="da-success-check__tick" d="M14 27 L22 35 L38 18" />
           </svg>
         </div>
-        <h2 className="text-lg font-semibold text-emerald-900 dark:text-emerald-200">{title}</h2>
+        <h2 className="text-lg font-semibold text-amber-900 dark:text-amber-200">{title}</h2>
       </div>
-      <p className="mt-1 text-sm text-emerald-800/80 dark:text-emerald-200/80">{message}</p>
+      <p className="mt-1 text-sm text-amber-800/80 dark:text-amber-200/80">{message}</p>
       {hint ? (
-        <p className="mt-4 text-xs text-emerald-800/70 dark:text-emerald-200/70">{hint}</p>
+        <p className="mt-4 text-xs text-amber-800/70 dark:text-amber-200/70">{hint}</p>
       ) : null}
 
       <style>{`

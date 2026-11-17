@@ -42,14 +42,14 @@ export function DigitalServiceCard({ service }: Props) {
     <Link
       href={productHref(service)}
       aria-label={`${service.name}${startPrice ? ` — ${tx.from} ${CURRENCY}${startPrice}` : ''}${outOfStock ? ` (${tx.outOfStock})` : ''}`}
-      className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-neutral-950 dark:focus-visible:ring-offset-neutral-950 ${
+      className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-[#0f0f0f] dark:focus-visible:ring-offset-neutral-950 ${
         outOfStock
-          ? 'border-slate-200 dark:border-neutral-800'
-          : 'border-slate-200 hover:-translate-y-1 hover:border-emerald-400/60 hover:shadow-[0_18px_60px_-10px_rgba(16,185,129,0.22)] dark:border-neutral-800 dark:hover:border-emerald-500/50'
+          ? 'border-gray-200 dark:border-neutral-800'
+          : 'border-gray-200 hover:-translate-y-1 hover:border-amber-400/60 hover:shadow-[0_18px_60px_-10px_rgba(16,185,129,0.22)] dark:border-neutral-800 dark:hover:border-amber-500/50'
       }`}
     >
       {/* Image: square, blurred backdrop + contained product art */}
-      <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-slate-900">
+      <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-gray-900">
         {service.imgUrl ? (
           <>
             <img
@@ -84,25 +84,25 @@ export function DigitalServiceCard({ service }: Props) {
         <div>
           <div className="mb-1.5 flex items-center justify-end gap-2">
             {outOfStock ? (
-              <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+              <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-red-600 dark:text-red-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
                 {tx.outOfStock}
               </span>
             ) : (
-              <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+              <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-green-700 dark:text-green-400">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
                 {tx.inStock}
               </span>
             )}
           </div>
           <h3
             title={service.name}
-            className="line-clamp-1 text-base font-extrabold leading-snug text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-neutral-100 dark:group-hover:text-emerald-400"
+            className="line-clamp-1 text-base font-extrabold leading-snug text-gray-900 transition-colors group-hover:text-amber-600 dark:text-neutral-100 dark:group-hover:text-amber-400"
           >
             {service.name}
           </h3>
           {shortDesc ? (
-            <p className="mt-1 line-clamp-2 text-xs text-slate-500 dark:text-neutral-400">{shortDesc}</p>
+            <p className="mt-1 line-clamp-2 text-xs text-gray-500 dark:text-neutral-400">{shortDesc}</p>
           ) : null}
         </div>
 
@@ -113,7 +113,7 @@ export function DigitalServiceCard({ service }: Props) {
                 <span className="text-xs text-slate-400">{tx.from}</span>
                 <span
                   className={`text-lg font-black ${
-                    outOfStock ? 'text-slate-500 dark:text-neutral-400' : 'text-emerald-600 dark:text-emerald-400'
+                    outOfStock ? 'text-gray-500 dark:text-neutral-400' : 'text-amber-700 dark:text-amber-400'
                   }`}
                 >
                   {CURRENCY}
@@ -121,7 +121,7 @@ export function DigitalServiceCard({ service }: Props) {
                 </span>
               </>
             ) : (
-              <span className="text-sm text-slate-500 dark:text-neutral-400">{tx.seeOptions}</span>
+              <span className="text-sm text-gray-500 dark:text-neutral-400">{tx.seeOptions}</span>
             )}
           </div>
           <span
@@ -129,7 +129,7 @@ export function DigitalServiceCard({ service }: Props) {
             className={`flex w-full items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-black shadow-lg transition-all group-active:scale-[0.98] ${
               outOfStock
                 ? 'bg-slate-100 text-slate-400 shadow-none dark:bg-neutral-900'
-                : 'bg-emerald-500 text-emerald-950 shadow-emerald-900/20 group-hover:bg-emerald-400'
+                : 'bg-amber-400 text-neutral-950 shadow-amber-900/20 group-hover:bg-amber-300'
             }`}
           >
             {tx.view}

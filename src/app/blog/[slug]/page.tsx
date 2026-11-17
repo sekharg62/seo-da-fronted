@@ -123,15 +123,15 @@ export default async function BlogDetailPage({
       <div className="flex items-center justify-between mb-6">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-neutral-700 bg-slate-100 dark:bg-neutral-800/60 px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 dark:text-neutral-100 hover:bg-slate-200 dark:hover:bg-neutral-800 transition"
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-neutral-700 bg-slate-100 dark:bg-neutral-800/60 px-3 py-2 text-xs sm:text-sm font-medium text-slate-800 dark:text-neutral-100 hover:bg-gray-200 dark:hover:bg-neutral-800 transition"
         >
           <ArrowLeft className="h-4 w-4" />
           All Blogs
         </Link>
       </div>
-      <article className="overflow-hidden rounded-lg border border-slate-200 bg-white/70 dark:border-neutral-800 dark:bg-neutral-950">
+      <article className="overflow-hidden rounded-lg border border-gray-200 bg-white/70 dark:border-neutral-800 dark:bg-[#0f0f0f]">
         {blog.imgUrl ? (
-          <div className="relative aspect-video max-h-[70vh] w-full overflow-hidden bg-slate-900">
+          <div className="relative aspect-video max-h-[70vh] w-full overflow-hidden bg-gray-900">
             {/* Blurred copy fills the frame so any aspect ratio looks intentional */}
             <img
               src={blog.imgUrl}
@@ -148,11 +148,11 @@ export default async function BlogDetailPage({
           </div>
         ) : null}
         <div className="mx-auto w-full max-w-4xl space-y-4 p-4 sm:p-6 md:p-8">
-          <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 dark:text-neutral-50 flex items-center gap-2">
-            <FileText className="h-6 w-6 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-neutral-50 flex items-center gap-2">
+            <FileText className="h-6 w-6 shrink-0 text-amber-700 dark:text-amber-400" aria-hidden />
             {blog.title}
           </h1>
-          <p className="text-sm text-slate-500 dark:text-neutral-400">
+          <p className="text-sm text-gray-500 dark:text-neutral-400">
             <time dateTime={blog.createdAt}>
               {new Date(blog.createdAt).toLocaleDateString('en-GB', {
                 day: '2-digit',

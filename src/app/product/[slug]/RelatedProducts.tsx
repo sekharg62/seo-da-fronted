@@ -14,12 +14,12 @@ export function RelatedProducts({ services }: { services: ServiceDto[] }) {
   return (
     <section className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 pb-12" aria-labelledby="related-heading">
       <div className="mb-4 flex items-center justify-between gap-4">
-        <h2 id="related-heading" className="text-lg font-semibold text-slate-900 dark:text-white sm:text-xl">
+        <h2 id="related-heading" className="text-lg font-semibold text-gray-900 dark:text-white sm:text-xl">
           {bn ? 'আরও দেখুন' : 'You may also like'}
         </h2>
         <Link
           href="/shop"
-          className="inline-flex items-center gap-1 text-sm font-medium text-emerald-600 hover:underline dark:text-emerald-400"
+          className="inline-flex items-center gap-1 text-sm font-medium text-amber-700 hover:underline dark:text-amber-400"
         >
           {bn ? 'সব পণ্য' : 'View all'} <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>

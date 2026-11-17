@@ -259,10 +259,10 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
       <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
         {/* ── Image ─────────────────────────────────────────── */}
         <div className="md:sticky md:top-24 md:self-start">
-          <div className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-950">
+          <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-[#0f0f0f]">
             <div className="absolute left-3 top-3 z-10 flex flex-wrap gap-2">
               {outOfStock && (
-                <span className="rounded-full bg-rose-500 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
+                <span className="rounded-full bg-red-500 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
                   {tx.outOfStock}
                 </span>
               )}
@@ -280,20 +280,20 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
               <span
                 className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 ${
                   outOfStock
-                    ? 'bg-rose-500/10 text-rose-600 dark:text-rose-300'
-                    : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+                    ? 'bg-red-500/10 text-red-600 dark:text-red-300'
+                    : 'bg-green-500/10 text-green-700 dark:text-green-300'
                 }`}
               >
-                <span className={`h-1.5 w-1.5 rounded-full ${outOfStock ? 'bg-rose-500' : 'bg-emerald-500'}`} aria-hidden />
+                <span className={`h-1.5 w-1.5 rounded-full ${outOfStock ? 'bg-red-500' : 'bg-green-500'}`} aria-hidden />
                 {outOfStock ? tx.outOfStock : tx.inStock}
               </span>
               {!outOfStock && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-sky-500/10 px-2.5 py-1 text-sky-700 dark:text-sky-300">
+                <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/10 px-2.5 py-1 text-orange-700 dark:text-orange-300">
                   <Zap className="h-3.5 w-3.5" aria-hidden /> {tx.instantDelivery}
                 </span>
               )}
             </div>
-            <h1 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+            <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-3xl">
               {service.name}
             </h1>
             {shortDescription && (
@@ -304,19 +304,19 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           </div>
 
           {outOfStock && (
-            <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-100">
+            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-100">
               {tx.outOfStockNote}
             </div>
           )}
 
           {/* Price */}
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
+          <div className="rounded-2xl border border-gray-200 bg-slate-50 p-4 dark:border-neutral-800 dark:bg-[#0f0f0f]">
             {selectedPlan && unitPrice > 0 ? (
               <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
-                <span className="text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 sm:text-4xl">
+                <span className="text-3xl font-bold tracking-tight text-amber-700 dark:text-amber-400 sm:text-4xl">
                   {fmt(unitPrice)}
                 </span>
-                <span className="pb-1 text-sm text-slate-500 dark:text-neutral-400">
+                <span className="pb-1 text-sm text-gray-500 dark:text-neutral-400">
                   {tx.for} {durationLabel(selectedPlan.months)}
                   {selectedPlan.months > 1 && (
                     <> · {fmt(unitPrice / selectedPlan.months)}{tx.perMonth}</>
@@ -350,23 +350,23 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                       type="button"
                       onClick={() => chooseType(type)}
                       aria-pressed={active}
-                      className={`flex items-start gap-3 rounded-xl border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50 ${
+                      className={`flex items-start gap-3 rounded-xl border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-50 ${
                         active
-                          ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
-                          : 'border-slate-200 hover:border-emerald-400 dark:border-neutral-700'
+                          ? 'border-amber-500 bg-amber-500/10 ring-1 ring-amber-500'
+                          : 'border-gray-200 hover:border-amber-400 dark:border-neutral-700'
                       }`}
                     >
-                      <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} aria-hidden />
+                      <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${active ? 'text-amber-700 dark:text-amber-400' : 'text-slate-400'}`} aria-hidden />
                       <span className="min-w-0">
                         <span className="flex flex-wrap items-baseline gap-x-2">
-                          <span className="font-semibold text-slate-900 dark:text-neutral-100">
+                          <span className="font-semibold text-gray-900 dark:text-neutral-100">
                             {type === 'shared' ? tx.shared : tx.personal}
                           </span>
                           {priceHere > 0 && (
-                            <span className="text-xs font-medium text-slate-500 dark:text-neutral-400">{fmt(priceHere)}</span>
+                            <span className="text-xs font-medium text-gray-500 dark:text-neutral-400">{fmt(priceHere)}</span>
                           )}
                         </span>
-                        <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-neutral-400">
+                        <span className="mt-0.5 block text-xs leading-snug text-gray-500 dark:text-neutral-400">
                           {type === 'shared' ? tx.sharedHint : tx.personalHint}
                         </span>
                       </span>
@@ -394,12 +394,12 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                       disabled={!available}
                       onClick={() => setPlanId(plan.id)}
                       aria-pressed={active}
-                      className={`relative rounded-xl border px-3 py-2.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed ${
+                      className={`relative rounded-xl border px-3 py-2.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 disabled:cursor-not-allowed ${
                         active
-                          ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
+                          ? 'border-amber-500 bg-amber-500/10 ring-1 ring-amber-500'
                           : available
-                            ? 'border-slate-200 hover:border-emerald-400 dark:border-neutral-700'
-                            : 'border-dashed border-slate-200 opacity-50 dark:border-neutral-800'
+                            ? 'border-gray-200 hover:border-amber-400 dark:border-neutral-700'
+                            : 'border-dashed border-gray-200 opacity-50 dark:border-neutral-800'
                       }`}
                     >
                       {save > 0 && (
@@ -407,10 +407,10 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                           -{save}%
                         </span>
                       )}
-                      <span className="block text-sm font-semibold text-slate-900 dark:text-neutral-100">
+                      <span className="block text-sm font-semibold text-gray-900 dark:text-neutral-100">
                         {durationLabel(plan.months)}
                       </span>
-                      <span className={`block text-xs ${active ? 'font-semibold text-emerald-700 dark:text-emerald-300' : 'text-slate-500 dark:text-neutral-400'}`}>
+                      <span className={`block text-xs ${active ? 'font-semibold text-amber-700 dark:text-amber-300' : 'text-gray-500 dark:text-neutral-400'}`}>
                         {available ? fmt(price) : tx.notAvailable}
                       </span>
                     </button>
@@ -446,7 +446,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                   }}
                   disabled={outOfStock}
                   aria-label={tx.quantity}
-                  className="h-10 w-12 border-x border-slate-300 bg-transparent text-center text-sm font-semibold text-slate-900 focus:outline-none dark:border-neutral-600 dark:text-neutral-100 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  className="h-10 w-12 border-x border-slate-300 bg-transparent text-center text-sm font-semibold text-gray-900 focus:outline-none dark:border-neutral-600 dark:text-neutral-100 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
                 <button
                   type="button"
@@ -460,9 +460,9 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
               </div>
             </div>
             {canBuy && (
-              <p className="text-right text-sm text-slate-500 dark:text-neutral-400" aria-live="polite">
+              <p className="text-right text-sm text-gray-500 dark:text-neutral-400" aria-live="polite">
                 {tx.total}
-                <span className="block text-2xl font-bold text-slate-900 dark:text-white">{fmt(unitPrice * qty)}</span>
+                <span className="block text-2xl font-bold text-gray-900 dark:text-white">{fmt(unitPrice * qty)}</span>
               </p>
             )}
           </div>
@@ -474,7 +474,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                 type="button"
                 disabled={!canBuy}
                 onClick={handleAddToCart}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500 bg-white px-4 py-3 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-950 dark:text-emerald-400 dark:hover:bg-emerald-500/10"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-amber-500 bg-white px-4 py-3 text-sm font-semibold text-amber-700 transition hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#0f0f0f] dark:text-amber-400 dark:hover:bg-amber-500/10"
               >
                 {justAdded ? <Check className="h-4 w-4" aria-hidden /> : <ShoppingCart className="h-4 w-4" aria-hidden />}
                 {justAdded ? tx.added : tx.addToCart}
@@ -483,7 +483,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                 type="button"
                 disabled={!canBuy}
                 onClick={handleBuyNow}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 shadow-sm shadow-emerald-500/30 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-3 text-sm font-semibold text-neutral-950 shadow-sm shadow-amber-500/30 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Zap className="h-4 w-4" aria-hidden />
                 {tx.buyNow}
@@ -493,16 +493,16 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-neutral-700 dark:text-neutral-200 dark:hover:text-emerald-400"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-amber-400 hover:text-amber-700 dark:border-neutral-700 dark:text-neutral-200 dark:hover:text-amber-400"
             >
-              <MessageCircle className="h-4 w-4 text-emerald-500" aria-hidden />
+              <MessageCircle className="h-4 w-4 text-amber-500" aria-hidden />
               {tx.askWhatsapp}
             </a>
           </div>
 
           {/* Payment methods */}
-          <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-4 dark:border-neutral-800">
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-neutral-400">
+          <div className="flex flex-wrap items-center gap-3 border-t border-gray-200 pt-4 dark:border-neutral-800">
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 dark:text-neutral-400">
               <CreditCard className="h-4 w-4" aria-hidden /> {tx.weAccept}
             </span>
             {paymentLogos.map(([key, cfg]) => (
@@ -512,7 +512,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                 alt={key}
                 width={56}
                 height={28}
-                className="h-7 w-14 rounded-md border border-slate-200 bg-white object-contain p-1 dark:border-neutral-700"
+                className="h-7 w-14 rounded-md border border-gray-200 bg-white object-contain p-1 dark:border-neutral-700"
               />
             ))}
           </div>
@@ -526,14 +526,14 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           return (
             <li
               key={item.title}
-              className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-950"
+              className="flex items-start gap-3 rounded-xl border border-gray-200 bg-white p-4 dark:border-neutral-800 dark:bg-[#0f0f0f]"
             >
-              <span className="rounded-lg bg-emerald-500/10 p-2 text-emerald-600 dark:text-emerald-400">
+              <span className="rounded-lg bg-amber-500/10 p-2 text-amber-700 dark:text-amber-400">
                 <Icon className="h-5 w-5" aria-hidden />
               </span>
               <span className="min-w-0">
-                <span className="block text-sm font-semibold text-slate-900 dark:text-neutral-100">{item.title}</span>
-                <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-neutral-400">{item.body}</span>
+                <span className="block text-sm font-semibold text-gray-900 dark:text-neutral-100">{item.title}</span>
+                <span className="mt-0.5 block text-xs leading-snug text-gray-500 dark:text-neutral-400">{item.body}</span>
               </span>
             </li>
           )
@@ -543,17 +543,17 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
       {/* ── Details + how to buy ──────────────────────────────── */}
       <div className={`mt-10 grid gap-6 ${description ? 'lg:grid-cols-[1fr_22rem]' : ''}`}>
         {description && (
-          <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950 sm:p-6">
-            <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">{tx.details}</h2>
+          <section className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-neutral-800 dark:bg-[#0f0f0f] sm:p-6">
+            <h2 className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">{tx.details}</h2>
             <div className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-neutral-300">{description}</div>
           </section>
         )}
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950 sm:p-6 lg:self-start">
-          <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">{tx.howToBuy}</h2>
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-neutral-800 dark:bg-[#0f0f0f] sm:p-6 lg:self-start">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">{tx.howToBuy}</h2>
           <ol className={`grid gap-4 ${description ? '' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
             {tx.steps.map((step, i) => (
               <li key={step} className="flex gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-emerald-950">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-400 text-sm font-bold text-neutral-950">
                   {i + 1}
                 </span>
                 <span className="pt-0.5 text-sm leading-relaxed text-slate-700 dark:text-neutral-300">{step}</span>
@@ -566,22 +566,22 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
       {/* ── Mobile sticky buy bar (above the bottom nav) ──────── */}
       {canBuy && (
         <div
-          className={`fixed inset-x-0 z-30 border-t border-slate-200 bg-white/95 px-4 py-2.5 backdrop-blur transition-transform duration-200 dark:border-neutral-800 dark:bg-neutral-950 md:hidden bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] ${
+          className={`fixed inset-x-0 z-30 border-t border-gray-200 bg-white/95 px-4 py-2.5 backdrop-blur transition-transform duration-200 dark:border-neutral-800 dark:bg-[#0f0f0f] md:hidden bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] ${
             actionsVisible ? 'pointer-events-none translate-y-[200%]' : 'translate-y-0'
           }`}
           aria-hidden={actionsVisible}
         >
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs text-slate-500 dark:text-neutral-400">{planText}</p>
-              <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{fmt(unitPrice * qty)}</p>
+              <p className="truncate text-xs text-gray-500 dark:text-neutral-400">{planText}</p>
+              <p className="text-lg font-bold text-amber-700 dark:text-amber-400">{fmt(unitPrice * qty)}</p>
             </div>
             <button
               type="button"
               onClick={handleAddToCart}
               tabIndex={actionsVisible ? -1 : 0}
               aria-label={tx.addToCart}
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-500 text-emerald-600 dark:text-emerald-400"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-amber-500 text-amber-700 dark:text-amber-400"
             >
               {justAdded ? <Check className="h-5 w-5" /> : <ShoppingCart className="h-5 w-5" />}
             </button>
@@ -589,7 +589,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
               type="button"
               onClick={handleBuyNow}
               tabIndex={actionsVisible ? -1 : 0}
-              className="h-11 rounded-xl bg-emerald-500 px-5 text-sm font-semibold text-emerald-950"
+              className="h-11 rounded-xl bg-amber-400 px-5 text-sm font-semibold text-neutral-950"
             >
               {tx.buyNow}
             </button>

@@ -170,7 +170,7 @@ export function HomeHeroFloatingMarks() {
 
       {/* Globe — connectivity */}
       <div className="home-hero-float-mark home-hero-float-mark-f absolute bottom-[28%] right-[18%] h-12 w-12 opacity-[0.1] sm:right-[22%] dark:opacity-[0.075]">
-        <svg viewBox="0 0 48 48" className="h-full w-full text-sky-600 dark:text-sky-400">
+        <svg viewBox="0 0 48 48" className="h-full w-full text-orange-600 dark:text-orange-400">
           <circle cx="24" cy="24" r="18" stroke="currentColor" strokeWidth="1.8" fill="none" opacity="0.45" />
           <path
             fill="none"

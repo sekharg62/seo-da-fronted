@@ -69,8 +69,8 @@ body {
 }
 
 .da-phone-input .form-control.da-phone-input__control:focus {
-  border-color: rgb(16 185 129); /* emerald-500 */
-  box-shadow: 0 0 0 1px rgb(16 185 129);
+  border-color: rgb(245 158 11); /* amber-500 */
+  box-shadow: 0 0 0 1px rgb(245 158 11);
 }
 
 /* Dark mode */
@@ -197,8 +197,8 @@ body {
 }
 
 .dark .da-phone-input .form-control.da-phone-input__control:focus {
-  border-color: rgb(16 185 129); /* emerald-500 */
-  box-shadow: 0 0 0 1px rgb(16 185 129);
+  border-color: rgb(245 158 11); /* amber-500 */
+  box-shadow: 0 0 0 1px rgb(245 158 11);
 }
 
 /* Per-language UI fonts (classes set on <html> by index.html script + LanguageProvider) */
@@ -426,8 +426,8 @@ html.lang-bn {
       -18deg,
       transparent,
       transparent 11px,
-      rgb(16 185 129 / 0.04) 11px,
-      rgb(16 185 129 / 0.04) 12px
+      rgb(245 158 11 / 0.04) 11px,
+      rgb(245 158 11 / 0.04) 12px
     );
   background-size:
     22px 22px,
@@ -472,7 +472,7 @@ html.lang-bn {
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgb(16 185 129 / 0.14) 40%,
+    rgb(245 158 11 / 0.14) 40%,
     rgb(6 182 212 / 0.07) 50%,
     transparent 60%
   );
@@ -832,9 +832,4 @@ html.lang-bn {
 
 .read-the-docs {
   color: #888;
-}
-
-/* Dark mode: true-black page with a soft emerald glow in the top-right corner */
-.dark body {
-  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.10) 0%, #000 45%, #000 100%) fixed;
 }

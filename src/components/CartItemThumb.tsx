@@ -15,7 +15,7 @@ export function CartItemThumb({ name, imgUrl, className = 'h-14 w-14' }: Props) 
         src={imgUrl}
         alt={name}
         loading="lazy"
-        className={`${className} shrink-0 rounded-lg border border-slate-200 bg-white object-cover dark:border-neutral-700 dark:bg-neutral-900`}
+        className={`${className} shrink-0 rounded-lg border border-gray-200 bg-white object-cover dark:border-neutral-700 dark:bg-neutral-900`}
       />
     )
   }
@@ -23,7 +23,7 @@ export function CartItemThumb({ name, imgUrl, className = 'h-14 w-14' }: Props) 
   return (
     <div
       aria-hidden
-      className={`${className} ${meta.bg} flex shrink-0 items-center justify-center rounded-lg border border-slate-200 dark:border-neutral-700`}
+      className={`${className} ${meta.bg} flex shrink-0 items-center justify-center rounded-lg border border-gray-200 dark:border-neutral-700`}
     >
       <span className={`text-sm font-bold ${meta.text}`}>{name.slice(0, 2).toUpperCase()}</span>
     </div>

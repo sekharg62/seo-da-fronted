@@ -16,7 +16,7 @@ export function ServiceImage({ service, variant = 'card' }: Props) {
   if (service.imgUrl) {
     if (variant === 'detail') {
       return (
-        <div className="relative mx-auto aspect-square w-full max-h-[80vh] overflow-hidden bg-slate-900">
+        <div className="relative mx-auto aspect-square w-full max-h-[80vh] overflow-hidden bg-gray-900">
           <img
             src={optimizedImage(service.imgUrl, 64)}
             alt=""
@@ -34,7 +34,7 @@ export function ServiceImage({ service, variant = 'card' }: Props) {
     }
 
     return (
-      <div className="relative w-full overflow-hidden rounded-xl bg-white dark:bg-neutral-950 aspect-4/3">
+      <div className="relative w-full overflow-hidden rounded-xl bg-white dark:bg-[#0f0f0f] aspect-4/3">
         <img
           src={service.imgUrl}
           alt={service.name}

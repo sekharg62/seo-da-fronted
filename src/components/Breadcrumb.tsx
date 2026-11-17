@@ -44,7 +44,7 @@ export function Breadcrumb({ items, className = '', jsonLd = true }: Props) {
   return (
     <>
       <nav aria-label="Breadcrumb" className={`mb-6 min-w-0 ${className}`}>
-        <ol className="flex min-w-0 items-center gap-1 text-xs sm:text-sm text-slate-500 dark:text-neutral-400">
+        <ol className="flex min-w-0 items-center gap-1 text-xs sm:text-sm text-gray-500 dark:text-neutral-400">
           {trail.map((item, index) => {
             const isLast = index === lastIndex
             const isHome = index === 0
@@ -67,7 +67,7 @@ export function Breadcrumb({ items, className = '', jsonLd = true }: Props) {
                 ) : (
                   <Link
                     href={item.href}
-                    className="inline-flex items-center gap-1 rounded px-1 py-0.5 -mx-1 transition hover:text-emerald-600 dark:hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                    className="inline-flex items-center gap-1 rounded px-1 py-0.5 -mx-1 transition hover:text-amber-600 dark:hover:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
                   >
                     {isHome && <Home className="h-3.5 w-3.5 shrink-0" aria-hidden />}
                     <span>{item.label}</span>

@@ -40,25 +40,25 @@ export function HomeShop({ initialServices }: { initialServices?: ServiceDto[] }
   return (
     <section
       id="shop"
-      className="scroll-mt-20 bg-slate-50 dark:bg-white/[0.025]"
+      className="scroll-mt-20 bg-slate-50 dark:bg-[#0a0a0a]"
     >
       <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-8 md:py-10">
         <div className="mb-6 md:mb-8">
-          <h2 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-neutral-50 mb-1">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-neutral-50 mb-1">
             {t('shopSectionTitle' as any)}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-neutral-400">
+          <p className="text-sm text-gray-500 dark:text-neutral-400">
             {t('shopSectionSubtitle' as any)}
           </p>
         </div>
         {servicesLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-4">
             {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="rounded-2xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 overflow-hidden animate-pulse">
-                <div className="aspect-4/3 bg-slate-200 dark:bg-neutral-900" />
+              <div key={i} className="rounded-2xl border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0f0f0f] overflow-hidden animate-pulse">
+                <div className="aspect-4/3 bg-gray-200 dark:bg-neutral-900" />
                 <div className="p-3 space-y-2">
-                  <div className="h-4 w-3/4 rounded bg-slate-200 dark:bg-neutral-900" />
-                  <div className="h-3 w-1/2 rounded bg-slate-200 dark:bg-neutral-900" />
+                  <div className="h-4 w-3/4 rounded bg-gray-200 dark:bg-neutral-900" />
+                  <div className="h-3 w-1/2 rounded bg-gray-200 dark:bg-neutral-900" />
                 </div>
               </div>
             ))}

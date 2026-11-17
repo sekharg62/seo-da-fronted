@@ -15,14 +15,14 @@ export const ORDER_STATUS: Record<OrderStatus, { en: string; bn: string; hintEn:
     bn: 'প্রসেসিং',
     hintEn: 'Payment verified — we are preparing your access.',
     hintBn: 'পেমেন্ট যাচাই হয়েছে — আপনার অ্যাক্সেস প্রস্তুত করা হচ্ছে।',
-    tone: 'bg-sky-100 text-sky-800 dark:bg-sky-500/15 dark:text-sky-300',
+    tone: 'bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300',
   },
   COMPLETED: {
     en: 'Completed',
     bn: 'সম্পন্ন',
     hintEn: 'Delivered. Check your WhatsApp / email for the access details.',
     hintBn: 'ডেলিভারি সম্পন্ন। অ্যাক্সেসের তথ্য হোয়াটসঅ্যাপ / ইমেইলে দেখুন।',
-    tone: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300',
+    tone: 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300',
   },
   CANCELLED: {
     en: 'Cancelled',
