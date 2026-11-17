@@ -6,7 +6,7 @@ import { HomeBlog } from "@/components/home/HomeBlog";
 import { HomeFaq } from "@/components/home/HomeFaq";
 import { HomeContact } from "@/components/home/HomeContact";
 import { HomeFeedback } from "@/components/home/HomeFeedback";
-import { getTrendingServices } from "@/lib/catalog";
+import { getBlogs, getTrendingServices } from "@/lib/catalog";
 
 export const revalidate = 300;
 
@@ -16,7 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const trending = await getTrendingServices().catch(() => undefined);
+  const [trending, blogs] = await Promise.all([
+    getTrendingServices().catch(() => undefined),
+    getBlogs().catch(() => undefined),
+  ]);
   return (
     <div className="flex flex-col min-h-screen">
       {/* The layout already provides <main>; a second one is invalid HTML */}
@@ -24,7 +27,7 @@ export default async function Home() {
         <HomeHero />
         <HomeShop initialServices={trending} />
         <HomeServices />
-        <HomeBlog />
+        <HomeBlog initialBlogs={blogs} />
         <HomeFaq />
         <HomeFeedback />
         <HomeContact />

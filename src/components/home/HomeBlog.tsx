@@ -6,12 +6,14 @@ import { ArrowRight } from 'lucide-react';
 import { BlogCard } from '@/components/BlogCard';
 import { fetchBlogs, type BlogDto } from '@/services/homeApiService';
 
-export function HomeBlog() {
-  const [blogs, setBlogs] = useState<BlogDto[]>([])
-  const [blogsLoading, setBlogsLoading] = useState(true)
+/** `initialBlogs` comes from the server (cached, in the HTML for SEO); falls back to a client fetch. */
+export function HomeBlog({ initialBlogs }: { initialBlogs?: BlogDto[] }) {
+  const [blogs, setBlogs] = useState<BlogDto[]>(initialBlogs ?? [])
+  const [blogsLoading, setBlogsLoading] = useState(!initialBlogs)
   const [blogsError, setBlogsError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (initialBlogs) return
     let mounted = true
       ; (async () => {
         setBlogsLoading(true)
@@ -32,7 +34,7 @@ export function HomeBlog() {
     return () => {
       mounted = false
     }
-  }, [])
+  }, [initialBlogs])
 
   return (
     <section id="latest-blog" className="bg-slate-50 dark:bg-[#0a0a0a]">

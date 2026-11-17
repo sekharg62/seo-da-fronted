@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { BookOpen } from 'lucide-react'
-import { fetchBlogs, type BlogDto } from '@/services/homeApiService'
+import type { BlogDto } from '@/services/homeApiService'
+import { getBlogs } from '@/lib/catalog'
 import { BlogCard } from '@/components/BlogCard'
 import { Breadcrumb } from '@/components/Breadcrumb'
 
-export const revalidate = false // Force SSG
-export const dynamic = 'force-static'
+/** ISR: refreshed at most every 5 min, or instantly via /api/revalidate (tag `blogs`). */
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -33,7 +34,7 @@ export default async function BlogListPage() {
   let error: string | null = null
 
   try {
-    blogs = await fetchBlogs()
+    blogs = await getBlogs()
   } catch {
     error = 'Failed to load blogs.'
   }

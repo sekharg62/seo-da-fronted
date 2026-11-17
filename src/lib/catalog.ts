@@ -1,5 +1,6 @@
 import { cache } from 'react'
 import type { ServiceDto } from '@/services/homeApiService'
+import type { BlogDto } from '@/services/homeApiService'
 import type { ServicePlanDto } from '@/services/servicePlanService'
 
 /**
@@ -58,5 +59,24 @@ export const getCategories = cache(async (): Promise<CategoryDto[]> => {
     next: { revalidate: CATALOG_REVALIDATE_SECONDS, tags: [catalogTags.all, 'categories'] },
   })
   if (!res.ok) throw new Error(`Failed to load categories: ${res.status}`)
+  return res.json()
+})
+
+/** Blog list, cached in the Next.js Data Cache; purged by the backend via the `blogs` tag. */
+export const getBlogs = cache(async (): Promise<BlogDto[]> => {
+  const res = await fetch(`${apiBaseUrl()}/api/blogs`, {
+    next: { revalidate: CATALOG_REVALIDATE_SECONDS, tags: ['blogs'] },
+  })
+  if (!res.ok) throw new Error(`Failed to load blogs: ${res.status}`)
+  return res.json()
+})
+
+/** Single blog by slug. Returns null when it does not exist. */
+export const getBlogBySlug = cache(async (slug: string): Promise<BlogDto | null> => {
+  const res = await fetch(`${apiBaseUrl()}/api/blogs/${encodeURIComponent(slug)}`, {
+    next: { revalidate: CATALOG_REVALIDATE_SECONDS, tags: ['blogs'] },
+  })
+  if (res.status === 404) return null
+  if (!res.ok) throw new Error(`Failed to load blog "${slug}": ${res.status}`)
   return res.json()
 })

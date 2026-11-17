@@ -5,9 +5,9 @@ import { NextResponse, type NextRequest } from 'next/server'
 /**
  * On-demand ISR hook called by the backend after admin changes to services / plans.
  *   POST /api/revalidate   header: x-revalidate-secret: <REVALIDATE_SECRET>
- *   body: { "tags": ["services", "service:chatgpt-plus"] }
+ *   body: { "tags": ["services", "blogs", "service:chatgpt-plus"] }
  */
-const ALLOWED_TAG = /^(services|service:[a-z0-9-]{1,120})$/
+const ALLOWED_TAG = /^(services|blogs|service:[a-z0-9-]{1,120})$/
 
 function isAuthorized(provided: string | null): boolean {
   const secret = process.env.REVALIDATE_SECRET

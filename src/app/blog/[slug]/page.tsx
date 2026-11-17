@@ -3,27 +3,33 @@ import { cache } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, FileText } from 'lucide-react'
-import { fetchBlogBySlug, fetchBlogs, type BlogDto } from '@/services/homeApiService'
+import type { BlogDto } from '@/services/homeApiService'
+import { getBlogBySlug as loadBlog, getBlogs } from '@/lib/catalog'
+import { RichText } from '@/components/RichText'
+import { toPlainText } from '@/lib/richTextPlain'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import { getSiteUrl } from '@/lib/siteUrl'
 import { siteConfig } from '@/config/siteConfig'
 
-export const revalidate = false
-export const dynamic = 'force-static'
-/** Only slugs returned at build time from the API are valid (true static). */
-export const dynamicParams = false
+/** ISR: pre-built for known slugs, new posts render on first visit, refreshed every 5 min or via /api/revalidate. */
+export const revalidate = 300
+export const dynamicParams = true
 
-const getBlogBySlug = cache(async (slug: string) => fetchBlogBySlug(slug))
+const getBlogBySlug = cache(async (slug: string): Promise<BlogDto> => {
+  const blog = await loadBlog(slug)
+  if (!blog) notFound()
+  return blog
+})
 
 function toMetaDescription(text: string): string {
-  const t = text.trim().replace(/\s+/g, ' ')
+  const t = toPlainText(text).replace(/\s+/g, ' ')
   if (t.length <= 160) return t
   return `${t.slice(0, 157)}…`
 }
 
 export async function generateStaticParams() {
   try {
-    const blogs = await fetchBlogs()
+    const blogs = await getBlogs()
     return blogs.map((blog) => ({
       slug: blog.slug,
     }))
@@ -82,7 +88,7 @@ function blogPostingJsonLd(blog: BlogDto, slug: string) {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: blog.title,
-    description: blog.description,
+    description: toPlainText(blog.description),
     datePublished: blog.createdAt,
     dateModified: blog.updatedAt,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
@@ -161,9 +167,7 @@ export default async function BlogDetailPage({
               })}
             </time>
           </p>
-          <div className="text-sm md:text-base text-slate-700 dark:text-neutral-200 leading-relaxed whitespace-pre-wrap">
-            {blog.description}
-          </div>
+          <RichText value={blog.description} className="text-sm text-gray-700 dark:text-neutral-200 md:text-base" />
         </div>
       </article>
     </div>

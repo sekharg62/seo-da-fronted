@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import type { BlogDto } from '@/services/homeApiService'
+import { toPlainText } from '@/lib/richTextPlain'
 
 /** Blog card shared by /blog and the home page. Whole card is one link. */
 export function BlogCard({ blog }: { blog: BlogDto }) {
@@ -24,7 +25,7 @@ export function BlogCard({ blog }: { blog: BlogDto }) {
         <h3 className="line-clamp-2 text-base font-extrabold leading-snug text-gray-900 transition-colors group-hover:text-amber-600 dark:text-neutral-100 dark:group-hover:text-amber-400">
           {blog.title}
         </h3>
-        <p className="line-clamp-3 text-xs text-gray-500 dark:text-neutral-400 sm:text-sm">{blog.description}</p>
+        <p className="line-clamp-3 text-xs text-gray-500 dark:text-neutral-400 sm:text-sm">{toPlainText(blog.description)}</p>
         <span className="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-bold text-amber-700 dark:text-amber-300">
           Read more
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />

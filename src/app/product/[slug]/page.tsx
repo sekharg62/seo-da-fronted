@@ -5,6 +5,8 @@ import { getSiteUrl } from '@/lib/siteUrl'
 import { getActiveServices, getServiceDetail, type ServiceDetailDto } from '@/lib/catalog'
 import ProductDetailClient from './ProductDetailClient'
 import { serviceDetails, serviceSummary } from '@/lib/serviceText'
+import { toPlainText } from '@/lib/richTextPlain'
+import { toSafeHtml } from '@/lib/richText'
 import { optimizedImage } from '@/lib/imageUrl'
 import { RelatedProducts } from './RelatedProducts'
 import type { ServiceDto } from '@/services/homeApiService'
@@ -88,7 +90,7 @@ function productJsonLd(service: ServiceDetailDto): string {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: service.name,
-    description: serviceSummary(service) || serviceDetails(service) || undefined,
+    description: serviceSummary(service) || toPlainText(serviceDetails(service)) || undefined,
     image: service.imgUrl || undefined,
     sku: service.id,
     url: `${siteUrl}/product/${service.slug}`,
@@ -125,7 +127,7 @@ export default async function ProductPage({ params }: Params) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productJsonLd(service) }} />
       {/* key resets plan/qty state when navigating between products */}
-      <ProductDetailClient key={service.id} service={service} />
+      <ProductDetailClient key={service.id} service={service} detailsHtml={toSafeHtml(serviceDetails(service))} />
       <RelatedProducts services={related} />
     </>
   )

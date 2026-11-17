@@ -1,3 +1,5 @@
+import { toPlainText } from './richTextPlain'
+
 type ServiceText = {
   shortDesc?: string | null
   longDesc?: string | null
@@ -13,5 +15,5 @@ export function serviceDetails(s: ServiceText): string {
 export function serviceSummary(s: ServiceText): string {
   const short = s.shortDesc?.trim()
   if (short) return short
-  return serviceDetails(s).split(/\n+/).map((l) => l.trim()).find(Boolean) ?? ''
+  return toPlainText(serviceDetails(s)).split(/\n+/).map((l) => l.trim()).find(Boolean) ?? ''
 }

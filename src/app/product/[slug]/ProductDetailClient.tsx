@@ -126,7 +126,7 @@ function fmt(n: number): string {
 }
 
 /** Interactive part of the product page. Data is fetched + cached on the server (see page.tsx). */
-export default function ProductDetailClient({ service }: { service: ServiceDetailDto }) {
+export default function ProductDetailClient({ service, detailsHtml = '' }: { service: ServiceDetailDto; detailsHtml?: string }) {
   const router = useRouter()
   const { addItem, setDrawerOpen } = useCart()
   const { language } = useLanguage()
@@ -248,7 +248,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
   const whatsappHref = `https://wa.me/${siteConfig.contact.whatsappDigits}?text=${encodeURIComponent(
     tx.whatsappMsg(service.name, planText || service.name),
   )}`
-  const description = serviceDetails(service)
+  const description = detailsHtml ? serviceDetails(service) : ''
   const shortDescription = serviceSummary(service)
   const paymentLogos = Object.entries(siteConfig.checkoutPayment)
 
@@ -545,7 +545,10 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
         {description && (
           <section className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-neutral-800 dark:bg-[#0f0f0f] sm:p-6">
             <h2 className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">{tx.details}</h2>
-            <div className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-neutral-300">{description}</div>
+            <div
+              className="rich-text text-sm text-gray-700 dark:text-neutral-300"
+              dangerouslySetInnerHTML={{ __html: detailsHtml }}
+            />
           </section>
         )}
         <section className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-neutral-800 dark:bg-[#0f0f0f] sm:p-6 lg:self-start">

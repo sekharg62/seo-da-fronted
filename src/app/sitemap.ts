@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getSiteUrl } from '@/lib/siteUrl'
-import { fetchBlogs } from '@/services/homeApiService'
-import { getActiveServices } from '@/lib/catalog'
+import { getActiveServices, getBlogs } from '@/lib/catalog'
 import { LEGAL_LAST_UPDATED } from '@/content/legal'
 
 const LEGAL_LAST_MODIFIED = new Date(LEGAL_LAST_UPDATED)
@@ -49,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   try {
-    const blogs = await fetchBlogs()
+    const blogs = await getBlogs()
     for (const blog of blogs) {
       routes.push({
         url: `${baseUrl}/blog/${blog.slug}`,
