@@ -51,51 +51,60 @@ export function HomeFaq() {
   return (
     <section
       id="faq"
-      className="border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-950/50"
+      className="bg-white dark:bg-transparent"
     >
-      <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
-        <div className="mb-8">
-          <h2 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-1">
+      <div className="mx-auto grid w-full max-w-[96rem] gap-6 px-4 py-8 sm:px-6 md:py-10 lg:grid-cols-[1fr_2fr] lg:gap-12">
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-neutral-50 md:text-2xl">
             {t('faqTitle' as any)}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-slate-500 dark:text-neutral-400">
             {t('faqSubtitle' as any)}
           </p>
         </div>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            {faqItems.map((item, index) => {
-              const isOpen = openFaqIndex === index
-              const q = language === 'bn' ? item.qBn : item.qEn
-              const a = language === 'bn' ? item.aBn : item.aEn
-              return (
-                <div
-                  key={index}
-                  className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 overflow-hidden"
+
+        <div className="divide-y divide-slate-200 overflow-hidden rounded-lg border border-slate-200 bg-white dark:divide-neutral-800 dark:border-neutral-800 dark:bg-neutral-950">
+          {faqItems.map((item, index) => {
+            const isOpen = openFaqIndex === index
+            const q = language === 'bn' ? item.qBn : item.qEn
+            const a = language === 'bn' ? item.aBn : item.aEn
+            return (
+              <div key={index}>
+                <button
+                  type="button"
+                  id={`faq-q-${index}`}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-a-${index}`}
+                  onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                  className={`flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-4 text-left text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500 sm:px-5 sm:text-base ${
+                    isOpen
+                      ? 'text-emerald-700 dark:text-emerald-400'
+                      : 'text-slate-900 hover:bg-slate-50 dark:text-neutral-100 dark:hover:bg-neutral-800/50'
+                  }`}
                 >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left text-sm font-medium text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition"
-                  >
-                    <span>{q}</span>
-                    <ChevronDown
-                      className={`h-4 w-4 shrink-0 text-slate-500 transition-transform ${
-                        isOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  {isOpen && (
-                    <div className="px-4 pb-3 pt-0">
-                      <p className="text-sm text-slate-600 dark:text-slate-300">
-                        {a}
-                      </p>
-                    </div>
-                  )}
+                  <span>{q}</span>
+                  <ChevronDown
+                    aria-hidden
+                    className={`h-5 w-5 shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 text-emerald-600' : 'text-slate-400'
+                    }`}
+                  />
+                </button>
+                <div
+                  id={`faq-a-${index}`}
+                  role="region"
+                  aria-labelledby={`faq-q-${index}`}
+                  className={`grid transition-all duration-200 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-4 pb-4 text-sm leading-relaxed text-slate-600 dark:text-neutral-300 sm:px-5 sm:text-base">
+                      {a}
+                    </p>
+                  </div>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

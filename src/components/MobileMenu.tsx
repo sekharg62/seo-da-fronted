@@ -104,15 +104,15 @@ export function MobileMenu() {
         aria-modal="true"
         aria-labelledby={titleId}
         inert={!open}
-        className={`absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col bg-white shadow-2xl transition-transform duration-300 ease-out dark:bg-slate-950 ${
+        className={`absolute inset-y-0 left-0 flex w-[85%] max-w-xs flex-col bg-white shadow-2xl transition-transform duration-300 ease-out dark:bg-neutral-950 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-slate-800">
+        <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 dark:border-neutral-800">
           <div className="flex min-w-0 items-center gap-2">
             <img src="/Blue.png" alt="" width={32} height={32} className="h-8 w-8 dark:hidden" />
             <img src="/White.png" alt="" width={32} height={32} className="hidden h-8 w-8 dark:block" />
-            <h2 id={titleId} className="truncate text-base font-semibold text-slate-900 dark:text-slate-50">
+            <h2 id={titleId} className="truncate text-base font-semibold text-slate-900 dark:text-neutral-50">
               {t('appName' as any)}
             </h2>
           </div>
@@ -121,7 +121,7 @@ export function MobileMenu() {
             type="button"
             onClick={() => setOpen(false)}
             aria-label={t('navCloseMenu' as any)}
-            className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-slate-400 dark:hover:bg-slate-800"
+            className="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-neutral-400 dark:hover:bg-neutral-900"
           >
             <X className="h-5 w-5" />
           </button>
@@ -139,10 +139,10 @@ export function MobileMenu() {
                       href={href}
                       onClick={() => setOpen(false)}
                       aria-current={active ? 'page' : undefined}
-                      className={`flex items-center gap-3 rounded-xl px-3 py-3 text-[15px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                      className={`flex items-center gap-3 rounded-lg px-3 py-3 text-[15px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
                         active
                           ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400'
-                          : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900'
+                          : 'text-slate-700 hover:bg-slate-100 dark:text-neutral-200 dark:hover:bg-neutral-950'
                       }`}
                     >
                       <Icon className="h-5 w-5 shrink-0" aria-hidden />
@@ -155,13 +155,13 @@ export function MobileMenu() {
             </ul>
           </nav>
 
-          <div className="my-4 border-t border-slate-200 dark:border-slate-800" />
+          <div className="my-4 border-t border-slate-200 dark:border-neutral-800" />
 
           <div className="mb-3 grid grid-cols-2 gap-2">
             <Link
               href="/create-order"
               onClick={() => setOpen(false)}
-              className="flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 px-3 py-2.5 text-sm font-semibold text-emerald-950"
+              className="flex items-center justify-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-2.5 text-sm font-semibold text-emerald-950"
             >
               <ClipboardPlus className="h-4 w-4" aria-hidden /> {t('footerCreateOrder' as any)}
             </Link>
@@ -169,7 +169,7 @@ export function MobileMenu() {
               href="/track-order"
               onClick={() => setOpen(false)}
               aria-current={pathname.startsWith('/track-order') ? 'page' : undefined}
-              className="flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/70 px-3 py-2.5 text-sm font-semibold text-emerald-700 dark:text-emerald-300"
+              className="flex items-center justify-center gap-1.5 rounded-lg border border-emerald-500/70 px-3 py-2.5 text-sm font-semibold text-emerald-700 dark:text-emerald-300"
             >
               <PackageSearch className="h-4 w-4" aria-hidden /> {t('footerTrackOrder' as any)}
             </Link>
@@ -185,10 +185,10 @@ export function MobileMenu() {
                     href={href}
                     onClick={() => setOpen(false)}
                     aria-current={active ? 'page' : undefined}
-                    className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition ${
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
                       active
                         ? 'text-emerald-700 dark:text-emerald-400'
-                        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-900'
+                        : 'text-slate-600 hover:bg-slate-100 dark:text-neutral-400 dark:hover:bg-neutral-950'
                     }`}
                   >
                     <Icon className="h-4 w-4 shrink-0" aria-hidden />
@@ -199,39 +199,39 @@ export function MobileMenu() {
             })}
           </ul>
 
-          <div className="mt-4 space-y-3 rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900/60">
+          <div className="mt-4 space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-3 dark:border-neutral-800 dark:bg-neutral-950">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm text-slate-600 dark:text-slate-300">{t('navLanguage' as any)}</span>
+              <span className="text-sm text-slate-600 dark:text-neutral-300">{t('navLanguage' as any)}</span>
               <LanguageSwitcher />
             </div>
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm text-slate-600 dark:text-slate-300">{t('navTheme' as any)}</span>
+              <span className="text-sm text-slate-600 dark:text-neutral-300">{t('navTheme' as any)}</span>
               <ThemeToggle />
             </div>
           </div>
         </div>
 
-        <div className="space-y-2 border-t border-slate-200 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] text-sm dark:border-slate-800">
+        <div className="space-y-2 border-t border-slate-200 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] text-sm dark:border-neutral-800">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t('footerContactTitle' as any)}</p>
           <a
             href={`https://wa.me/${contact.whatsappDigits}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400"
+            className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 dark:text-neutral-200 dark:hover:text-emerald-400"
           >
             <MessageCircle className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden />
             WhatsApp
           </a>
           <a
             href={`tel:${contact.phoneTel.replace(/\s/g, '')}`}
-            className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400"
+            className="flex items-center gap-2 text-slate-700 hover:text-emerald-600 dark:text-neutral-200 dark:hover:text-emerald-400"
           >
             <Phone className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden />
             {contact.phoneDisplay}
           </a>
           <a
             href={`mailto:${contact.email}`}
-            className="flex items-center gap-2 break-all text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400"
+            className="flex items-center gap-2 break-all text-slate-700 hover:text-emerald-600 dark:text-neutral-200 dark:hover:text-emerald-400"
           >
             <Mail className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden />
             {contact.email}
@@ -251,7 +251,7 @@ export function MobileMenu() {
         aria-expanded={open}
         aria-controls={panelId}
         aria-haspopup="dialog"
-        className="-ml-1.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
+        className="-ml-1.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-neutral-200 dark:hover:bg-neutral-900 md:hidden"
       >
         <Menu className="h-6 w-6" />
       </button>

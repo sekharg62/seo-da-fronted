@@ -16,19 +16,25 @@ export function ServiceImage({ service, variant = 'card' }: Props) {
   if (service.imgUrl) {
     if (variant === 'detail') {
       return (
-        <div className="flex w-full items-center justify-center rounded-md border border-slate-200 bg-slate-100 p-2 dark:border-slate-700 dark:bg-slate-800/80">
+        <div className="relative mx-auto aspect-square w-full max-h-[80vh] overflow-hidden bg-slate-900">
+          <img
+            src={optimizedImage(service.imgUrl, 64)}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-2xl saturate-150"
+          />
           <img
             src={optimizedImage(service.imgUrl, 1000)}
             alt={`${service.name} subscription`}
             fetchPriority="high"
-            className="mx-auto max-h-[min(75vh,640px)] w-auto max-w-full object-contain"
+            className="absolute inset-0 h-full w-full object-contain"
           />
         </div>
       )
     }
 
     return (
-      <div className="relative w-full overflow-hidden rounded-xl bg-white dark:bg-slate-900/70 aspect-4/3">
+      <div className="relative w-full overflow-hidden rounded-xl bg-white dark:bg-neutral-950 aspect-4/3">
         <img
           src={service.imgUrl}
           alt={service.name}
@@ -41,7 +47,7 @@ export function ServiceImage({ service, variant = 'card' }: Props) {
   if (variant === 'detail') {
     return (
       <div
-        className={`w-full h-64 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 ${meta.bg}`}
+        className={`w-full aspect-square flex items-center justify-center ${meta.bg}`}
       >
         <span className={`text-6xl font-bold ${meta.text}`}>
           {service.name.slice(0, 2).toUpperCase()}

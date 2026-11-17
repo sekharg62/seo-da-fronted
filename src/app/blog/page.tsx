@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowRight, BookOpen } from 'lucide-react'
+import { BookOpen } from 'lucide-react'
 import { fetchBlogs, type BlogDto } from '@/services/homeApiService'
+import { BlogCard } from '@/components/BlogCard'
 import { Breadcrumb } from '@/components/Breadcrumb'
 
 export const revalidate = false // Force SSG
@@ -39,7 +39,7 @@ export default async function BlogListPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+    <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-8 md:py-12">
       <header className="mb-10">
         <Breadcrumb items={[{ label: 'Blog' }]} />
         <div className="flex items-center gap-3">
@@ -50,7 +50,7 @@ export default async function BlogListPage() {
             Latest Blog
           </h1>
         </div>
-        <p className="mt-3 max-w-xl text-sm text-slate-600 dark:text-slate-400">
+        <p className="mt-3 max-w-xl text-sm text-slate-600 dark:text-neutral-400">
           Discover our latest updates, industry insights, and stories.
         </p>
       </header>
@@ -58,32 +58,11 @@ export default async function BlogListPage() {
       {error ? (
         <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
       ) : blogs.length === 0 ? (
-        <p className="text-sm text-slate-500 dark:text-slate-400">No blogs yet.</p>
+        <p className="text-sm text-slate-500 dark:text-neutral-400">No blogs yet.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
           {blogs.map((blog) => (
-            <article
-              key={blog.id}
-              className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-emerald-300 dark:border-slate-800 dark:bg-slate-900/60 dark:shadow-none dark:hover:border-emerald-500/40"
-            >
-              <div className="h-44 overflow-hidden bg-slate-100 dark:bg-slate-800">
-                {blog.imgUrl ? (
-                  <img src={blog.imgUrl} alt={blog.title} className="h-full w-full object-cover" />
-                ) : null}
-              </div>
-              <div className="space-y-2 p-4">
-                <h2 className="line-clamp-2 text-sm font-semibold text-slate-900 dark:text-slate-50">{blog.title}</h2>
-                <p className="line-clamp-3 text-xs text-slate-600 dark:text-slate-300">{blog.description}</p>
-                <div className="pt-2">
-                  <Link
-                    href={`/blog/${blog.slug}`}
-                    className="inline-flex items-center gap-2 rounded-md text-xs font-medium text-emerald-700 outline-none transition hover:text-emerald-800 focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:text-emerald-300 dark:hover:text-emerald-200 dark:focus-visible:ring-offset-slate-950"
-                  >
-                    Read more <ArrowRight className="h-4 w-4" aria-hidden />
-                  </Link>
-                </div>
-              </div>
-            </article>
+            <BlogCard key={blog.id} blog={blog} />
           ))}
         </div>
       )}

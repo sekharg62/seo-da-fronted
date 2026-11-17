@@ -41,7 +41,7 @@ export function WhatsAppOrderBox({ orderNo, paymentMethod, payerNumber, classNam
 
   return (
     <div className={`rounded-xl border border-[#25D366]/40 bg-[#25D366]/5 p-4 text-left ${className}`}>
-      <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
+      <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-neutral-50">
         <FaWhatsapp className="h-5 w-5 shrink-0 text-[#25D366]" aria-hidden />
         {bn ? 'হোয়াটসঅ্যাপে আমাদের জানান' : 'Let us know on WhatsApp'}
       </p>
@@ -49,14 +49,14 @@ export function WhatsAppOrderBox({ orderNo, paymentMethod, payerNumber, classNam
       <dl className="mt-3 space-y-1.5 text-sm">
         {orderNo && (
           <div className="flex justify-between gap-3">
-            <dt className="text-slate-500 dark:text-slate-400">{bn ? 'অর্ডার আইডি' : 'Order ID'}</dt>
-            <dd className="font-mono font-semibold text-slate-900 dark:text-slate-100">{orderNo}</dd>
+            <dt className="text-slate-500 dark:text-neutral-400">{bn ? 'অর্ডার আইডি' : 'Order ID'}</dt>
+            <dd className="font-mono font-semibold text-slate-900 dark:text-neutral-100">{orderNo}</dd>
           </div>
         )}
         {payerNumber && (
           <div className="flex justify-between gap-3">
-            <dt className="text-slate-500 dark:text-slate-400">{bn ? numberLabel.bn : numberLabel.en}</dt>
-            <dd className="font-mono font-semibold text-slate-900 dark:text-slate-100">{payerNumber}</dd>
+            <dt className="text-slate-500 dark:text-neutral-400">{bn ? numberLabel.bn : numberLabel.en}</dt>
+            <dd className="font-mono font-semibold text-slate-900 dark:text-neutral-100">{payerNumber}</dd>
           </div>
         )}
       </dl>
@@ -70,7 +70,7 @@ export function WhatsAppOrderBox({ orderNo, paymentMethod, payerNumber, classNam
         <FaWhatsapp className="h-5 w-5" aria-hidden />
         {bn ? 'হোয়াটসঅ্যাপে পাঠান' : 'Send on WhatsApp'}
       </a>
-      <p className="mt-1.5 text-center text-xs text-slate-500 dark:text-slate-400">
+      <p className="mt-1.5 text-center text-xs text-slate-500 dark:text-neutral-400">
         {formatWhatsappLocalFromDigits(siteConfig.contact.whatsappDigits)}
       </p>
     </div>

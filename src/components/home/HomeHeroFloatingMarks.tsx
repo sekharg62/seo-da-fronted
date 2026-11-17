@@ -143,7 +143,7 @@ export function HomeHeroFloatingMarks() {
 
       {/* Frame / clip corners — edit / creator vibe */}
       <div className="home-hero-float-mark home-hero-float-mark-d absolute right-[6%] top-[42%] h-14 w-14 opacity-[0.11] md:right-[8%] dark:opacity-[0.08]">
-        <svg viewBox="0 0 56 56" className="h-full w-full text-slate-800 dark:text-slate-100">
+        <svg viewBox="0 0 56 56" className="h-full w-full text-slate-800 dark:text-neutral-100">
           <path
             fill="none"
             stroke="currentColor"

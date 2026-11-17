@@ -137,14 +137,14 @@ function StatCell({
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-900 text-white shadow-inner ring-2 ring-white/30 dark:bg-emerald-600 dark:ring-emerald-400/20 sm:h-10 sm:w-10">
           <Icon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" aria-hidden />
         </div>
-        <span className="inline-flex min-w-0 max-w-[58%] items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-semibold uppercase leading-tight tracking-wide text-emerald-800 shadow-sm ring-1 ring-emerald-200/80 dark:bg-slate-900/80 dark:text-emerald-200 dark:ring-emerald-800/60 sm:max-w-[52%] sm:gap-1.5 sm:px-2.5 sm:py-1 sm:text-[10px] md:text-[11px]">
+        <span className="inline-flex min-w-0 max-w-[58%] items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-semibold uppercase leading-tight tracking-wide text-emerald-800 shadow-sm ring-1 ring-emerald-200/80 dark:bg-neutral-950 dark:text-emerald-200 dark:ring-emerald-800/60 sm:max-w-[52%] sm:gap-1.5 sm:px-2.5 sm:py-1 sm:text-[10px] md:text-[11px]">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_0_2px_rgba(16,185,129,0.25)]" aria-hidden />
           <span className="truncate">{t(statusKey as any)}</span>
         </span>
       </div>
 
       <div className="relative mt-3 flex min-w-0 flex-1 flex-col justify-end gap-0.5 sm:mt-4 sm:gap-1">
-        <p className="text-2xl font-semibold tabular-nums tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl md:text-4xl">
+        <p className="text-2xl font-semibold tabular-nums tracking-tight text-slate-900 dark:text-neutral-50 sm:text-3xl md:text-4xl">
           {count}
           <span className="text-emerald-600 dark:text-emerald-400">{suffix}</span>
         </p>
@@ -192,9 +192,9 @@ export function HomeHeroStats() {
           ))}
         </div>
 
-        <div className="mt-2 min-w-0 rounded-lg border border-slate-200/70 bg-slate-50/70 p-2.5 dark:border-slate-700/70 dark:bg-slate-950/40 sm:mt-3 sm:rounded-xl sm:p-3">
+        <div className="mt-2 min-w-0 rounded-lg border border-slate-200/70 bg-slate-50/70 p-2.5 dark:border-neutral-700/70 dark:bg-neutral-950 sm:mt-3 sm:rounded-xl sm:p-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 sm:text-[11px]">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 dark:text-neutral-400 sm:text-[11px]">
               {t('homeStatUpdatesLabel' as any)}
             </p>
             <span className="inline-flex w-fit shrink-0 items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300 sm:px-2 sm:py-1 sm:text-[11px]">

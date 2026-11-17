@@ -110,21 +110,21 @@ export function HomeHero() {
   return (
     <section className="relative overflow-x-hidden overflow-y-visible">
       <HomeHeroBackground />
-      <div className="relative z-10 mx-auto min-w-0 max-w-6xl grid grid-cols-1 gap-6 px-3 py-6 sm:px-6 sm:py-8 md:grid-cols-2 md:gap-8 md:py-10 md:items-stretch lg:py-14">
+      <div className="relative z-10 mx-auto min-w-0 w-full max-w-[96rem] grid grid-cols-1 gap-6 px-4 py-6 sm:px-6 sm:py-8 md:grid-cols-2 md:gap-8 md:py-10 md:items-stretch lg:py-14">
         <div className="flex min-w-0 w-full max-w-xl flex-col space-y-4 sm:space-y-5 md:max-w-none md:space-y-6">
-          <div className="inline-flex w-fit max-w-full shrink-0 self-start items-center gap-2 rounded-full border border-emerald-400/20 bg-white/80 px-3 py-1.5 text-[11px] font-medium text-emerald-900 shadow-md shadow-emerald-900/[0.06] backdrop-blur-xl ring-1 ring-white/80 dark:border-emerald-500/30 dark:bg-slate-900/70 dark:text-emerald-100 dark:shadow-black/30 dark:ring-white/[0.1] sm:px-4 sm:text-xs">
+          <div className="inline-flex w-fit max-w-full shrink-0 self-start items-center gap-2 rounded-full border border-emerald-400/20 bg-white/80 px-3 py-1.5 text-[11px] font-medium text-emerald-900 shadow-md shadow-emerald-900/[0.06] backdrop-blur-xl ring-1 ring-white/80 dark:border-emerald-500/30 dark:bg-neutral-950 dark:text-emerald-100 dark:shadow-black/30 dark:ring-white/[0.1] sm:px-4 sm:text-xs">
             <Sparkles className="h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
             <span className="break-words text-left leading-snug">{t('homeBadge' as any)}</span>
           </div>
           <div className="min-w-0 space-y-3 sm:space-y-5">
             <div className="space-y-3 sm:space-y-4">
-              <h1 className="home-hero-headline break-words text-[1.45rem] font-semibold leading-[1.2] tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl sm:leading-[1.15] md:text-[2.5rem] md:leading-tight lg:text-[2.75rem] lg:leading-[1.08]">
+              <h1 className="home-hero-headline break-words text-[1.45rem] font-semibold leading-[1.2] tracking-tight text-slate-900 dark:text-neutral-50 sm:text-4xl sm:leading-[1.15] md:text-[2.5rem] md:leading-tight lg:text-[2.75rem] lg:leading-[1.08]">
                 <span className="block">{t('homeHeroTitlePrefix' as any)}</span>
                 <HeroTitleHighlightRow />
                 <span className="mt-1 block sm:mt-1.5">{t('homeHeroTitleSuffix' as any)}</span>
               </h1>
             </div>
-            <p className="max-w-lg text-xs leading-relaxed text-slate-600 dark:text-slate-300/95 sm:text-sm md:text-base md:leading-relaxed">
+            <p className="max-w-lg text-xs leading-relaxed text-slate-600 dark:text-neutral-300/95 sm:text-sm md:text-base md:leading-relaxed">
               {t('homeHeroDescription' as any)}
             </p>
           </div>
@@ -143,35 +143,35 @@ export function HomeHero() {
                 />
               </Link>
             </span>
-            <p className="text-center text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 sm:text-left sm:text-[11px] sm:pl-1">
+            <p className="text-center text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-neutral-500 sm:text-left sm:text-[11px] sm:pl-1">
               {t('homeHeroTrustLine' as any)}
             </p>
           </div>
 
           <div className="mt-auto hidden min-w-0 gap-2.5 pt-1 sm:grid sm:grid-cols-2 sm:gap-3">
-            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-slate-900/[0.04] backdrop-blur-md transition hover:border-emerald-300/50 hover:shadow-lg hover:shadow-emerald-900/[0.05] dark:border-slate-700/90 dark:bg-slate-900/55 dark:shadow-black/25 dark:hover:border-emerald-500/35">
+            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-slate-900/[0.04] backdrop-blur-md transition hover:border-emerald-300/50 hover:shadow-lg hover:shadow-emerald-900/[0.05] dark:border-neutral-700/90 dark:bg-neutral-950 dark:shadow-black/25 dark:hover:border-emerald-500/35">
               <div className="flex min-w-0 items-center gap-2">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 shadow-inner ring-1 ring-emerald-500/15 dark:from-emerald-500/25 dark:ring-emerald-400/20">
                   <Wallet className="h-4 w-4 text-emerald-700 dark:text-emerald-400" aria-hidden />
                 </div>
-                <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-slate-100 text-xs leading-snug sm:text-[13px]">
+                <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-neutral-100 text-xs leading-snug sm:text-[13px]">
                   {t('homeBullet1Title' as any)}
                 </p>
               </div>
-              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-slate-500 break-words dark:text-slate-400 sm:text-xs">
+              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-slate-500 break-words dark:text-neutral-400 sm:text-xs">
                 {t('homeBullet1Body' as any)}
               </p>
             </div>
-            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-slate-900/[0.04] backdrop-blur-md transition hover:border-emerald-300/50 hover:shadow-lg hover:shadow-emerald-900/[0.05] dark:border-slate-700/90 dark:bg-slate-900/55 dark:shadow-black/25 dark:hover:border-emerald-500/35">
+            <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-slate-900/[0.04] backdrop-blur-md transition hover:border-emerald-300/50 hover:shadow-lg hover:shadow-emerald-900/[0.05] dark:border-neutral-700/90 dark:bg-neutral-950 dark:shadow-black/25 dark:hover:border-emerald-500/35">
               <div className="flex min-w-0 items-center gap-2">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 shadow-inner ring-1 ring-emerald-500/15 dark:from-emerald-500/25 dark:ring-emerald-400/20">
                   <Headphones className="h-4 w-4 text-emerald-700 dark:text-emerald-400" aria-hidden />
                 </div>
-                <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-slate-100 text-xs leading-snug sm:text-[13px]">
+                <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-neutral-100 text-xs leading-snug sm:text-[13px]">
                   {t('homeBullet2Title' as any)}
                 </p>
               </div>
-              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-slate-500 break-words dark:text-slate-400 sm:text-xs">
+              <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-slate-500 break-words dark:text-neutral-400 sm:text-xs">
                 {t('homeBullet2Body' as any)}
               </p>
             </div>

@@ -32,7 +32,7 @@ function CopyButton({ text, copyLabel, copiedLabel }: { text: string; copyLabel:
     <button
       type="button"
       onClick={copy}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-neutral-600 bg-slate-100 dark:bg-neutral-900 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-neutral-200 hover:bg-slate-200 dark:hover:bg-neutral-800 transition"
     >
       {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
       {copied ? copiedLabel : copyLabel}
@@ -155,13 +155,13 @@ export default function ConfirmOrderPage() {
 
 
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-4 text-center py-12">
-        <div className="rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-white dark:bg-slate-900 p-8 max-w-lg w-full shadow-lg">
+      <div className="min-h-screen bg-slate-50 dark:bg-neutral-950 flex flex-col items-center justify-center px-4 text-center py-12">
+        <div className="rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-white dark:bg-neutral-950 p-8 max-w-lg w-full shadow-lg">
           <CheckCircle className="mx-auto mb-4 h-14 w-14 text-emerald-500" />
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-2">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-neutral-50 mb-2">
             {language === 'bn' ? 'অর্ডার সফল!' : 'Order Placed!'}
           </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm mb-4">
+          <p className="text-slate-600 dark:text-neutral-400 text-sm mb-4">
             {language === 'bn'
               ? 'আপনার অর্ডার গ্রহণ করা হয়েছে। পেমেন্ট যাচাই হলে আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।'
               : 'Your order has been received. We will contact you shortly after payment verification.'}
@@ -177,7 +177,7 @@ export default function ConfirmOrderPage() {
             {o.orderItems.map((item) => (
               <li
                 key={item.id}
-                className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-2.5"
+                className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-800/50 p-2.5"
               >
                 <CartItemThumb
                   name={item.serviceName}
@@ -185,8 +185,8 @@ export default function ConfirmOrderPage() {
                   className="h-12 w-12"
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-slate-900 dark:text-slate-100">{item.serviceName}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="truncate text-sm font-medium text-slate-900 dark:text-neutral-100">{item.serviceName}</p>
+                  <p className="text-xs text-slate-500 dark:text-neutral-400">
                     {item.quantity} × {CURRENCY}{Number(item.price).toFixed(0)}
                   </p>
                 </div>
@@ -215,7 +215,7 @@ export default function ConfirmOrderPage() {
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-600 bg-transparent px-6 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-neutral-600 bg-transparent px-6 py-2.5 text-sm font-semibold text-slate-700 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-neutral-900 transition"
             >
               {language === 'bn' ? 'হোমে ফিরুন' : 'Back to Home'}
             </Link>
@@ -228,11 +228,11 @@ export default function ConfirmOrderPage() {
 
   if (!hydrated) {
     return (
-      <div className="mx-auto w-full max-w-6xl px-4 py-6 md:py-10" aria-busy="true">
-        <div className="mb-6 h-8 w-56 rounded-lg bg-slate-200 dark:bg-slate-800 animate-pulse" />
+      <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-6 md:py-10" aria-busy="true">
+        <div className="mb-6 h-8 w-56 rounded-lg bg-slate-200 dark:bg-neutral-900 animate-pulse" />
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
-          <div className="flex-1 h-96 rounded-2xl bg-slate-200 dark:bg-slate-800 animate-pulse" />
-          <div className="lg:w-96 h-72 rounded-2xl bg-slate-200 dark:bg-slate-800 animate-pulse" />
+          <div className="flex-1 h-96 rounded-lg bg-slate-200 dark:bg-neutral-900 animate-pulse" />
+          <div className="lg:w-[26rem] h-72 rounded-lg bg-slate-200 dark:bg-neutral-900 animate-pulse" />
         </div>
       </div>
     )
@@ -240,13 +240,13 @@ export default function ConfirmOrderPage() {
 
   if (totalItems === 0) {
     return (
-      <div className="mx-auto w-full max-w-6xl px-4 py-10 md:py-16">
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-8 md:p-12 text-center">
-          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
-            <ShoppingCart className="h-10 w-10 text-slate-400 dark:text-slate-500" strokeWidth={1.25} aria-hidden />
+      <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-10 md:py-16">
+        <div className="rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-8 md:p-12 text-center">
+          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-900">
+            <ShoppingCart className="h-10 w-10 text-slate-400 dark:text-neutral-500" strokeWidth={1.25} aria-hidden />
           </div>
-          <p className="text-slate-600 dark:text-slate-300 mb-2">{t('emptyCart' as any)}</p>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">{t('emptyCartHint' as any)}</p>
+          <p className="text-slate-600 dark:text-neutral-300 mb-2">{t('emptyCart' as any)}</p>
+          <p className="text-sm text-slate-500 dark:text-neutral-400 mb-6">{t('emptyCartHint' as any)}</p>
           <Link
             href="/shop"
             className="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm transition hover:bg-emerald-400"
@@ -279,69 +279,69 @@ export default function ConfirmOrderPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-6 md:py-10">
-      <h1 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-6">
+    <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-6 md:py-10">
+      <h1 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-neutral-50 mb-6">
         {t('confirmOrderTitle' as any)}
       </h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8 lg:gap-10">
         {/* Left: Billing details */}
         <div className="flex-1 space-y-6">
-          <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 sm:p-6">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
+          <section className="rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-4 sm:p-6">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-neutral-50 mb-4">
               {t('billingDetails' as any)}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('fullName' as any)}<span className="text-red-500 ml-1">*</span></label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('fullName' as any)}<span className="text-red-500 ml-1">*</span></label>
                 <input
                   type="text"
                   value={form.fullName}
                   onChange={(e) => setForm((f) => ({ ...f, fullName: e.target.value }))}
-                  className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   placeholder={language === 'bn' ? 'পুরো নাম' : 'Full name'}
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('phone' as any)}<span className="text-red-500 ml-1">*</span></label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('phone' as any)}<span className="text-red-500 ml-1">*</span></label>
                 <MobilePhoneInput
                   name="phone"
                   value={form.phone}
                   onChange={(phone) => setForm((f) => ({ ...f, phone }))}
                   defaultCountry="BD"
-                  inputClassName="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  inputClassName="w-full rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   placeholder="01XXXXXXXXX"
                   required
                   wrapperClassName="w-full max-w-none"
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('whatsappNumber' as any)}</label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('whatsappNumber' as any)}</label>
                 <input
                   type="tel"
                   value={form.whatsappNumber}
                   onChange={(e) => setForm((f) => ({ ...f, whatsappNumber: e.target.value }))}
-                  className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   placeholder="01XXXXXXXXX"
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('email' as any)}<span className="text-red-500 ml-1">*</span></label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('email' as any)}<span className="text-red-500 ml-1">*</span></label>
                 <input
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                  className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   placeholder="email@example.com"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('orderNotes' as any)}</label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('orderNotes' as any)}</label>
                 <textarea
                   value={form.orderNotes}
                   onChange={(e) => setForm((f) => ({ ...f, orderNotes: e.target.value }))}
                   rows={3}
-                  className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-y"
+                  className="w-full rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-y"
                   placeholder={language === 'bn' ? 'অপশনাল নোট' : 'Optional notes'}
                 />
               </div>
@@ -349,19 +349,19 @@ export default function ConfirmOrderPage() {
           </section>
 
           {/* Payment information */}
-          <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 sm:p-6">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
+          <section className="rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-4 sm:p-6">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-neutral-50 mb-4">
               {t('paymentInformation' as any)}
             </h2>
 
             {/* Payment & contact details */}
-            <div className="mb-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-4">
-              <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-3">
+            <div className="mb-6 rounded-xl border border-slate-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-800/50 p-4">
+              <h3 className="text-sm font-semibold text-slate-800 dark:text-neutral-100 mb-3">
                 {t('paymentContactHeading' as any)}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-slate-500 dark:text-slate-400">Email:</span>
+                  <span className="text-slate-500 dark:text-neutral-400">Email:</span>
                   <a
                     href={`mailto:${siteConfig.contact.email}`}
                     className="text-emerald-600 dark:text-emerald-400 hover:underline break-all"
@@ -370,7 +370,7 @@ export default function ConfirmOrderPage() {
                   </a>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-slate-500 dark:text-slate-400">Phone:</span>
+                  <span className="text-slate-500 dark:text-neutral-400">Phone:</span>
                   <a
                     href={`tel:${siteConfig.contact.phoneTel.replace(/\s/g, '')}`}
                     className="text-emerald-600 dark:text-emerald-400 hover:underline"
@@ -379,13 +379,13 @@ export default function ConfirmOrderPage() {
                   </a>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-slate-500 dark:text-slate-400">WhatsApp:</span>
-                  <span className="text-slate-900 dark:text-slate-100">{whatsappLocal}</span>
+                  <span className="text-slate-500 dark:text-neutral-400">WhatsApp:</span>
+                  <span className="text-slate-900 dark:text-neutral-100">{whatsappLocal}</span>
                   <CopyButton text={whatsappLocal} copyLabel={t('copyLabel' as any)} copiedLabel={t('copiedLabel' as any)} />
                 </div>
                 <div className="flex flex-wrap items-center gap-2 sm:col-span-2">
-                  <span className="text-slate-500 dark:text-slate-400">{t('bkashPersonalLabel' as any)}:</span>
-                  <span className="font-mono font-medium text-slate-900 dark:text-slate-100">
+                  <span className="text-slate-500 dark:text-neutral-400">{t('bkashPersonalLabel' as any)}:</span>
+                  <span className="font-mono font-medium text-slate-900 dark:text-neutral-100">
                     {siteConfig.checkoutPayment.bkash.accountNumber}
                   </span>
                   <CopyButton
@@ -395,8 +395,8 @@ export default function ConfirmOrderPage() {
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-2 sm:col-span-2">
-                  <span className="text-slate-500 dark:text-slate-400">{t('nagadRocketLabel' as any)}:</span>
-                  <span className="font-mono font-medium text-slate-900 dark:text-slate-100">
+                  <span className="text-slate-500 dark:text-neutral-400">{t('nagadRocketLabel' as any)}:</span>
+                  <span className="font-mono font-medium text-slate-900 dark:text-neutral-100">
                     {siteConfig.checkoutPayment.nagad.accountNumber}
                   </span>
                   <CopyButton
@@ -408,7 +408,7 @@ export default function ConfirmOrderPage() {
               </div>
             </div>
 
-            <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{t('selectPaymentMethod' as any)} <span className="text-red-500">*</span></p>
+            <p className="text-sm text-slate-600 dark:text-neutral-400 mb-4">{t('selectPaymentMethod' as any)} <span className="text-red-500">*</span></p>
 
             <div className="space-y-3">
               {CHECKOUT_PAYMENT_METHODS.map((key) => {
@@ -426,7 +426,7 @@ export default function ConfirmOrderPage() {
                     key={key}
                     className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition ${form.paymentMethod === key
                       ? 'border-emerald-500 bg-emerald-500/10 dark:bg-emerald-500/20'
-                      : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                      : 'border-slate-200 dark:border-neutral-700 hover:border-slate-300 dark:hover:border-neutral-600'
                       }`}
                   >
                     <input
@@ -440,17 +440,17 @@ export default function ConfirmOrderPage() {
                     <img
                       src={row.logoSrc}
                       alt=""
-                      className="h-9 w-9 shrink-0 rounded-lg object-contain bg-white dark:bg-slate-800 p-0.5"
+                      className="h-9 w-9 shrink-0 rounded-lg object-contain bg-white dark:bg-neutral-900 p-0.5"
                     />
-                    <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{t(labelKey as any)}</span>
+                    <span className="text-sm font-medium text-slate-900 dark:text-neutral-100">{t(labelKey as any)}</span>
                   </label>
                 )
               })}
             </div>
 
             {paymentConfig && (
-              <div className="mt-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-4">
-                <div className="whitespace-pre-line text-sm text-slate-700 dark:text-slate-300">
+              <div className="mt-4 rounded-xl border border-slate-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-800/50 p-4">
+                <div className="whitespace-pre-line text-sm text-slate-700 dark:text-neutral-300">
                   {instructionText.split('\n\n').map((para, i) => (
                     <div key={i} className="mb-2">
                       {paymentConfig.accountNumber && para.includes(paymentConfig.accountNumber) ? (
@@ -460,7 +460,7 @@ export default function ConfirmOrderPage() {
                               {part}
                               {j === 0 && (
                                 <>
-                                  <span className="font-mono font-semibold text-slate-900 dark:text-slate-100">
+                                  <span className="font-mono font-semibold text-slate-900 dark:text-neutral-100">
                                     {paymentConfig.accountNumber}
                                   </span>
                                   <CopyButton
@@ -487,7 +487,7 @@ export default function ConfirmOrderPage() {
               const error = payerTouched ? payerNumberError(form.paymentMethod, form.userPaymentMethodNumber, lang) : null
               return (
                 <div className="mt-4">
-                  <label htmlFor="payer-number" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label htmlFor="payer-number" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                     {payerNumberLabel(form.paymentMethod, lang)} <span className="text-red-500 ml-1">*</span>
                   </label>
                   <input
@@ -500,14 +500,14 @@ export default function ConfirmOrderPage() {
                     onBlur={() => setPayerTouched(true)}
                     aria-invalid={!!error}
                     aria-describedby="payer-number-hint"
-                    className={`w-full rounded-lg border bg-white dark:bg-slate-800 px-3 py-2 font-mono text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-1 ${
+                    className={`w-full rounded-lg border bg-white dark:bg-neutral-900 px-3 py-2 font-mono text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:outline-none focus:ring-1 ${
                       error
                         ? 'border-red-400 focus:border-red-500 focus:ring-red-500 dark:border-red-500/60'
-                        : 'border-slate-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500'
+                        : 'border-slate-300 dark:border-neutral-600 focus:border-emerald-500 focus:ring-emerald-500'
                     }`}
                     placeholder={payerNumberPlaceholder(form.paymentMethod)}
                   />
-                  <p id="payer-number-hint" className={`mt-1 text-xs ${error ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                  <p id="payer-number-hint" className={`mt-1 text-xs ${error ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-neutral-400'}`}>
                     {error ?? payerNumberHint(form.paymentMethod, lang)}
                   </p>
                 </div>
@@ -515,16 +515,16 @@ export default function ConfirmOrderPage() {
             })()}
 
             <div className="mt-4">
-              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('transactionId' as any)} <span className="text-red-500 ml-1">*</span></label>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('transactionId' as any)} <span className="text-red-500 ml-1">*</span></label>
               <input
                 type="text"
                 value={form.transactionId}
                 onChange={(e) => setForm((f) => ({ ...f, transactionId: e.target.value }))}
-                className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                className="w-full rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 placeholder={language === 'bn' ? 'ট্রানজেকশন আইডি লিখুন' : 'Enter transaction ID'}
               />
               {transactionIdHint(form.paymentMethod, language === 'bn' ? 'bn' : 'en') && (
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                <p className="mt-1 text-xs text-slate-500 dark:text-neutral-400">
                   {transactionIdHint(form.paymentMethod, language === 'bn' ? 'bn' : 'en')}
                 </p>
               )}
@@ -533,9 +533,9 @@ export default function ConfirmOrderPage() {
         </div>
 
         {/* Right: Order summary (cart) */}
-        <div className="lg:w-96 shrink-0">
-          <div className="sticky top-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 sm:p-5">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 mb-4">
+        <div className="shrink-0 lg:w-[26rem] xl:w-[30rem]">
+          <div className="sticky top-24 rounded-lg border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 p-4 sm:p-5">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-neutral-50 mb-4">
               {t('orderSummary' as any)}
             </h2>
             <ul className="space-y-3 mb-4 max-h-[26rem] overflow-y-auto pr-1">
@@ -545,7 +545,7 @@ export default function ConfirmOrderPage() {
                 return (
                   <li
                     key={item.serviceId}
-                    className="text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/40 p-3"
+                    className="text-sm rounded-xl border border-slate-200 dark:border-neutral-700 bg-slate-50/60 dark:bg-neutral-800/40 p-3"
                   >
                     <div className="flex items-start gap-3">
                       {item.slug ? (
@@ -557,25 +557,25 @@ export default function ConfirmOrderPage() {
                       )}
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
-                          <p className="font-medium text-slate-800 dark:text-slate-100 line-clamp-2">{name}</p>
+                          <p className="font-medium text-slate-800 dark:text-neutral-100 line-clamp-2">{name}</p>
                           <button
                             type="button"
                             onClick={() => removeItem(item.serviceId)}
-                            className="shrink-0 rounded p-1 text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-red-600 dark:hover:text-red-400 transition"
+                            className="shrink-0 rounded p-1 text-slate-400 hover:bg-slate-200 dark:hover:bg-neutral-800 hover:text-red-600 dark:hover:text-red-400 transition"
                             aria-label={t('remove' as any)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                         {(Number(item.sharedPrice) > 0 || Number(item.personalPrice) > 0) && (
-                          <div className="mt-1 inline-flex rounded-full border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/40 p-1">
+                          <div className="mt-1 inline-flex rounded-full border border-slate-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-800/40 p-1">
                             {Number(item.sharedPrice) > 0 && (
                               <button
                                 type="button"
                                 onClick={() => updatePriceType(item.serviceId, 'shared')}
                                 className={`px-2.5 py-1 text-xs font-medium rounded-full transition ${(item.priceType ?? 'shared') === 'shared'
                                   ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                  : 'text-slate-600 dark:text-neutral-300 hover:bg-slate-100 dark:hover:bg-neutral-800'
                                   }`}
                               >
                                 Shared
@@ -587,7 +587,7 @@ export default function ConfirmOrderPage() {
                                 onClick={() => updatePriceType(item.serviceId, 'personal')}
                                 className={`px-2.5 py-1 text-xs font-medium rounded-full transition ${(item.priceType ?? 'shared') === 'personal'
                                   ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300'
-                                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                  : 'text-slate-600 dark:text-neutral-300 hover:bg-slate-100 dark:hover:bg-neutral-800'
                                   }`}
                               >
                                 Personal
@@ -596,35 +596,35 @@ export default function ConfirmOrderPage() {
                           </div>
                         )}
                         {(Number(item.sharedPrice) > 0 || Number(item.personalPrice) > 0) && (
-                          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                          <p className="mt-1 text-xs text-slate-500 dark:text-neutral-400">
                             {Number(item.sharedPrice) > 0 && `Shared: ${CURRENCY}${Number(item.sharedPrice).toFixed(0)}`}
                             {Number(item.sharedPrice) > 0 && Number(item.personalPrice) > 0 && ' · '}
                             {Number(item.personalPrice) > 0 && `Personal: ${CURRENCY}${Number(item.personalPrice).toFixed(0)}`}
                           </p>
                         )}
                         <div className="mt-2 flex items-center justify-between gap-2">
-                          <div className="inline-flex items-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800">
+                          <div className="inline-flex items-center rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900">
                             <button
                               type="button"
                               onClick={() => updateQuantity(item.serviceId, item.quantity - 1)}
-                              className="flex h-7 w-7 items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-l-lg transition"
+                              className="flex h-7 w-7 items-center justify-center text-slate-600 dark:text-neutral-300 hover:bg-slate-100 dark:hover:bg-neutral-800 rounded-l-lg transition"
                               aria-label="Decrease quantity"
                             >
                               <Minus className="h-3.5 w-3.5" />
                             </button>
-                            <span className="min-w-7 text-center text-xs font-semibold text-slate-900 dark:text-slate-100" aria-live="polite">
+                            <span className="min-w-7 text-center text-xs font-semibold text-slate-900 dark:text-neutral-100" aria-live="polite">
                               {item.quantity}
                             </span>
                             <button
                               type="button"
                               onClick={() => updateQuantity(item.serviceId, Math.min(99, item.quantity + 1))}
-                              className="flex h-7 w-7 items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-r-lg transition"
+                              className="flex h-7 w-7 items-center justify-center text-slate-600 dark:text-neutral-300 hover:bg-slate-100 dark:hover:bg-neutral-800 rounded-r-lg transition"
                               aria-label="Increase quantity"
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </button>
                           </div>
-                          <span className="font-semibold text-slate-900 dark:text-slate-100 shrink-0">
+                          <span className="font-semibold text-slate-900 dark:text-neutral-100 shrink-0">
                             {CURRENCY}{lineTotal}
                           </span>
                         </div>
@@ -634,14 +634,14 @@ export default function ConfirmOrderPage() {
                 )
               })}
             </ul>
-            <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-3 text-base font-semibold text-slate-900 dark:text-slate-50">
+            <div className="flex justify-between border-t border-slate-200 dark:border-neutral-700 pt-3 text-base font-semibold text-slate-900 dark:text-neutral-50">
               <span>{t('subtotal' as any)}</span>
               <span>{CURRENCY}{totalAmount}</span>
             </div>
 
             {/* Coupon */}
-            <div className="mt-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 p-3">
-              <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2">
+            <div className="mt-3 rounded-xl border border-slate-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-800/40 p-3">
+              <p className="text-sm font-semibold text-slate-800 dark:text-neutral-100 mb-2">
                 {language === 'bn' ? 'কুপন কোড' : 'Coupon code'}
               </p>
               <div className="flex gap-2">
@@ -650,7 +650,7 @@ export default function ConfirmOrderPage() {
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                   placeholder={language === 'bn' ? 'কুপন লিখুন' : 'Enter coupon'}
-                  className="flex-1 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="flex-1 rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-sm text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
                 <button
                   type="button"
@@ -674,13 +674,13 @@ export default function ConfirmOrderPage() {
             </div>
 
             {discountPercent > 0 && (
-              <div className="mt-3 flex justify-between text-sm text-slate-700 dark:text-slate-200">
+              <div className="mt-3 flex justify-between text-sm text-slate-700 dark:text-neutral-200">
                 <span>{language === 'bn' ? 'Discount' : 'Discount'}</span>
                 <span>-{CURRENCY}{discountAmount}</span>
               </div>
             )}
 
-            <div className="mt-2 flex justify-between border-t border-slate-200 dark:border-slate-700 pt-3 text-base font-semibold text-slate-900 dark:text-slate-50">
+            <div className="mt-2 flex justify-between border-t border-slate-200 dark:border-neutral-700 pt-3 text-base font-semibold text-slate-900 dark:text-neutral-50">
               <span>{language === 'bn' ? 'Total' : 'Total'}</span>
               <span>{CURRENCY}{finalTotal}</span>
             </div>
@@ -692,7 +692,7 @@ export default function ConfirmOrderPage() {
             <button
               type="submit"
               disabled={!requiredFilled || submitting}
-              className="mt-4 w-full rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 shadow-sm transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-500"
+              className="mt-4 w-full rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 shadow-sm transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-emerald-500"
             >
               {submitting
                 ? (language === 'bn' ? 'জমা দেওয়া হচ্ছে…' : 'Submitting…')

@@ -5,7 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
 
 export const iconButton =
-  "inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-100 text-slate-700 transition hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200 dark:hover:bg-slate-800 sm:h-10 sm:w-10";
+  "inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-100 text-slate-700 transition hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:bg-neutral-900 sm:h-10 sm:w-10";
 
 export function LanguageSwitcher() {
   const { language, setLanguage, t } = useLanguage();
@@ -18,7 +18,7 @@ export function LanguageSwitcher() {
       className={`px-2.5 py-1.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500 ${extra} ${
         language === value
           ? "bg-emerald-500 font-semibold text-emerald-950"
-          : "hover:bg-slate-200 dark:hover:bg-slate-800"
+          : "hover:bg-slate-200 dark:hover:bg-neutral-900"
       }`}
     >
       {label}
@@ -28,10 +28,10 @@ export function LanguageSwitcher() {
     <div
       role="group"
       aria-label={t("navLanguage" as any)}
-      className="inline-flex items-center overflow-hidden rounded-full border border-slate-300 bg-slate-100 text-[11px] text-slate-700 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200"
+      className="inline-flex items-center overflow-hidden rounded-full border border-slate-300 bg-slate-100 text-[11px] text-slate-700 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-200"
     >
       {option("bn", "বাংলা")}
-      {option("en", "EN", "border-l border-slate-300 dark:border-slate-700")}
+      {option("en", "EN", "border-l border-slate-300 dark:border-neutral-700")}
     </div>
   );
 }

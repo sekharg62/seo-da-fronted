@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Premium digital subscriptions in Bangladesh. Pay with bKash, Nagad or Rocket.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#020617',
+    background_color: '#000000',
     theme_color: '#10b981',
     lang: 'bn',
     icons: [

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function TrackOrderPage() {
   // Suspense: the client reads ?id= from the URL (useSearchParams)
   return (
-    <Suspense fallback={<div className="mx-auto min-h-[60vh] w-full max-w-3xl px-4 py-10" />}>
+    <Suspense fallback={<div className="mx-auto min-h-[60vh] w-full max-w-4xl px-4 sm:px-6 py-10" />}>
       <TrackOrderClient />
     </Suspense>
   )

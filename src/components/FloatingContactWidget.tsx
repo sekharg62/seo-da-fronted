@@ -35,15 +35,15 @@ export function FloatingContactWidget({
   const buttonBase =
     'flex items-center justify-center w-12 h-12 rounded-full shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2'
 
-  const triggerButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-slate-950`
+  const triggerButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-neutral-950`
 
-  const phoneButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-slate-950`
+  const phoneButton = `${buttonBase} bg-emerald-500 text-white hover:bg-emerald-400 focus:ring-emerald-400 ring-offset-white dark:ring-offset-neutral-950`
 
-  const whatsappButton = `${buttonBase} bg-[#25D366] text-white hover:bg-[#20BD5A] focus:ring-[#25D366] ring-offset-white dark:ring-offset-slate-950`
+  const whatsappButton = `${buttonBase} bg-[#25D366] text-white hover:bg-[#20BD5A] focus:ring-[#25D366] ring-offset-white dark:ring-offset-neutral-950`
 
-  const messengerButton = `${buttonBase} bg-[#0084FF] text-white hover:bg-[#0073E6] focus:ring-[#0084FF] ring-offset-white dark:ring-offset-slate-950`
+  const messengerButton = `${buttonBase} bg-[#0084FF] text-white hover:bg-[#0073E6] focus:ring-[#0084FF] ring-offset-white dark:ring-offset-neutral-950`
 
-  const closeButton = `${buttonBase} bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-500 ring-offset-white dark:ring-offset-slate-950`
+  const closeButton = `${buttonBase} bg-violet-600 text-white hover:bg-violet-500 focus:ring-violet-500 ring-offset-white dark:ring-offset-neutral-950`
 
   const items: Array<
     | {
@@ -113,7 +113,7 @@ export function FloatingContactWidget({
               <>
                 {item.icon}
                 <span
-                  className="pointer-events-none absolute right-full top-1/2 mr-2 -translate-y-1/2 whitespace-nowrap rounded px-2 py-1 text-xs font-medium text-white bg-slate-800 shadow-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100 dark:bg-slate-200 dark:text-slate-900"
+                  className="pointer-events-none absolute right-full top-1/2 mr-2 -translate-y-1/2 whitespace-nowrap rounded px-2 py-1 text-xs font-medium text-white bg-slate-800 shadow-lg opacity-0 transition-opacity duration-200 group-hover:opacity-100 dark:bg-neutral-200 dark:text-neutral-900"
                   style={{ transitionDelay: '0.1s' }}
                 >
                   {item.label}

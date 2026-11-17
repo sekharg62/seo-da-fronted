@@ -11,8 +11,8 @@ import { optimizedImage } from '@/lib/imageUrl'
 const CURRENCY = '৳'
 
 const TEXT = {
-  en: { from: 'From', view: 'View', outOfStock: 'Out of stock', seeOptions: 'See options' },
-  bn: { from: 'শুরু', view: 'দেখুন', outOfStock: 'স্টক নেই', seeOptions: 'অপশন দেখুন' },
+  en: { from: 'Starting from', view: 'View plans', inStock: 'In stock', outOfStock: 'Out of stock', seeOptions: 'See options' },
+  bn: { from: 'শুরু', view: 'প্ল্যান দেখুন', inStock: 'স্টকে আছে', outOfStock: 'স্টক নেই', seeOptions: 'অপশন দেখুন' },
 } as const
 
 type Props = {
@@ -42,79 +42,98 @@ export function DigitalServiceCard({ service }: Props) {
     <Link
       href={productHref(service)}
       aria-label={`${service.name}${startPrice ? ` — ${tx.from} ${CURRENCY}${startPrice}` : ''}${outOfStock ? ` (${tx.outOfStock})` : ''}`}
-      className={`group flex h-full flex-col overflow-hidden rounded-2xl border bg-white transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-slate-900/70 dark:focus-visible:ring-offset-slate-950 ${
+      className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-lg border bg-white shadow-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:bg-neutral-950 dark:focus-visible:ring-offset-neutral-950 ${
         outOfStock
-          ? 'border-slate-200 dark:border-slate-800'
-          : 'border-slate-200 hover:-translate-y-0.5 hover:border-emerald-400/70 hover:shadow-lg hover:shadow-emerald-500/10 dark:border-slate-800 dark:hover:border-emerald-500/50'
+          ? 'border-slate-200 dark:border-neutral-800'
+          : 'border-slate-200 hover:-translate-y-1 hover:border-emerald-400/60 hover:shadow-[0_18px_60px_-10px_rgba(16,185,129,0.22)] dark:border-neutral-800 dark:hover:border-emerald-500/50'
       }`}
     >
-      {/* Image */}
-      <div className="relative aspect-4/3 overflow-hidden bg-slate-100 dark:bg-slate-800">
+      {/* Image: square, blurred backdrop + contained product art */}
+      <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-slate-900">
         {service.imgUrl ? (
-          <img
-            src={optimizedImage(service.imgUrl, 600)}
-            alt={`${service.name} subscription`}
-            width={600}
-            height={450}
-            loading="lazy"
-            decoding="async"
-            className={`absolute inset-0 h-full w-full object-cover object-top transition-transform duration-300 ${
-              outOfStock ? 'opacity-80 grayscale-[0.4]' : 'group-hover:scale-[1.04]'
-            }`}
-          />
+          <>
+            <img
+              src={optimizedImage(service.imgUrl, 64)}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full scale-110 object-cover opacity-60 blur-2xl saturate-150"
+            />
+            <img
+              src={optimizedImage(service.imgUrl, 600)}
+              alt={`${service.name} subscription`}
+              width={600}
+              height={600}
+              loading="lazy"
+              decoding="async"
+              className={`absolute inset-0 h-full w-full object-contain transition-transform duration-500 ${
+                outOfStock ? 'opacity-80 grayscale-[0.4]' : 'group-hover:scale-105'
+              }`}
+            />
+          </>
         ) : (
           <div className={`absolute inset-0 flex items-center justify-center ${fallback.bg}`} aria-hidden>
             <span className={`text-4xl font-bold ${fallback.text}`}>{service.name.slice(0, 2).toUpperCase()}</span>
           </div>
         )}
-
-        {outOfStock && (
-          <span className="absolute left-2 top-2 rounded-full bg-rose-600 px-2 py-0.5 text-[10px] font-semibold text-white shadow-sm sm:text-[11px]">
-            {tx.outOfStock}
-          </span>
-        )}
       </div>
 
       {/* Info */}
-      <div className="flex flex-1 flex-col p-3 sm:p-4">
-        <h3
-          title={service.name}
-          className="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 dark:text-slate-50 sm:text-base"
-        >
-          {service.name}
-        </h3>
-        {shortDesc ? (
-          <p className="mt-1 line-clamp-2 text-xs leading-snug text-slate-500 dark:text-slate-400">{shortDesc}</p>
-        ) : null}
-
-        {/* Price row — pinned to the bottom so cards in a row line up */}
-        <div className="mt-auto flex items-end justify-between gap-2 pt-3">
-          {startPrice !== null ? (
-            <p className="min-w-0 leading-tight">
-              <span className="block text-[11px] text-slate-500 dark:text-slate-400">{tx.from}</span>
-              <span
-                className={`text-base font-bold sm:text-lg ${
-                  outOfStock ? 'text-slate-500 dark:text-slate-400' : 'text-emerald-600 dark:text-emerald-400'
-                }`}
-              >
-                {CURRENCY}
-                {startPrice.toLocaleString('en-US')}
+      <div className="relative flex flex-1 flex-col justify-between gap-3 p-3 sm:p-4">
+        <div>
+          <div className="mb-1.5 flex items-center justify-end gap-2">
+            {outOfStock ? (
+              <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+                {tx.outOfStock}
               </span>
-            </p>
-          ) : (
-            <p className="text-sm text-slate-500 dark:text-slate-400">{tx.seeOptions}</p>
-          )}
+            ) : (
+              <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                {tx.inStock}
+              </span>
+            )}
+          </div>
+          <h3
+            title={service.name}
+            className="line-clamp-1 text-base font-extrabold leading-snug text-slate-900 transition-colors group-hover:text-emerald-600 dark:text-neutral-100 dark:group-hover:text-emerald-400"
+          >
+            {service.name}
+          </h3>
+          {shortDesc ? (
+            <p className="mt-1 line-clamp-2 text-xs text-slate-500 dark:text-neutral-400">{shortDesc}</p>
+          ) : null}
+        </div>
 
+        <div className="flex flex-col gap-2 pt-1">
+          <div className="flex items-baseline justify-between">
+            {startPrice !== null ? (
+              <>
+                <span className="text-xs text-slate-400">{tx.from}</span>
+                <span
+                  className={`text-lg font-black ${
+                    outOfStock ? 'text-slate-500 dark:text-neutral-400' : 'text-emerald-600 dark:text-emerald-400'
+                  }`}
+                >
+                  {CURRENCY}
+                  {startPrice.toLocaleString('en-US')}
+                </span>
+              </>
+            ) : (
+              <span className="text-sm text-slate-500 dark:text-neutral-400">{tx.seeOptions}</span>
+            )}
+          </div>
           <span
             aria-hidden
-            className={`inline-flex h-9 w-9 shrink-0 items-center justify-center gap-1 rounded-full text-xs font-semibold transition sm:w-auto sm:px-3.5 ${
+            className={`flex w-full items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-black shadow-lg transition-all group-active:scale-[0.98] ${
               outOfStock
-                ? 'bg-slate-100 text-slate-400 dark:bg-slate-800'
-                : 'bg-emerald-500/10 text-emerald-700 group-hover:bg-emerald-500 group-hover:text-emerald-950 dark:text-emerald-300'
+                ? 'bg-slate-100 text-slate-400 shadow-none dark:bg-neutral-900'
+                : 'bg-emerald-500 text-emerald-950 shadow-emerald-900/20 group-hover:bg-emerald-400'
             }`}
           >
-            <span className="hidden sm:inline">{tx.view}</span>
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            {tx.view}
+            <ArrowRight className="h-4 w-4" />
           </span>
         </div>
       </div>

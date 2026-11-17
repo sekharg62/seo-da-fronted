@@ -253,13 +253,13 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
   const paymentLogos = Object.entries(siteConfig.checkoutPayment)
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-6 md:py-10">
+    <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-6 md:py-10">
       <Breadcrumb items={[{ label: 'Shop', href: '/shop' }, { label: service.name }]} />
 
       <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
         {/* ── Image ─────────────────────────────────────────── */}
         <div className="md:sticky md:top-24 md:self-start">
-          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+          <div className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-950">
             <div className="absolute left-3 top-3 z-10 flex flex-wrap gap-2">
               {outOfStock && (
                 <span className="rounded-full bg-rose-500 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
@@ -297,7 +297,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
               {service.name}
             </h1>
             {shortDescription && (
-              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-neutral-300">
                 {shortDescription}
               </p>
             )}
@@ -310,13 +310,13 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           )}
 
           {/* Price */}
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/60">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
             {selectedPlan && unitPrice > 0 ? (
               <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
                 <span className="text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 sm:text-4xl">
                   {fmt(unitPrice)}
                 </span>
-                <span className="pb-1 text-sm text-slate-500 dark:text-slate-400">
+                <span className="pb-1 text-sm text-slate-500 dark:text-neutral-400">
                   {tx.for} {durationLabel(selectedPlan.months)}
                   {selectedPlan.months > 1 && (
                     <> · {fmt(unitPrice / selectedPlan.months)}{tx.perMonth}</>
@@ -329,7 +329,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                 )}
               </div>
             ) : (
-              <p className="text-sm text-slate-600 dark:text-slate-300">
+              <p className="text-sm text-slate-600 dark:text-neutral-300">
                 {plans.length ? fmt(Number(service.price)) : tx.noPlans}
               </p>
             )}
@@ -338,7 +338,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           {/* Account type */}
           {accountTypes.length > 0 && (
             <fieldset disabled={outOfStock}>
-              <legend className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-200">{tx.accountType}</legend>
+              <legend className="mb-2 text-sm font-semibold text-slate-800 dark:text-neutral-200">{tx.accountType}</legend>
               <div className={`grid gap-3 ${accountTypes.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                 {accountTypes.map((type) => {
                   const active = accountType === type
@@ -353,20 +353,20 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                       className={`flex items-start gap-3 rounded-xl border p-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50 ${
                         active
                           ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
-                          : 'border-slate-200 hover:border-emerald-400 dark:border-slate-700'
+                          : 'border-slate-200 hover:border-emerald-400 dark:border-neutral-700'
                       }`}
                     >
                       <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} aria-hidden />
                       <span className="min-w-0">
                         <span className="flex flex-wrap items-baseline gap-x-2">
-                          <span className="font-semibold text-slate-900 dark:text-slate-100">
+                          <span className="font-semibold text-slate-900 dark:text-neutral-100">
                             {type === 'shared' ? tx.shared : tx.personal}
                           </span>
                           {priceHere > 0 && (
-                            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{fmt(priceHere)}</span>
+                            <span className="text-xs font-medium text-slate-500 dark:text-neutral-400">{fmt(priceHere)}</span>
                           )}
                         </span>
-                        <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">
+                        <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-neutral-400">
                           {type === 'shared' ? tx.sharedHint : tx.personalHint}
                         </span>
                       </span>
@@ -380,7 +380,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           {/* Duration */}
           {plans.length > 0 && (
             <fieldset disabled={outOfStock}>
-              <legend className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-200">{tx.duration}</legend>
+              <legend className="mb-2 text-sm font-semibold text-slate-800 dark:text-neutral-200">{tx.duration}</legend>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {plans.map((plan) => {
                   const price = priceOf(plan, accountType)
@@ -398,8 +398,8 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                         active
                           ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500'
                           : available
-                            ? 'border-slate-200 hover:border-emerald-400 dark:border-slate-700'
-                            : 'border-dashed border-slate-200 opacity-50 dark:border-slate-800'
+                            ? 'border-slate-200 hover:border-emerald-400 dark:border-neutral-700'
+                            : 'border-dashed border-slate-200 opacity-50 dark:border-neutral-800'
                       }`}
                     >
                       {save > 0 && (
@@ -407,10 +407,10 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                           -{save}%
                         </span>
                       )}
-                      <span className="block text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      <span className="block text-sm font-semibold text-slate-900 dark:text-neutral-100">
                         {durationLabel(plan.months)}
                       </span>
-                      <span className={`block text-xs ${active ? 'font-semibold text-emerald-700 dark:text-emerald-300' : 'text-slate-500 dark:text-slate-400'}`}>
+                      <span className={`block text-xs ${active ? 'font-semibold text-emerald-700 dark:text-emerald-300' : 'text-slate-500 dark:text-neutral-400'}`}>
                         {available ? fmt(price) : tx.notAvailable}
                       </span>
                     </button>
@@ -423,13 +423,13 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           {/* Quantity + total */}
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="mb-2 text-sm font-semibold text-slate-800 dark:text-slate-200" id="qty-label">{tx.quantity}</p>
-              <div className="inline-flex items-center rounded-full border border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800" role="group" aria-labelledby="qty-label">
+              <p className="mb-2 text-sm font-semibold text-slate-800 dark:text-neutral-200" id="qty-label">{tx.quantity}</p>
+              <div className="inline-flex items-center rounded-full border border-slate-300 bg-white dark:border-neutral-600 dark:bg-neutral-900" role="group" aria-labelledby="qty-label">
                 <button
                   type="button"
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
                   disabled={outOfStock || qty <= 1}
-                  className="flex h-10 w-10 items-center justify-center rounded-l-full text-slate-700 transition hover:bg-slate-100 disabled:opacity-40 dark:text-slate-200 dark:hover:bg-slate-700"
+                  className="flex h-10 w-10 items-center justify-center rounded-l-full text-slate-700 transition hover:bg-slate-100 disabled:opacity-40 dark:text-neutral-200 dark:hover:bg-neutral-800"
                   aria-label="Decrease quantity"
                 >
                   <Minus className="h-4 w-4" />
@@ -446,13 +446,13 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                   }}
                   disabled={outOfStock}
                   aria-label={tx.quantity}
-                  className="h-10 w-12 border-x border-slate-300 bg-transparent text-center text-sm font-semibold text-slate-900 focus:outline-none dark:border-slate-600 dark:text-slate-100 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  className="h-10 w-12 border-x border-slate-300 bg-transparent text-center text-sm font-semibold text-slate-900 focus:outline-none dark:border-neutral-600 dark:text-neutral-100 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 />
                 <button
                   type="button"
                   onClick={() => setQty((q) => Math.min(MAX_QTY, q + 1))}
                   disabled={outOfStock || qty >= MAX_QTY}
-                  className="flex h-10 w-10 items-center justify-center rounded-r-full text-slate-700 transition hover:bg-slate-100 disabled:opacity-40 dark:text-slate-200 dark:hover:bg-slate-700"
+                  className="flex h-10 w-10 items-center justify-center rounded-r-full text-slate-700 transition hover:bg-slate-100 disabled:opacity-40 dark:text-neutral-200 dark:hover:bg-neutral-800"
                   aria-label="Increase quantity"
                 >
                   <Plus className="h-4 w-4" />
@@ -460,7 +460,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
               </div>
             </div>
             {canBuy && (
-              <p className="text-right text-sm text-slate-500 dark:text-slate-400" aria-live="polite">
+              <p className="text-right text-sm text-slate-500 dark:text-neutral-400" aria-live="polite">
                 {tx.total}
                 <span className="block text-2xl font-bold text-slate-900 dark:text-white">{fmt(unitPrice * qty)}</span>
               </p>
@@ -474,7 +474,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                 type="button"
                 disabled={!canBuy}
                 onClick={handleAddToCart}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500 bg-white px-4 py-3 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-900 dark:text-emerald-400 dark:hover:bg-emerald-500/10"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500 bg-white px-4 py-3 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-neutral-950 dark:text-emerald-400 dark:hover:bg-emerald-500/10"
               >
                 {justAdded ? <Check className="h-4 w-4" aria-hidden /> : <ShoppingCart className="h-4 w-4" aria-hidden />}
                 {justAdded ? tx.added : tx.addToCart}
@@ -493,7 +493,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-slate-700 dark:text-slate-200 dark:hover:text-emerald-400"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-neutral-700 dark:text-neutral-200 dark:hover:text-emerald-400"
             >
               <MessageCircle className="h-4 w-4 text-emerald-500" aria-hidden />
               {tx.askWhatsapp}
@@ -501,8 +501,8 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           </div>
 
           {/* Payment methods */}
-          <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-4 dark:border-slate-800">
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+          <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-4 dark:border-neutral-800">
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-neutral-400">
               <CreditCard className="h-4 w-4" aria-hidden /> {tx.weAccept}
             </span>
             {paymentLogos.map(([key, cfg]) => (
@@ -512,7 +512,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                 alt={key}
                 width={56}
                 height={28}
-                className="h-7 w-14 rounded-md border border-slate-200 bg-white object-contain p-1 dark:border-slate-700"
+                className="h-7 w-14 rounded-md border border-slate-200 bg-white object-contain p-1 dark:border-neutral-700"
               />
             ))}
           </div>
@@ -526,14 +526,14 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
           return (
             <li
               key={item.title}
-              className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60"
+              className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-950"
             >
               <span className="rounded-lg bg-emerald-500/10 p-2 text-emerald-600 dark:text-emerald-400">
                 <Icon className="h-5 w-5" aria-hidden />
               </span>
               <span className="min-w-0">
-                <span className="block text-sm font-semibold text-slate-900 dark:text-slate-100">{item.title}</span>
-                <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">{item.body}</span>
+                <span className="block text-sm font-semibold text-slate-900 dark:text-neutral-100">{item.title}</span>
+                <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-neutral-400">{item.body}</span>
               </span>
             </li>
           )
@@ -543,12 +543,12 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
       {/* ── Details + how to buy ──────────────────────────────── */}
       <div className={`mt-10 grid gap-6 ${description ? 'lg:grid-cols-[1fr_22rem]' : ''}`}>
         {description && (
-          <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/60 sm:p-6">
+          <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950 sm:p-6">
             <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">{tx.details}</h2>
-            <div className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-300">{description}</div>
+            <div className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-neutral-300">{description}</div>
           </section>
         )}
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900/60 sm:p-6 lg:self-start">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950 sm:p-6 lg:self-start">
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">{tx.howToBuy}</h2>
           <ol className={`grid gap-4 ${description ? '' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
             {tx.steps.map((step, i) => (
@@ -556,7 +556,7 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-emerald-950">
                   {i + 1}
                 </span>
-                <span className="pt-0.5 text-sm leading-relaxed text-slate-700 dark:text-slate-300">{step}</span>
+                <span className="pt-0.5 text-sm leading-relaxed text-slate-700 dark:text-neutral-300">{step}</span>
               </li>
             ))}
           </ol>
@@ -566,14 +566,14 @@ export default function ProductDetailClient({ service }: { service: ServiceDetai
       {/* ── Mobile sticky buy bar (above the bottom nav) ──────── */}
       {canBuy && (
         <div
-          className={`fixed inset-x-0 z-30 border-t border-slate-200 bg-white/95 px-4 py-2.5 backdrop-blur transition-transform duration-200 dark:border-slate-800 dark:bg-slate-950/95 md:hidden bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] ${
+          className={`fixed inset-x-0 z-30 border-t border-slate-200 bg-white/95 px-4 py-2.5 backdrop-blur transition-transform duration-200 dark:border-neutral-800 dark:bg-neutral-950 md:hidden bottom-[calc(4.25rem+env(safe-area-inset-bottom,0px))] ${
             actionsVisible ? 'pointer-events-none translate-y-[200%]' : 'translate-y-0'
           }`}
           aria-hidden={actionsVisible}
         >
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs text-slate-500 dark:text-slate-400">{planText}</p>
+              <p className="truncate text-xs text-slate-500 dark:text-neutral-400">{planText}</p>
               <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">{fmt(unitPrice * qty)}</p>
             </div>
             <button

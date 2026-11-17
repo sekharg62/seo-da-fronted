@@ -32,34 +32,34 @@ export function HomeServices() {
   return (
     <section
       id="services"
-      className="border-t border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/80"
+      className="bg-white dark:bg-transparent"
     >
-      <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-        <div className="max-w-2xl mb-8">
-          <h2 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-2">
+      <div className="mx-auto w-full max-w-[96rem] px-4 py-8 sm:px-6 md:py-10">
+        <div className="mb-6 max-w-2xl md:mb-8">
+          <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-neutral-50 md:text-2xl">
             {t('homeServicesTitle' as any)}
           </h2>
-          <p className="text-sm md:text-base text-slate-600 dark:text-slate-300">
+          <p className="text-sm text-slate-500 dark:text-neutral-400">
             {t('homeServicesBody' as any)}
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 dark:border-neutral-800 dark:bg-neutral-900 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((service) => (
             <div
               key={service.title}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 flex flex-col gap-2 hover:border-emerald-500/50 hover:translate-y-0.5 transition-all"
+              className="flex items-start gap-3 bg-white p-4 dark:bg-neutral-950 sm:p-5"
             >
-              <div className="flex items-center justify-between">
-                <div className="rounded-lg bg-slate-100 dark:bg-slate-800/70 p-2">
-                  {service.icon}
-                </div>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 dark:bg-emerald-950/50">
+                {service.icon}
               </div>
-              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-50">
-                {service.title}
-              </h3>
-              <p className="text-xs md:text-xs text-slate-600 dark:text-slate-300">
-                {service.description}
-              </p>
+              <div className="min-w-0">
+                <h3 className="text-sm font-bold leading-tight text-slate-900 dark:text-neutral-50">
+                  {service.title}
+                </h3>
+                <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-neutral-400">
+                  {service.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

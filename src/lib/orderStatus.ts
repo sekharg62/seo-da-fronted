@@ -36,7 +36,7 @@ export const ORDER_STATUS: Record<OrderStatus, { en: string; bn: string; hintEn:
     bn: 'রিফান্ড হয়েছে',
     hintEn: 'The payment for this order was refunded.',
     hintBn: 'এই অর্ডারের পেমেন্ট ফেরত দেওয়া হয়েছে।',
-    tone: 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200',
+    tone: 'bg-slate-200 text-slate-700 dark:bg-neutral-700 dark:text-neutral-200',
   },
 }
 

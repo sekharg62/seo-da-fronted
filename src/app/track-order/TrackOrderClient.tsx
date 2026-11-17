@@ -110,11 +110,11 @@ function OrderStatusCard({ order, lang, onRemove }: { order: TrackedOrder; lang:
       <div>
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={order.status} lang={lang} />
-          <span className="text-xs text-slate-500 dark:text-slate-400">
+          <span className="text-xs text-slate-500 dark:text-neutral-400">
             {tx.placed}: {formatDate(order.createdAt, lang)}
           </span>
         </div>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{lang === 'bn' ? meta?.hintBn : meta?.hintEn}</p>
+        <p className="mt-2 text-sm text-slate-600 dark:text-neutral-300">{lang === 'bn' ? meta?.hintBn : meta?.hintEn}</p>
       </div>
 
       {stepIndex >= 0 && (
@@ -123,7 +123,7 @@ function OrderStatusCard({ order, lang, onRemove }: { order: TrackedOrder; lang:
             const done = i <= stepIndex
             return (
               <li key={step} className="flex flex-col gap-1.5">
-                <span className={`h-1.5 rounded-full ${done ? 'bg-emerald-500' : 'bg-slate-200 dark:bg-slate-700'}`} />
+                <span className={`h-1.5 rounded-full ${done ? 'bg-emerald-500' : 'bg-slate-200 dark:bg-neutral-700'}`} />
                 <span
                   className={`flex items-center gap-1 text-[11px] font-medium ${
                     done ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-400'
@@ -139,18 +139,18 @@ function OrderStatusCard({ order, lang, onRemove }: { order: TrackedOrder; lang:
       )}
 
       <div>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{tx.items}</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-neutral-400">{tx.items}</p>
         <ul className="space-y-2">
           {order.orderItems.map((item) => (
-            <li key={item.id} className="flex items-center gap-3 rounded-xl border border-slate-200 p-2.5 dark:border-slate-700">
+            <li key={item.id} className="flex items-center gap-3 rounded-lg border border-slate-200 p-2.5 dark:border-neutral-700">
               <CartItemThumb name={item.serviceName} imgUrl={item.service?.imgUrl} className="h-11 w-11" />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-slate-900 dark:text-slate-100">{item.serviceName}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="truncate text-sm font-medium text-slate-900 dark:text-neutral-100">{item.serviceName}</p>
+                <p className="text-xs text-slate-500 dark:text-neutral-400">
                   {item.quantity} × {CURRENCY}{Number(item.price).toFixed(0)}
                 </p>
               </div>
-              <span className="shrink-0 text-sm font-semibold text-slate-900 dark:text-slate-100">
+              <span className="shrink-0 text-sm font-semibold text-slate-900 dark:text-neutral-100">
                 {CURRENCY}{(Number(item.price) * item.quantity).toFixed(0)}
               </span>
             </li>
@@ -158,21 +158,21 @@ function OrderStatusCard({ order, lang, onRemove }: { order: TrackedOrder; lang:
         </ul>
       </div>
 
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 rounded-xl bg-slate-50 p-3 text-sm dark:bg-slate-800/50">
-        <dt className="text-slate-500 dark:text-slate-400">{tx.total}</dt>
+      <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 rounded-lg bg-slate-50 p-3 text-sm dark:bg-neutral-800/50">
+        <dt className="text-slate-500 dark:text-neutral-400">{tx.total}</dt>
         <dd className="text-right font-bold text-emerald-600 dark:text-emerald-400">{CURRENCY}{Number(order.totalPrice).toFixed(0)}</dd>
-        <dt className="text-slate-500 dark:text-slate-400">{tx.payment}</dt>
-        <dd className="text-right font-medium uppercase text-slate-800 dark:text-slate-200">{order.paymentMethod}</dd>
+        <dt className="text-slate-500 dark:text-neutral-400">{tx.payment}</dt>
+        <dd className="text-right font-medium uppercase text-slate-800 dark:text-neutral-200">{order.paymentMethod}</dd>
         {order.userPaymentMethodNumber && (
           <>
-            <dt className="text-slate-500 dark:text-slate-400">{tx.paidFrom}</dt>
-            <dd className="text-right font-mono text-slate-800 dark:text-slate-200">{order.userPaymentMethodNumber}</dd>
+            <dt className="text-slate-500 dark:text-neutral-400">{tx.paidFrom}</dt>
+            <dd className="text-right font-mono text-slate-800 dark:text-neutral-200">{order.userPaymentMethodNumber}</dd>
           </>
         )}
         {order.transactionId && (
           <>
-            <dt className="text-slate-500 dark:text-slate-400">{tx.trxId}</dt>
-            <dd className="truncate text-right font-mono text-slate-800 dark:text-slate-200">{order.transactionId}</dd>
+            <dt className="text-slate-500 dark:text-neutral-400">{tx.trxId}</dt>
+            <dd className="truncate text-right font-mono text-slate-800 dark:text-neutral-200">{order.transactionId}</dd>
           </>
         )}
       </dl>
@@ -181,7 +181,7 @@ function OrderStatusCard({ order, lang, onRemove }: { order: TrackedOrder; lang:
         <button
           type="button"
           onClick={() => setBillError(printOrderBill(order) ? null : tx.popupBlocked)}
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
+          className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-emerald-500 px-4 py-2.5 text-sm font-bold text-emerald-950 transition hover:bg-emerald-400"
         >
           <Download className="h-4 w-4" aria-hidden /> {tx.bill}
         </button>
@@ -189,7 +189,7 @@ function OrderStatusCard({ order, lang, onRemove }: { order: TrackedOrder; lang:
           <button
             type="button"
             onClick={onRemove}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 dark:border-neutral-600 dark:text-neutral-300 dark:hover:bg-neutral-900"
           >
             <Trash2 className="h-4 w-4" aria-hidden /> {tx.remove}
           </button>
@@ -274,32 +274,32 @@ export default function TrackOrderClient() {
   }
 
   const inputCls =
-    'w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100'
+    'w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100'
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-8 md:py-12">
+    <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 py-8 md:py-12">
       <Breadcrumb items={[{ label: tx.crumb }]} jsonLd={false} />
       <div className="mb-8">
-        <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
+        <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-neutral-50 sm:text-3xl">
           <PackageSearch className="h-7 w-7 text-emerald-500" aria-hidden /> {tx.title}
         </h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{tx.subtitle}</p>
+        <p className="mt-2 text-sm text-slate-600 dark:text-neutral-400">{tx.subtitle}</p>
       </div>
 
       {/* Orders saved on this device — shown first when present */}
       {savedOrders.length > 0 && (
         <section className="mb-8" aria-labelledby="device-orders">
-          <h2 id="device-orders" className="flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-slate-50">
+          <h2 id="device-orders" className="flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-neutral-50">
             <Smartphone className="h-5 w-5 text-emerald-500" aria-hidden /> {tx.deviceTitle}
           </h2>
-          <p className="mb-3 text-sm text-slate-500 dark:text-slate-400">{tx.deviceHint}</p>
+          <p className="mb-3 text-sm text-slate-500 dark:text-neutral-400">{tx.deviceHint}</p>
           <ul className="space-y-3">
             {savedOrders.map((saved) => {
               const state = live[saved.orderNo]
               const order = state && 'orderNo' in state ? state : null
               const open = openOrderNo === saved.orderNo
               return (
-                <li key={saved.orderNo} className="rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/70">
+                <li key={saved.orderNo} className="rounded-lg border border-slate-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
                   <button
                     type="button"
                     onClick={() => setOpenOrderNo(open ? null : saved.orderNo)}
@@ -307,8 +307,8 @@ export default function TrackOrderClient() {
                     className="flex w-full items-center gap-3 p-4 text-left"
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="font-mono text-sm font-semibold text-slate-900 dark:text-slate-100">#{saved.orderNo}</p>
-                      <p className="truncate text-xs text-slate-500 dark:text-slate-400">
+                      <p className="font-mono text-sm font-semibold text-slate-900 dark:text-neutral-100">#{saved.orderNo}</p>
+                      <p className="truncate text-xs text-slate-500 dark:text-neutral-400">
                         {saved.summary ?? '—'}
                         {saved.total ? ` · ${CURRENCY}${saved.total.toFixed(0)}` : ''} · {formatDate(saved.createdAt, lang)}
                       </p>
@@ -323,7 +323,7 @@ export default function TrackOrderClient() {
                     <ChevronDown className={`h-4 w-4 shrink-0 text-slate-400 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden />
                   </button>
                   {open && (
-                    <div className="border-t border-slate-200 p-4 dark:border-slate-800">
+                    <div className="border-t border-slate-200 p-4 dark:border-neutral-800">
                       {order ? (
                         <OrderStatusCard order={order} lang={lang} onRemove={() => removeSavedOrder(saved.orderNo)} />
                       ) : state && 'error' in state ? (
@@ -332,7 +332,7 @@ export default function TrackOrderClient() {
                           <button
                             type="button"
                             onClick={() => removeSavedOrder(saved.orderNo)}
-                            className="inline-flex items-center gap-2 text-sm text-slate-600 hover:underline dark:text-slate-300"
+                            className="inline-flex items-center gap-2 text-sm text-slate-600 hover:underline dark:text-neutral-300"
                           >
                             <Trash2 className="h-4 w-4" aria-hidden /> {tx.remove}
                           </button>
@@ -352,13 +352,13 @@ export default function TrackOrderClient() {
       {/* Manual lookup */}
       <section
         aria-labelledby="lookup-title"
-        className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/70 sm:p-6"
+        className="rounded-lg border border-slate-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-950 sm:p-6"
       >
-        <h2 id="lookup-title" className="text-lg font-semibold text-slate-900 dark:text-slate-50">{tx.lookupTitle}</h2>
-        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">{tx.lookupHint}</p>
+        <h2 id="lookup-title" className="text-lg font-semibold text-slate-900 dark:text-neutral-50">{tx.lookupTitle}</h2>
+        <p className="mb-4 text-sm text-slate-500 dark:text-neutral-400">{tx.lookupHint}</p>
         <form onSubmit={handleLookup} className="grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
           <label className="block">
-            <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{tx.orderId}</span>
+            <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{tx.orderId}</span>
             <input
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
@@ -370,7 +370,7 @@ export default function TrackOrderClient() {
             />
           </label>
           <label className="block">
-            <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">{tx.phone}</span>
+            <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{tx.phone}</span>
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -385,7 +385,7 @@ export default function TrackOrderClient() {
           <button
             type="submit"
             disabled={checking}
-            className="inline-flex h-[46px] items-center justify-center gap-2 rounded-lg bg-emerald-500 px-5 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:opacity-60"
+            className="inline-flex h-[46px] items-center justify-center gap-2 rounded-md bg-emerald-500 px-5 text-sm font-bold text-emerald-950 transition hover:bg-emerald-400 disabled:opacity-60"
           >
             {checking ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Search className="h-4 w-4" aria-hidden />}
             {checking ? tx.checking : tx.check}
@@ -397,15 +397,15 @@ export default function TrackOrderClient() {
           </p>
         )}
         {result && (
-          <div className="mt-5 border-t border-slate-200 pt-5 dark:border-slate-800">
-            <p className="mb-3 font-mono text-sm font-semibold text-slate-900 dark:text-slate-100">#{result.orderNo}</p>
+          <div className="mt-5 border-t border-slate-200 pt-5 dark:border-neutral-800">
+            <p className="mb-3 font-mono text-sm font-semibold text-slate-900 dark:text-neutral-100">#{result.orderNo}</p>
             <OrderStatusCard order={result} lang={lang} />
           </div>
         )}
       </section>
 
       {savedOrders.length === 0 && (
-        <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-6 text-center text-sm text-slate-500 dark:text-neutral-400">
           {tx.noDevice}{' '}
           <Link href="/create-order" className="font-medium text-emerald-600 hover:underline dark:text-emerald-400">
             {tx.newOrder}

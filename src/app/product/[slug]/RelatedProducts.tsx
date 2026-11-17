@@ -12,7 +12,7 @@ export function RelatedProducts({ services }: { services: ServiceDto[] }) {
   const bn = language === 'bn'
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 pb-12" aria-labelledby="related-heading">
+    <section className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 pb-12" aria-labelledby="related-heading">
       <div className="mb-4 flex items-center justify-between gap-4">
         <h2 id="related-heading" className="text-lg font-semibold text-slate-900 dark:text-white sm:text-xl">
           {bn ? 'আরও দেখুন' : 'You may also like'}
@@ -24,7 +24,7 @@ export function RelatedProducts({ services }: { services: ServiceDto[] }) {
           {bn ? 'সব পণ্য' : 'View all'} <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </div>
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
         {services.map((s) => (
           <DigitalServiceCard key={s.id} service={s} />
         ))}

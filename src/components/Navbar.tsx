@@ -23,7 +23,7 @@ function Brand() {
       {/* Both logos are rendered; CSS picks one, avoiding a flash/hydration mismatch on theme load */}
       <img src="/Blue.png" alt="" width={40} height={40} className="h-9 w-9 shrink-0 dark:hidden sm:h-10 sm:w-10" />
       <img src="/White.png" alt="" width={40} height={40} className="hidden h-9 w-9 shrink-0 dark:block sm:h-10 sm:w-10" />
-      <span className="truncate text-base font-semibold tracking-tight text-slate-900 dark:text-slate-50 sm:text-[17px]">
+      <span className="truncate text-base font-semibold tracking-tight text-slate-900 dark:text-neutral-50 sm:text-[17px]">
         {name}
       </span>
     </Link>
@@ -46,7 +46,7 @@ function DesktopNavLinks() {
                 className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
                   active
                     ? "text-emerald-700 dark:text-emerald-400"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800/70 dark:hover:text-white"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-neutral-300 dark:hover:bg-neutral-800/70 dark:hover:text-white"
                 }`}
               >
                 {t(labelKey as any)}
@@ -75,8 +75,8 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-30 w-full border-b backdrop-blur transition-shadow ${
         scrolled
-          ? "border-slate-200 bg-white/95 shadow-sm shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-950/90 dark:shadow-black/30"
-          : "border-transparent bg-white/80 dark:bg-slate-950/70"
+          ? "border-slate-200 bg-white/95 shadow-sm shadow-slate-900/5 dark:border-neutral-800 dark:bg-neutral-950/90 dark:shadow-black/30"
+          : "border-transparent bg-white/80 dark:bg-neutral-950"
       }`}
     >
       <a
@@ -86,7 +86,7 @@ export default function Navbar() {
         {t("navSkipToContent" as any)}
       </a>
 
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:gap-4 lg:gap-6">
+      <div className="mx-auto flex w-full max-w-[96rem] flex-col gap-3 px-4 sm:px-6 py-3 md:flex-row md:items-center md:gap-4 lg:gap-6">
         {/* Row 1 (mobile) / left side (desktop): brand + mobile-only actions */}
         <div className="flex items-center justify-between gap-3 md:contents">
           <div className="flex min-w-0 items-center gap-2">

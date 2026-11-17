@@ -15,7 +15,7 @@
 }
 
 .dark {
-  --background: #0a0a0a;
+  --background: #000000;
   --foreground: #ededed;
 }
 
@@ -75,67 +75,67 @@ body {
 
 /* Dark mode */
 .dark .da-phone-input .form-control.da-phone-input__control {
-  border-color: rgb(71 85 105); /* slate-600 */
-  background: rgb(30 41 59); /* slate-800 */
-  color: rgb(241 245 249); /* slate-100 */
+  border-color: rgb(82 82 82); /* neutral-600 */
+  background: rgb(38 38 38); /* neutral-800 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .flag-dropdown.da-phone-input__button {
-  border-color: rgb(71 85 105); /* slate-600 */
-  background: rgb(30 41 59); /* slate-800 */
+  border-color: rgb(82 82 82); /* neutral-600 */
+  background: rgb(38 38 38); /* neutral-800 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown {
-  border-color: rgb(30 41 59); /* slate-800 */
-  background: rgb(2 6 23); /* slate-950 */
-  color: rgb(241 245 249); /* slate-100 */
+  border-color: rgb(38 38 38); /* neutral-800 */
+  background: rgb(10 10 10); /* neutral-950 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country {
   background: transparent;
-  color: rgb(241 245 249); /* slate-100 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country .country-name {
-  color: rgb(241 245 249); /* slate-100 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country .dial-code {
-  color: rgb(148 163 184); /* slate-400 */
+  color: rgb(163 163 163); /* neutral-400 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country:hover,
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country:focus {
-  background: rgb(30 41 59); /* slate-800 */
-  color: rgb(241 245 249); /* slate-100 */
+  background: rgb(38 38 38); /* neutral-800 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country.highlight,
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country.highlight:hover {
-  background: rgb(30 41 59); /* slate-800 */
-  color: rgb(241 245 249); /* slate-100 */
+  background: rgb(38 38 38); /* neutral-800 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country.highlight .country-name,
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country.highlight:hover .country-name {
-  color: rgb(241 245 249); /* slate-100 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country.highlight .dial-code,
 .dark .da-phone-input .country-list.da-phone-input__dropdown .country.highlight:hover .dial-code {
-  color: rgb(148 163 184); /* slate-400 */
+  color: rgb(163 163 163); /* neutral-400 */
 }
 
 .dark .da-phone-input .search-box.da-phone-input__search,
 .dark .da-phone-input .search-box.da-phone-input__search-box {
-  border-color: rgb(71 85 105); /* slate-600 */
-  background: rgb(30 41 59); /* slate-800 */
-  color: rgb(241 245 249); /* slate-100 */
+  border-color: rgb(82 82 82); /* neutral-600 */
+  background: rgb(38 38 38); /* neutral-800 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 .dark .da-phone-input .search-box.da-phone-input__search::placeholder,
 .dark .da-phone-input .search-box.da-phone-input__search-box::placeholder {
-  color: rgb(148 163 184); /* slate-400 */
+  color: rgb(163 163 163); /* neutral-400 */
 }
 
 /* Some versions render an <input> inside .search-box */
@@ -148,17 +148,17 @@ body {
 }
 
 .dark .da-phone-input .search-box input::placeholder {
-  color: rgb(148 163 184); /* slate-400 */
+  color: rgb(163 163 163); /* neutral-400 */
 }
 
 /* Fix white "search area" strip in dropdown (dark mode) */
 .dark .da-phone-input .country-list.da-phone-input__dropdown .search {
-  background: rgb(2 6 23); /* slate-950 */
+  background: rgb(10 10 10); /* neutral-950 */
 }
 
 .dark .da-phone-input .country-list.da-phone-input__dropdown .search-box {
-  background: rgb(30 41 59); /* slate-800 */
-  color: rgb(241 245 249); /* slate-100 */
+  background: rgb(38 38 38); /* neutral-800 */
+  color: rgb(245 245 245); /* neutral-100 */
 }
 
 /* Dropdown scrollbar (light + dark) */
@@ -832,4 +832,9 @@ html.lang-bn {
 
 .read-the-docs {
   color: #888;
+}
+
+/* Dark mode: true-black page with a soft emerald glow in the top-right corner */
+.dark body {
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.10) 0%, #000 45%, #000 100%) fixed;
 }

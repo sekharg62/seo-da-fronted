@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ClipboardPlus, Mail, PackageSearch, Phone } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
 import { FaInstagram, FaTiktok, FaYoutube } from 'react-icons/fa'
 import { SiMessenger } from 'react-icons/si'
 import { useLanguage } from '@/context/LanguageContext'
@@ -10,9 +10,9 @@ import { siteConfig } from '@/config/siteConfig'
 
 function sectionHeading(text: string) {
   return (
-    <p className="mb-3 text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-slate-700 dark:text-slate-200">
+    <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
       {text}
-    </p>
+    </h3>
   )
 }
 
@@ -28,7 +28,7 @@ function PaymentMethodLogo({
   const [failed, setFailed] = useState(false)
   if (failed) {
     return (
-      <span className="inline-flex h-8 min-w-18 items-center justify-center rounded-md border border-slate-200 bg-slate-100/90 px-2 text-[10px] font-medium text-slate-700 dark:border-slate-600 dark:bg-slate-800/70 dark:text-slate-200">
+      <span className="inline-flex h-7 min-w-18 items-center justify-center rounded-md border border-slate-200 bg-slate-100/90 px-2 text-[10px] font-medium text-slate-700 dark:border-neutral-600 dark:bg-neutral-800/70 dark:text-neutral-200">
         {fallbackLabel}
       </span>
     )
@@ -37,7 +37,7 @@ function PaymentMethodLogo({
     <img
       src={src}
       alt={alt}
-      className="h-8 w-auto max-w-22 object-contain opacity-90 dark:opacity-85"
+      className="h-6 w-auto max-w-20 object-contain"
       loading="lazy"
       decoding="async"
       onError={() => setFailed(true)}
@@ -48,202 +48,123 @@ function PaymentMethodLogo({
 export default function Footer() {
   const { t } = useLanguage()
 
-  /** Three columns, balanced lengths — reads top-to-bottom per column like a newspaper. */
-  const exploreColumns: { href: string; label: string }[][] = [
-    [
-      { href: '/', label: t('footerLinkHome') },
-    ],
-    [
-      { href: '/shop', label: t('footerLinkShop') },
-      { href: '/blog', label: t('footerLinkBlog') },
-    ],
-    [
-      { href: '/terms', label: t('footerTerms') },
-      { href: '/privacy', label: t('footerPrivacy') },
-    ],
+  const exploreLinks: { href: string; label: string }[] = [
+    { href: '/', label: t('footerLinkHome') },
+    { href: '/shop', label: t('footerLinkShop') },
+    { href: '/blog', label: t('footerLinkBlog') },
+    { href: '/create-order', label: t('footerCreateOrder') },
+    { href: '/track-order', label: t('footerTrackOrder') },
   ]
 
   const { websiteName, companyName, contact, social } = siteConfig
-  const mailto = `mailto:${contact.email}`
-  const telHref = `tel:${contact.phoneTel.replace(/\s/g, '')}`
-  const email = contact.email
-  const phoneLabel = contact.phoneDisplay
+  const socials = [
+    { href: social.instagram, label: t('footerInstagramLabel'), Icon: FaInstagram, hover: 'hover:bg-[#E4405F] hover:border-[#E4405F]' },
+    { href: social.messenger, label: t('footerMessengerLabel'), Icon: SiMessenger, hover: 'hover:bg-[#0084FF] hover:border-[#0084FF]' },
+    { href: social.youtube, label: t('footerYoutubeLabel'), Icon: FaYoutube, hover: 'hover:bg-[#FF0000] hover:border-[#FF0000]' },
+    { href: social.tiktok, label: t('footerTiktokLabel'), Icon: FaTiktok, hover: 'hover:bg-black hover:border-black' },
+  ]
+  const linkCls =
+    'inline-block text-slate-600 transition-colors hover:text-emerald-600 dark:text-neutral-300 dark:hover:text-emerald-400'
 
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-emerald-200/90 bg-gradient-to-b from-emerald-50/95 via-teal-50/35 to-slate-100 text-slate-800 dark:border-emerald-500/25 dark:from-slate-950 dark:via-slate-900 dark:to-emerald-950/25 dark:text-slate-200 max-md:pb-[calc(5rem+env(safe-area-inset-bottom,0px))]">
-      {/* Light: richer emerald + teal wash; dark: subtle single glow */}
-      <div
-        className="pointer-events-none absolute inset-0 dark:hidden"
-        aria-hidden
-        style={{
-          backgroundImage:
-            'radial-gradient(ellipse 110% 75% at 50% -35%, rgba(16, 185, 129, 0.22), transparent 52%), radial-gradient(ellipse 80% 55% at 100% 100%, rgba(20, 184, 166, 0.14), transparent 50%)',
-        }}
-      />
-      <div
-        className="pointer-events-none absolute inset-0 hidden opacity-60 dark:block"
-        aria-hidden
-        style={{
-          backgroundImage:
-            'radial-gradient(ellipse 120% 80% at 50% -40%, rgba(16, 185, 129, 0.14), transparent 55%)',
-        }}
-      />
-      <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-emerald-400/25 blur-3xl dark:bg-emerald-500/10" aria-hidden />
-      <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-teal-300/20 blur-3xl dark:bg-sky-500/5" aria-hidden />
-
-      <div className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-        {/* Row 1: brand | tagline | payments */}
-        <div className="grid gap-10 lg:grid-cols-3 lg:items-start lg:gap-10">
-          <div>
-            <Link href="/" className="inline-flex items-center gap-2 hover:opacity-90 transition">
-              {/* CSS picks the logo for the theme, so server and client markup match */}
-              <img src="/Blue.png" alt={websiteName} className="h-10 w-10 dark:hidden" />
-              <img src="/White.png" alt="" aria-hidden className="hidden h-10 w-10 dark:block" />
-              <span className="text-base font-semibold tracking-tight text-slate-900 dark:text-slate-50">
-                {websiteName}
-              </span>
+    <footer className="mt-auto border-t border-slate-200 bg-white text-slate-800 dark:border-neutral-800 dark:bg-black dark:text-neutral-200 max-md:pb-[calc(5rem+env(safe-area-inset-bottom,0px))]">
+      <div className="mx-auto w-full max-w-[96rem] px-4 pt-12 sm:px-6">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.5fr_1fr_1.2fr_1.2fr]">
+          {/* Brand */}
+          <div className="col-span-2 lg:col-span-1">
+            <Link href="/" className="mb-4 inline-flex items-center gap-2.5 transition-opacity hover:opacity-90">
+              <img src="/Blue.png" alt={websiteName} className="h-9 w-9 dark:hidden" />
+              <img src="/White.png" alt="" aria-hidden className="hidden h-9 w-9 dark:block" />
+              <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">{websiteName}</span>
             </Link>
-            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-              © {new Date().getFullYear()} {companyName}. {t('allRightsReserved')}
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-            <Link
-              href="/create-order"
-              className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 shadow-sm shadow-emerald-500/20 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950"
-            >
-              <ClipboardPlus className="h-4 w-4" aria-hidden />
-              {t('footerCreateOrder' as any)}
-            </Link>
-            <Link
-              href="/track-order"
-              className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/70 px-4 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:text-emerald-300 dark:hover:bg-emerald-500/10"
-            >
-              <PackageSearch className="h-4 w-4" aria-hidden />
-              {t('footerTrackOrder' as any)}
-            </Link>
-            </div>
-            <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">{t('footerCreateOrderHint' as any)}</p>
-          </div>
-
-          <div className="lg:px-2">
-            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300 lg:mx-auto lg:max-w-sm lg:text-center">
+            <p className="mb-5 max-w-sm text-sm leading-relaxed text-slate-500 dark:text-neutral-400">
               {t('footerTagline')}
             </p>
-          </div>
-
-          <div className="lg:text-right">
-            {sectionHeading(t('footerPaymentsTitle'))}
-            <div className="flex flex-wrap items-center gap-2 lg:justify-end">
-              {siteConfig.footerPaymentMethods.map(({ src, altKey }) => (
-                <PaymentMethodLogo key={src} src={src} alt={t(altKey)} fallbackLabel={t(altKey)} />
+            <div className="flex items-center gap-2.5">
+              {socials.map(({ href, label, Icon, hover }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className={`flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 transition-colors hover:text-white dark:border-neutral-700 dark:text-neutral-200 ${hover}`}
+                >
+                  <Icon className="h-5 w-5" aria-hidden />
+                </a>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* Row 2: pages (balanced columns) | contact + social */}
-        <div className="mt-10 grid gap-10 border-t border-emerald-200/70 pt-10 dark:border-slate-700/70 lg:grid-cols-12 lg:items-start lg:gap-12">
-          <div className="lg:col-span-5">
+          {/* Explore */}
+          <div>
             {sectionHeading(t('footerExploreTitle'))}
-            <nav
-              className="grid grid-cols-2 gap-x-8 sm:grid-cols-3 sm:gap-x-10"
-              aria-label={t('footerExploreTitle')}
-            >
-              {exploreColumns.map((col, colIndex) => (
-                <ul key={colIndex} className="min-w-0 space-y-2.5 text-sm">
-                  {col.map(({ href, label }) => (
-                    <li key={href}>
-                      <Link
-                        href={href}
-                        className="inline-block text-slate-600 transition-colors hover:text-emerald-700 dark:text-slate-300 dark:hover:text-emerald-400"
-                      >
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+            <ul className="space-y-3 text-sm font-medium">
+              {exploreLinks.map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className={linkCls}>{label}</Link>
+                </li>
               ))}
-            </nav>
+            </ul>
           </div>
 
-          <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between sm:gap-8 lg:col-span-7 lg:justify-end lg:gap-14">
-            <div className="min-w-0 sm:min-w-60 lg:text-right">
-              {sectionHeading(t('footerContactTitle'))}
-              <div className="flex flex-col gap-3 text-sm text-slate-600 dark:text-slate-300 lg:items-end">
-                <a
-                  href={mailto}
-                  title={email}
-                  className="inline-flex max-w-full items-start gap-2.5 text-left transition-colors hover:text-slate-900 dark:hover:text-slate-50 sm:items-center"
-                >
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 opacity-80 sm:mt-0" aria-hidden />
-                  <span className="min-w-0 sm:whitespace-nowrap">{email}</span>
+          {/* Contact */}
+          <div>
+            {sectionHeading(t('footerContactTitle'))}
+            <ul className="space-y-3 text-sm font-medium">
+              <li>
+                <a href={`mailto:${contact.email}`} className={`${linkCls} inline-flex items-start gap-2.5 break-all`}>
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
+                  {contact.email}
                 </a>
-                <a
-                  href={telHref}
-                  className="inline-flex items-center gap-2.5 whitespace-nowrap transition-colors hover:text-slate-900 dark:hover:text-slate-50"
-                >
-                  <Phone className="h-4 w-4 shrink-0 opacity-80" aria-hidden />
-                  {phoneLabel}
+              </li>
+              <li>
+                <a href={`tel:${contact.phoneTel.replace(/\s/g, '')}`} className={`${linkCls} inline-flex items-center gap-2.5 whitespace-nowrap`}>
+                  <Phone className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
+                  {contact.phoneDisplay}
                 </a>
-              </div>
-            </div>
+              </li>
+            </ul>
+          </div>
 
-            <div className="shrink-0 sm:border-l sm:border-slate-200/80 sm:pl-8 dark:sm:border-slate-600/60 lg:pl-10">
-              {sectionHeading(t('footerSocialTitle'))}
-              <div className="flex flex-wrap items-center gap-3 lg:justify-end">
-                <a
-                  href={social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-emerald-500/15 hover:text-emerald-700 dark:text-slate-300 dark:hover:text-emerald-400"
-                  aria-label={t('footerInstagramLabel')}
+          {/* Payments */}
+          <div className="col-span-2 lg:col-span-1">
+            {sectionHeading(t('footerPaymentsTitle'))}
+            <div className="flex flex-wrap items-center gap-2">
+              {siteConfig.footerPaymentMethods.map(({ src, altKey }) => (
+                <span
+                  key={src}
+                  className="flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-2.5 dark:border-neutral-700"
                 >
-                  <FaInstagram className="h-7 w-7" aria-hidden />
-                </a>
-                <a
-                  href={social.messenger}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-emerald-500/15 hover:text-emerald-700 dark:text-slate-300 dark:hover:text-emerald-400"
-                  aria-label={t('footerMessengerLabel')}
-                >
-                  <SiMessenger className="h-7 w-7" aria-hidden />
-                </a>
-                <a
-                  href={social.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-emerald-500/15 hover:text-emerald-700 dark:text-slate-300 dark:hover:text-emerald-400"
-                  aria-label={t('footerYoutubeLabel')}
-                >
-                  <FaYoutube className="h-7 w-7" aria-hidden />
-                </a>
-                <a
-                  href={social.tiktok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-emerald-500/15 hover:text-emerald-700 dark:text-slate-300 dark:hover:text-emerald-400"
-                  aria-label={t('footerTiktokLabel')}
-                >
-                  <FaTiktok className="h-7 w-7" aria-hidden />
-                </a>
-              </div>
+                  <PaymentMethodLogo src={src} alt={t(altKey)} fallbackLabel={t(altKey)} />
+                </span>
+              ))}
             </div>
           </div>
         </div>
 
-        <p className="mt-8 border-t border-emerald-200/50 pt-3 text-center text-[10px] leading-relaxed text-slate-500 dark:border-slate-700/50 dark:text-slate-400">
-          <span>{t('footerTechnologyPartnerLabel')}</span>{' '}
-          <a
-            href={siteConfig.technologyPartner.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-slate-600 underline-offset-2 transition-colors hover:text-emerald-700 hover:underline dark:text-slate-300 dark:hover:text-emerald-400"
-          >
-            {siteConfig.technologyPartner.name}
-          </a>
-        </p>
+        {/* Bottom bar */}
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-slate-200 py-5 text-xs text-slate-500 dark:border-neutral-800 dark:text-neutral-400 sm:flex-row">
+          <p>
+            © {new Date().getFullYear()} {companyName}. {t('allRightsReserved')}
+          </p>
+          <nav className="flex items-center gap-4" aria-label="Legal">
+            <Link href="/terms" className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400">{t('footerTerms')}</Link>
+            <Link href="/privacy" className="transition-colors hover:text-emerald-600 dark:hover:text-emerald-400">{t('footerPrivacy')}</Link>
+          </nav>
+          <p>
+            {t('footerTechnologyPartnerLabel')}{' '}
+            <a
+              href={siteConfig.technologyPartner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-slate-700 underline-offset-2 hover:text-emerald-600 hover:underline dark:text-neutral-300 dark:hover:text-emerald-400"
+            >
+              {siteConfig.technologyPartner.name}
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
-  );
+  )
 }

@@ -1,89 +1,85 @@
 "use client";
 
+import type { ReactNode } from 'react';
 import { Mail, Phone, MessageCircle, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { siteConfig, formatWhatsappLocalFromDigits } from '@/config/siteConfig';
+
+const LABELS = {
+  en: { email: 'Email', phone: 'Phone', whatsapp: 'WhatsApp', address: 'Address', chat: 'Chat on WhatsApp' },
+  bn: { email: 'ইমেইল', phone: 'ফোন', whatsapp: 'হোয়াটসঅ্যাপ', address: 'ঠিকানা', chat: 'হোয়াটসঅ্যাপে চ্যাট করুন' },
+} as const
+
+type Item = { key: string; label: string; value: string; icon: ReactNode; href?: string; external?: boolean }
+
+const iconCls = 'h-5 w-5 text-emerald-600 dark:text-emerald-400'
 
 export function HomeContact() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const L = LABELS[language === 'bn' ? 'bn' : 'en']
+  const { contact, billing } = siteConfig
+  const waHref = `https://wa.me/${contact.whatsappDigits}`
+
+  const items: Item[] = [
+    { key: 'email', label: L.email, value: contact.email, icon: <Mail className={iconCls} aria-hidden />, href: `mailto:${contact.email}` },
+    { key: 'phone', label: L.phone, value: contact.phoneDisplay, icon: <Phone className={iconCls} aria-hidden />, href: `tel:${contact.phoneTel.replace(/\s/g, '')}` },
+    { key: 'whatsapp', label: L.whatsapp, value: formatWhatsappLocalFromDigits(contact.whatsappDigits), icon: <MessageCircle className={iconCls} aria-hidden />, href: waHref, external: true },
+    { key: 'address', label: L.address, value: billing.addressLine, icon: <MapPin className={iconCls} aria-hidden /> },
+  ]
 
   return (
     <section
       id="contact"
-      className="border-t border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-950/80"
+      className="bg-white dark:bg-transparent"
     >
-      <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-        <div className="mb-8">
-          <h2 className="text-xl md:text-2xl font-semibold text-slate-900 dark:text-slate-50 mb-1">
-            {t('contactTitle' as any)}
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            {t('contactSubtitle' as any)}
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="mx-auto w-full max-w-[96rem] px-4 py-8 sm:px-6 md:py-10">
+        <div className="mb-6 flex flex-col gap-4 md:mb-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 className="mb-1 text-xl font-semibold text-slate-900 dark:text-neutral-50 md:text-2xl">
+              {t('contactTitle')}
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-neutral-400">{t('contactSubtitle')}</p>
+          </div>
           <a
-            href={`mailto:${t('contactEmail' as any)}`}
-            className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 hover:border-emerald-500/50 transition"
-          >
-            <div className="rounded-lg bg-emerald-500/10 p-2">
-              <Mail className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-                Email
-              </p>
-              <p className="text-sm font-medium text-slate-800 dark:text-slate-100 break-all">
-                {t('contactEmail' as any)}
-              </p>
-            </div>
-          </a>
-          <a
-            href={`tel:${t('contactPhone' as any).replace(/\s/g, '')}`}
-            className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 hover:border-emerald-500/50 transition"
-          >
-            <div className="rounded-lg bg-emerald-500/10 p-2">
-              <Phone className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-                Phone
-              </p>
-              <p className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                {t('contactPhone' as any)}
-              </p>
-            </div>
-          </a>
-          <a
-            href={`https://wa.me/88${t('contactWhatsapp' as any).replace(/\D/g, '')}`}
+            href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4 hover:border-emerald-500/50 transition"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-emerald-500 px-5 py-2.5 text-sm font-bold text-emerald-950 shadow-lg shadow-emerald-900/10 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 dark:focus-visible:ring-offset-neutral-950 md:w-auto"
           >
-            <div className="rounded-lg bg-emerald-500/10 p-2">
-              <MessageCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-                WhatsApp
-              </p>
-              <p className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                {t('contactWhatsapp' as any)}
-              </p>
-            </div>
+            <MessageCircle className="h-4 w-4" aria-hidden />
+            {L.chat}
           </a>
-          <div className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-4">
-            <div className="rounded-lg bg-emerald-500/10 p-2">
-              <MapPin className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-                Address
-              </p>
-              <p className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                {t('contactAddress' as any)}
-              </p>
-            </div>
-          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 dark:border-neutral-800 dark:bg-neutral-900 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map(({ key, label, value, icon, href, external }) => {
+            const inner = (
+              <>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-50 dark:bg-emerald-950/50">
+                  {icon}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs font-medium text-slate-500 dark:text-neutral-400">{label}</p>
+                  <p className="mt-0.5 break-words text-sm font-bold text-slate-900 dark:text-neutral-50">{value}</p>
+                </div>
+              </>
+            )
+            const cls = 'flex items-center gap-3 bg-white p-4 dark:bg-neutral-950 sm:p-5'
+            return href ? (
+              <a
+                key={key}
+                href={href}
+                {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                className={`${cls} transition-colors hover:bg-emerald-50/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500 dark:hover:bg-neutral-900`}
+              >
+                {inner}
+              </a>
+            ) : (
+              <div key={key} className={cls}>
+                {inner}
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

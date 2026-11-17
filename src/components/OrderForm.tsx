@@ -17,7 +17,7 @@ import { siteConfig } from '@/siteConfig'
 import { GetServicesList, postOrderForm } from '@/services/serviceService'
 
 const inputClass =
-  'w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500'
+  'w-full rounded-lg border border-slate-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 px-3 py-2 text-slate-900 dark:text-neutral-100 placeholder-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500'
 
 const initial = {
   name: '',
@@ -162,13 +162,13 @@ export function OrderForm() {
   }, [])
 
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 py-8 md:py-12">
+    <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-8 md:py-12">
       <Breadcrumb items={[{ label: t('footerCreateOrder' as any) }]} jsonLd={false} />
       <div className="mb-8 text-center sm:text-left">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-neutral-50 sm:text-3xl">
           {t('postOrderFormTitle')}
         </h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+        <p className="mt-2 text-sm text-slate-600 dark:text-neutral-400 sm:text-base">
           {t('postOrderFormSubtitle')}
         </p>
       </div>
@@ -176,7 +176,7 @@ export function OrderForm() {
       {!success && savedCount > 0 && (
         <Link
           href="/track-order"
-          className="mb-5 flex items-center gap-3 rounded-xl border border-emerald-300/60 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 transition hover:bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-100 dark:hover:bg-emerald-500/15"
+          className="mb-5 flex items-center gap-3 rounded-lg border border-emerald-300/60 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 transition hover:bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-100 dark:hover:bg-emerald-500/15"
         >
           <PackageSearch className="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400" aria-hidden />
           <span className="min-w-0 flex-1">
@@ -213,14 +213,14 @@ export function OrderForm() {
                   const ok = await printOrderBillAsync(() => trackOrder(orderNo, phone))
                   setBillError(ok ? null : lang === 'bn' ? 'বিল খুলতে পপ-আপ অনুমতি দিন বা আবার চেষ্টা করুন।' : 'Allow pop-ups or try again to open the bill.')
                 }}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
               >
                 <Download className="h-4 w-4" aria-hidden />
                 {lang === 'bn' ? 'বিল ডাউনলোড করুন' : 'Download bill'}
               </button>
               <Link
                 href={`/track-order?id=${success.orderNo}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-emerald-500/10"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-500 px-4 py-2.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-emerald-500/10"
               >
                 <PackageSearch className="h-4 w-4" aria-hidden />
                 {lang === 'bn' ? 'অর্ডার ট্র্যাক করুন' : 'Track order'}
@@ -231,7 +231,7 @@ export function OrderForm() {
           <button
             type="button"
             onClick={() => setSuccess(null)}
-            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-neutral-600 dark:text-neutral-200 dark:hover:bg-neutral-900"
           >
             {lang === 'bn' ? 'আরেকটি অর্ডার তৈরি করুন' : 'Create another order'}
           </button>
@@ -246,16 +246,16 @@ export function OrderForm() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 sm:p-6"
+          className="space-y-6 rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-950 sm:p-6"
         >
           {formError ? (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-200">
+            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-200">
               {formError}
             </div>
           ) : null}
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block sm:col-span-2">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                 {t('fullName')} <span className="text-red-600 dark:text-red-400">*</span>
               </span>
               <input
@@ -269,7 +269,7 @@ export function OrderForm() {
               />
             </label>
             <label className="block">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                 {t('phone')} <span className="text-red-600 dark:text-red-400">*</span>
               </span>
               <MobilePhoneInput
@@ -283,7 +283,7 @@ export function OrderForm() {
               />
             </label>
             <label className="block">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                 {t('email')} <span className="text-red-600 dark:text-red-400">*</span>
               </span>
               <input
@@ -298,7 +298,7 @@ export function OrderForm() {
             </label>
 
             <label className="block">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                 {t('postOrderFieldServiceName')}{' '}
                 <span className="text-red-600 dark:text-red-400">*</span>
               </span>
@@ -327,7 +327,7 @@ export function OrderForm() {
               </datalist>
             </label>
             <label className="block">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                 {t('postOrderFieldPrice')} <span className="text-red-600 dark:text-red-400">*</span>
               </span>
               <input
@@ -341,7 +341,7 @@ export function OrderForm() {
               />
             </label>
             <label className="block">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                 {t('postOrderFieldPaymentMethod')}{' '}
                 <span className="text-red-600 dark:text-red-400">*</span>
               </span>
@@ -370,24 +370,24 @@ export function OrderForm() {
                       <img
                         src={selectedPayment.logoSrc}
                         alt={t(selectedPayment.labelKey as any)}
-                        className="h-6 w-6 shrink-0 rounded-full bg-white object-contain p-1 dark:bg-slate-950"
+                        className="h-6 w-6 shrink-0 rounded-full bg-white object-contain p-1 dark:bg-neutral-950"
                         loading="lazy"
                         decoding="async"
                       />
                       <span className="truncate">{t(selectedPayment.labelKey as any)}</span>
                     </span>
                   ) : (
-                    <span className="text-slate-500 dark:text-slate-400">
+                    <span className="text-slate-500 dark:text-neutral-400">
                       {t('selectPaymentMethod') ?? 'Select payment method'}
                     </span>
                   )}
-                  <span className="text-slate-500 dark:text-slate-400">▾</span>
+                  <span className="text-slate-500 dark:text-neutral-400">▾</span>
                 </button>
 
                 {paymentOpen ? (
                   <div
                     role="listbox"
-                    className="absolute z-20 mt-2 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-950"
+                    className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-neutral-700 dark:bg-neutral-950"
                   >
                     {paymentOptions.map((p) => {
                       const active = p.key === form.paymentMethod
@@ -405,14 +405,14 @@ export function OrderForm() {
                           className={[
                             'flex w-full items-center gap-3 px-3 py-2 text-left text-sm',
                             active
-                              ? 'bg-emerald-50 text-slate-900 dark:bg-emerald-500/10 dark:text-slate-50'
-                              : 'text-slate-800 hover:bg-slate-50 dark:text-slate-100 dark:hover:bg-slate-900',
+                              ? 'bg-emerald-50 text-slate-900 dark:bg-emerald-500/10 dark:text-neutral-50'
+                              : 'text-slate-800 hover:bg-slate-50 dark:text-neutral-100 dark:hover:bg-neutral-950',
                           ].join(' ')}
                         >
                           <img
                             src={p.logoSrc}
                             alt={t(p.labelKey as any)}
-                            className="h-7 w-7 rounded-full bg-white object-contain p-1 dark:bg-slate-900"
+                            className="h-7 w-7 rounded-full bg-white object-contain p-1 dark:bg-neutral-950"
                             loading="lazy"
                             decoding="async"
                           />
@@ -429,7 +429,7 @@ export function OrderForm() {
               const error = payerTouched ? payerNumberError(form.paymentMethod, form.userPaymentMethodNumber, lang) : null
               return (
                 <label className="block">
-                  <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                     {payerNumberLabel(form.paymentMethod, lang)} <span className="text-red-600 dark:text-red-400">*</span>
                   </span>
                   <input
@@ -444,7 +444,7 @@ export function OrderForm() {
                     className={`${inputClass} font-mono ${error ? 'border-red-400 dark:border-red-500/60' : ''}`}
                     required
                   />
-                  <span className={`mt-1 block text-xs ${error ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                  <span className={`mt-1 block text-xs ${error ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-neutral-400'}`}>
                     {error ?? payerNumberHint(form.paymentMethod, lang)}
                   </span>
                 </label>
@@ -452,9 +452,9 @@ export function OrderForm() {
             })()}
 
             <label className="block sm:col-span-2">
-              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                 {t('transactionId')}{' '}
-                <span className="font-normal text-slate-500 dark:text-slate-400">
+                <span className="font-normal text-slate-500 dark:text-neutral-400">
                   (Transaction ID or last 4 digits)
                 </span>{' '}
                 <span className="text-red-600 dark:text-red-400">*</span>
@@ -468,7 +468,7 @@ export function OrderForm() {
                 required
               />
               {transactionIdHint(form.paymentMethod, lang) && (
-                <span className="mt-1 block text-xs text-slate-500 dark:text-slate-400">{transactionIdHint(form.paymentMethod, lang)}</span>
+                <span className="mt-1 block text-xs text-slate-500 dark:text-neutral-400">{transactionIdHint(form.paymentMethod, lang)}</span>
               )}
             </label>
           </div>
@@ -476,7 +476,7 @@ export function OrderForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-xl bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-60 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 sm:w-auto sm:min-w-[12rem]"
+            className="w-full rounded-md bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 px-4 py-3 text-sm font-black text-emerald-950 shadow-lg shadow-emerald-900/10 transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-neutral-900 sm:w-full"
           >
             {submitting ? 'Submitting…' : t('postOrderSubmit')}
           </button>
