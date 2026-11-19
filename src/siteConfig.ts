@@ -1,3 +1,4 @@
+import { siteConfig as mainConfig } from './config/siteConfig'
 export function formatWhatsappLocalFromDigits(whatsappDigits: string): string {
   const d = whatsappDigits.replace(/\D/g, '')
   if (d.startsWith('880') && d.length >= 12) return `0${d.slice(3)}`
@@ -25,28 +26,8 @@ export const siteConfig = {
     addressLine: 'Dhaka, Bangladesh',
   },
 
-  checkoutPayment: {
-    bkash: {
-      accountNumber: '01521585818',
-      instructionKey: 'instructionsBkash',
-      logoSrc: '/bikash.svg',
-    },
-    nagad: {
-      accountNumber: '01751311438',
-      instructionKey: 'instructionsNagad',
-      logoSrc: '/nagad.png',
-    },
-    rocket: {
-      accountNumber: '01751311438',
-      instructionKey: 'instructionsRocket',
-      logoSrc: '/rocket.webp',
-    },
-    binance: {
-      accountNumber: '',
-      instructionKey: 'instructionsBinance',
-      logoSrc: '/Binance_Logo.svg',
-    },
-  },
+  /** Single source of truth lives in config/siteConfig.ts (numbers, Binance Pay ID, logos). */
+  checkoutPayment: mainConfig.checkoutPayment,
 
   social: {
     instagram: 'https://www.instagram.com/digitalaccessda/',

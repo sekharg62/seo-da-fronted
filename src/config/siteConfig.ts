@@ -40,21 +40,26 @@ export const siteConfig = {
     bkash: {
       accountNumber: '01521585818',
       instructionKey: 'instructionsBkash',
+      accountLabelKey: 'payToNumber',
       logoSrc: '/bikash.svg',
     },
     nagad: {
       accountNumber: '01751311438',
       instructionKey: 'instructionsNagad',
+      accountLabelKey: 'payToNumber',
       logoSrc: '/nagad.png',
     },
     rocket: {
       accountNumber: '01751311438',
       instructionKey: 'instructionsRocket',
+      accountLabelKey: 'payToNumber',
       logoSrc: '/rocket.webp',
     },
     binance: {
-      accountNumber: '',
+      /** Binance Pay ID */
+      accountNumber: '1199695288',
       instructionKey: 'instructionsBinance',
+      accountLabelKey: 'payToBinanceId',
       logoSrc: '/Binance_Logo.svg',
     },
   },

@@ -20,6 +20,24 @@ const CURRENCY = '৳'
 
 const CHECKOUT_PAYMENT_METHODS = ['bkash', 'nagad', 'rocket', 'binance'] as const
 
+const PAYMENT_LABEL_KEYS = {
+  bkash: 'paymentBkash',
+  nagad: 'paymentNagad',
+  rocket: 'paymentRocket',
+  binance: 'paymentBinance',
+} as const
+
+/** Short names for the method tiles (brand names are not translated). */
+/** Brand colour per method (selected tile, details card, step numbers). `on` = readable text colour on that brand colour. */
+const PAYMENT_COLORS = {
+  bkash: { color: '#E2136E', on: '#ffffff' },
+  nagad: { color: '#F26B21', on: '#ffffff' },
+  rocket: { color: '#8C3494', on: '#ffffff' },
+  binance: { color: '#F0B90B', on: '#1a1400' },
+} as const
+
+const PAYMENT_SHORT_NAMES = { bkash: 'bKash', nagad: 'Nagad', rocket: 'Rocket', binance: 'Binance' } as const
+
 function CopyButton({ text, copyLabel, copiedLabel }: { text: string; copyLabel: string; copiedLabel: string }) {
   const [copied, setCopied] = useState(false)
   const copy = () => {
@@ -79,6 +97,15 @@ export default function ConfirmOrderPage() {
     paymentConfig && paymentConfig.instructionKey
       ? (t(paymentConfig.instructionKey) || '').replace(/\{\{number\}\}/g, paymentConfig.accountNumber || '')
       : ''
+  /** "1. Open…" lines → plain steps (the account-number line is shown in its own box instead). */
+  const paymentSteps = instructionText
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l && l !== paymentConfig?.accountNumber)
+    .map((l) => l.replace(/^[\d০-৯]+[.)]\s*/, ''))
+    // "Enter receiver number:" → the number now sits in the box above, so point to it
+    .map((l) => l.replace(/[:：]$/, language === 'bn' ? ' (উপরে দেওয়া আছে)।' : ' (shown above).'))
+  const activePaymentLabelKey = form.paymentMethod ? PAYMENT_LABEL_KEYS[form.paymentMethod] : null
 
   const whatsappLocal = formatWhatsappLocalFromDigits(siteConfig.contact.whatsappDigits)
 
@@ -354,132 +381,112 @@ export default function ConfirmOrderPage() {
               {t('paymentInformation')}
             </h2>
 
-            {/* Payment & contact details */}
-            <div className="mb-6 rounded-xl border border-gray-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-800/50 p-4">
-              <h3 className="text-sm font-semibold text-slate-800 dark:text-neutral-100 mb-3">
-                {t('paymentContactHeading')}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-gray-500 dark:text-neutral-400">Email:</span>
-                  <a
-                    href={`mailto:${siteConfig.contact.email}`}
-                    className="text-amber-700 dark:text-amber-400 hover:underline break-all"
-                  >
-                    {siteConfig.contact.email}
-                  </a>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-gray-500 dark:text-neutral-400">Phone:</span>
-                  <a
-                    href={`tel:${siteConfig.contact.phoneTel.replace(/\s/g, '')}`}
-                    className="text-amber-700 dark:text-amber-400 hover:underline"
-                  >
-                    {siteConfig.contact.phoneDisplay}
-                  </a>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-gray-500 dark:text-neutral-400">WhatsApp:</span>
-                  <span className="text-gray-900 dark:text-neutral-100">{whatsappLocal}</span>
-                  <CopyButton text={whatsappLocal} copyLabel={t('copyLabel')} copiedLabel={t('copiedLabel')} />
-                </div>
-                <div className="flex flex-wrap items-center gap-2 sm:col-span-2">
-                  <span className="text-gray-500 dark:text-neutral-400">{t('bkashPersonalLabel')}:</span>
-                  <span className="font-mono font-medium text-gray-900 dark:text-neutral-100">
-                    {siteConfig.checkoutPayment.bkash.accountNumber}
-                  </span>
-                  <CopyButton
-                    text={siteConfig.checkoutPayment.bkash.accountNumber}
-                    copyLabel={t('copyLabel')}
-                    copiedLabel={t('copiedLabel')}
-                  />
-                </div>
-                <div className="flex flex-wrap items-center gap-2 sm:col-span-2">
-                  <span className="text-gray-500 dark:text-neutral-400">{t('nagadRocketLabel')}:</span>
-                  <span className="font-mono font-medium text-gray-900 dark:text-neutral-100">
-                    {siteConfig.checkoutPayment.nagad.accountNumber}
-                  </span>
-                  <CopyButton
-                    text={siteConfig.checkoutPayment.nagad.accountNumber}
-                    copyLabel={t('copyLabel')}
-                    copiedLabel={t('copiedLabel')}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <p className="text-sm text-slate-600 dark:text-neutral-400 mb-4">{t('selectPaymentMethod')} <span className="text-red-500">*</span></p>
-
-            <div className="space-y-3">
+            {/* 1 · Pick a method — all in one row */}
+            <p id="payment-method-label" className="mb-3 text-sm font-medium text-slate-700 dark:text-neutral-300">
+              {t('selectPaymentMethod')} <span className="text-red-500">*</span>
+            </p>
+            <div role="radiogroup" aria-labelledby="payment-method-label" className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
               {CHECKOUT_PAYMENT_METHODS.map((key) => {
                 const row = siteConfig.checkoutPayment[key]
-                const labelKey =
-                  key === 'bkash'
-                    ? 'paymentBkash'
-                    : key === 'nagad'
-                      ? 'paymentNagad'
-                      : key === 'rocket'
-                        ? 'paymentRocket'
-                        : 'paymentBinance'
+                const selected = form.paymentMethod === key
+                const brand = PAYMENT_COLORS[key]
                 return (
                   <label
                     key={key}
-                    className={`flex items-center gap-3 rounded-xl border p-3 cursor-pointer transition ${form.paymentMethod === key
-                      ? 'border-amber-500 bg-amber-500/10 dark:bg-amber-500/20'
-                      : 'border-gray-200 dark:border-neutral-700 hover:border-slate-300 dark:hover:border-neutral-600'
-                      }`}
+                    style={{ '--pm': brand.color, '--pm-on': brand.on } as React.CSSProperties}
+                    className={`relative flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-3 text-center transition focus-within:ring-2 focus-within:ring-[var(--pm)] focus-within:ring-offset-2 focus-within:ring-offset-white dark:focus-within:ring-offset-[#0f0f0f] ${
+                      selected
+                        ? 'border-[var(--pm)] bg-[color-mix(in_srgb,var(--pm)_12%,transparent)]'
+                        : 'border-gray-200 hover:border-[var(--pm)] dark:border-neutral-700'
+                    }`}
                   >
                     <input
                       type="radio"
                       name="paymentMethod"
                       value={key}
-                      checked={form.paymentMethod === key}
+                      checked={selected}
                       onChange={() => setForm((f) => ({ ...f, paymentMethod: key }))}
-                      className="h-4 w-4 text-amber-500 focus:ring-amber-500"
+                      className="sr-only"
                     />
+                    {selected && (
+                      <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--pm)] text-[var(--pm-on)]">
+                        <Check className="h-3 w-3" aria-hidden />
+                      </span>
+                    )}
                     <img
                       src={row.logoSrc}
                       alt=""
-                      className="h-9 w-9 shrink-0 rounded-lg object-contain bg-white dark:bg-neutral-900 p-0.5"
+                      className="h-10 w-10 shrink-0 rounded-md bg-white object-contain p-1 dark:bg-neutral-900"
                     />
-                    <span className="text-sm font-medium text-gray-900 dark:text-neutral-100">{t(labelKey)}</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-neutral-100">{PAYMENT_SHORT_NAMES[key]}</span>
                   </label>
                 )
               })}
             </div>
 
-            {paymentConfig && (
-              <div className="mt-4 rounded-xl border border-gray-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-800/50 p-4">
-                <div className="whitespace-pre-line text-sm text-slate-700 dark:text-neutral-300">
-                  {instructionText.split('\n\n').map((para, i) => (
-                    <div key={i} className="mb-2">
-                      {paymentConfig.accountNumber && para.includes(paymentConfig.accountNumber) ? (
-                        <span className="flex flex-wrap items-center gap-2">
-                          {para.split(paymentConfig.accountNumber).map((part, j) => (
-                            <span key={j}>
-                              {part}
-                              {j === 0 && (
-                                <>
-                                  <span className="font-mono font-semibold text-gray-900 dark:text-neutral-100">
-                                    {paymentConfig.accountNumber}
-                                  </span>
-                                  <CopyButton
-                                    text={paymentConfig.accountNumber}
-                                    copyLabel={t('copyLabel')}
-                                    copiedLabel={t('copiedLabel')}
-                                  />
-                                </>
-                              )}
-                            </span>
-                          ))}
+            {/* 2 · Selected method: account + step-by-step process */}
+            {paymentConfig && activePaymentLabelKey ? (
+              <div
+                aria-live="polite"
+                style={{ '--pm': PAYMENT_COLORS[form.paymentMethod as keyof typeof PAYMENT_COLORS].color, '--pm-on': PAYMENT_COLORS[form.paymentMethod as keyof typeof PAYMENT_COLORS].on } as React.CSSProperties}
+                className="mt-4 overflow-hidden rounded-lg border-2 border-[var(--pm)] bg-[color-mix(in_srgb,var(--pm)_6%,transparent)]"
+              >
+                <div className="flex items-center gap-3 border-b border-[color-mix(in_srgb,var(--pm)_30%,transparent)] bg-[color-mix(in_srgb,var(--pm)_12%,transparent)] px-4 py-3">
+                  <img
+                    src={paymentConfig.logoSrc}
+                    alt=""
+                    className="h-8 w-8 shrink-0 rounded-md bg-white object-contain p-0.5 dark:bg-neutral-900"
+                  />
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-neutral-50">{t(activePaymentLabelKey)}</h3>
+                </div>
+
+                <div className="space-y-4 p-4">
+                  <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-stretch">
+                    <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-neutral-700 dark:bg-[#0f0f0f]">
+                      <p className="text-xs font-medium text-gray-500 dark:text-neutral-400">
+                        {t(paymentConfig.accountLabelKey)}
+                      </p>
+                      <div className="mt-1 flex flex-wrap items-center gap-3">
+                        <span className="break-all font-mono text-xl font-bold tracking-wide text-gray-900 dark:text-neutral-50">
+                          {paymentConfig.accountNumber}
                         </span>
-                      ) : (
-                        para
-                      )}
+                        <CopyButton
+                          text={paymentConfig.accountNumber}
+                          copyLabel={t('copyLabel')}
+                          copiedLabel={t('copiedLabel')}
+                        />
+                      </div>
                     </div>
-                  ))}
+                    {form.paymentMethod !== 'binance' && totalAmount > 0 && (
+                      <div className="rounded-md border border-gray-200 bg-white p-3 dark:border-neutral-700 dark:bg-[#0f0f0f] sm:min-w-40">
+                        <p className="text-xs font-medium text-gray-500 dark:text-neutral-400">{t('payAmountLabel')}</p>
+                        <p className="mt-1 text-xl font-bold text-gray-900 dark:text-neutral-50">
+                          {CURRENCY}
+                          {finalTotal.toLocaleString('en-US')}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <p className="mb-3 text-sm font-semibold text-gray-900 dark:text-neutral-100">{t('payHowTo')}</p>
+                    <ol className="space-y-3">
+                      {paymentSteps.map((step, i) => (
+                        <li key={i} className="flex gap-3">
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--pm)] text-xs font-bold text-[var(--pm-on)]">
+                            {i + 1}
+                          </span>
+                          <span className="pt-0.5 text-sm leading-relaxed text-slate-700 dark:text-neutral-300">{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
                 </div>
               </div>
+            ) : (
+              <p className="mt-4 rounded-lg border border-dashed border-gray-300 px-4 py-6 text-center text-sm text-gray-500 dark:border-neutral-700 dark:text-neutral-400">
+                {t('payPickMethodHint')}
+              </p>
             )}
 
             {needsPayerNumber(form.paymentMethod) && (() => {
@@ -528,6 +535,23 @@ export default function ConfirmOrderPage() {
                   {transactionIdHint(form.paymentMethod, language === 'bn' ? 'bn' : 'en')}
                 </p>
               )}
+            </div>
+
+            <div className="mt-6 rounded-lg border border-gray-200 bg-slate-50 p-4 dark:border-neutral-700 dark:bg-neutral-900">
+              <h3 className="mb-3 text-sm font-semibold text-slate-800 dark:text-neutral-100">{t('payHelpHeading')}</h3>
+              <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-gray-500 dark:text-neutral-400">WhatsApp:</span>
+                  <span className="text-gray-900 dark:text-neutral-100">{whatsappLocal}</span>
+                  <CopyButton text={whatsappLocal} copyLabel={t('copyLabel')} copiedLabel={t('copiedLabel')} />
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-gray-500 dark:text-neutral-400">Email:</span>
+                  <a href={`mailto:${siteConfig.contact.email}`} className="break-all text-amber-700 hover:underline dark:text-amber-400">
+                    {siteConfig.contact.email}
+                  </a>
+                </div>
+              </div>
             </div>
           </section>
         </div>
