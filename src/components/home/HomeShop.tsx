@@ -45,10 +45,10 @@ export function HomeShop({ initialServices }: { initialServices?: ServiceDto[] }
       <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-8 md:py-10">
         <div className="mb-6 md:mb-8">
           <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-neutral-50 mb-1">
-            {t('shopSectionTitle' as any)}
+            {t('shopSectionTitle')}
           </h2>
           <p className="text-sm text-gray-500 dark:text-neutral-400">
-            {t('shopSectionSubtitle' as any)}
+            {t('shopSectionSubtitle')}
           </p>
         </div>
         {servicesLoading ? (
@@ -75,7 +75,7 @@ export function HomeShop({ initialServices }: { initialServices?: ServiceDto[] }
             href="/shop"
             className="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-800/60 px-5 py-2.5 text-sm font-medium text-slate-800 dark:text-neutral-100 hover:bg-slate-100 dark:hover:bg-neutral-800 hover:border-slate-400 dark:hover:border-neutral-600 transition"
           >
-            {t('viewAll' as any)}
+            {t('viewAll')}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Headphones, Sparkles, Wallet } from 'lucide-react'
@@ -19,13 +20,9 @@ const HIGHLIGHT_GRADIENT =
 function HeroAnimatedHighlight() {
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(1)
-  const [reducedMotion, setReducedMotion] = useState(false)
+  const reducedMotion = useReducedMotion()
 
   const phrase = HERO_HIGHLIGHT_PHRASES[phraseIndex]
-
-  useEffect(() => {
-    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-  }, [])
 
   useEffect(() => {
     if (reducedMotion) return
@@ -114,18 +111,18 @@ export function HomeHero() {
         <div className="flex min-w-0 w-full max-w-xl flex-col space-y-4 sm:space-y-5 md:max-w-none md:space-y-6">
           <div className="inline-flex w-fit max-w-full shrink-0 self-start items-center gap-2 rounded-full border border-amber-400/20 bg-white/80 px-3 py-1.5 text-[11px] font-medium text-amber-900 shadow-md shadow-amber-900/[0.06] backdrop-blur-xl ring-1 ring-white/80 dark:border-amber-500/30 dark:bg-[#0f0f0f] dark:text-amber-100 dark:shadow-black/30 dark:ring-white/[0.1] sm:px-4 sm:text-xs">
             <Sparkles className="h-3.5 w-3.5 shrink-0 text-amber-700 dark:text-amber-400" aria-hidden />
-            <span className="break-words text-left leading-snug">{t('homeBadge' as any)}</span>
+            <span className="break-words text-left leading-snug">{t('homeBadge')}</span>
           </div>
           <div className="min-w-0 space-y-3 sm:space-y-5">
             <div className="space-y-3 sm:space-y-4">
               <h1 className="home-hero-headline break-words text-[1.45rem] font-semibold leading-[1.2] tracking-tight text-gray-900 dark:text-neutral-50 sm:text-4xl sm:leading-[1.15] md:text-[2.5rem] md:leading-tight lg:text-[2.75rem] lg:leading-[1.08]">
-                <span className="block">{t('homeHeroTitlePrefix' as any)}</span>
+                <span className="block">{t('homeHeroTitlePrefix')}</span>
                 <HeroTitleHighlightRow />
-                <span className="mt-1 block sm:mt-1.5">{t('homeHeroTitleSuffix' as any)}</span>
+                <span className="mt-1 block sm:mt-1.5">{t('homeHeroTitleSuffix')}</span>
               </h1>
             </div>
             <p className="max-w-lg text-xs leading-relaxed text-slate-600 dark:text-neutral-300/95 sm:text-sm md:text-base md:leading-relaxed">
-              {t('homeHeroDescription' as any)}
+              {t('homeHeroDescription')}
             </p>
           </div>
 
@@ -136,7 +133,7 @@ export function HomeHero() {
                 href="#shop"
                 className="home-hero-cta-premium group relative z-10 inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-b from-amber-400 to-amber-600 px-6 py-2 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/30 ring-1 ring-white/40 transition hover:from-amber-300 hover:to-amber-500 hover:shadow-amber-500/40 active:scale-[0.98] dark:shadow-amber-900/45 dark:ring-amber-200/20 sm:px-8 sm:py-2"
               >
-                <span className="relative z-10 truncate">{t('homeCtaExploreProducts' as any)}</span>
+                <span className="relative z-10 truncate">{t('homeCtaExploreProducts')}</span>
                 <ArrowRight
                   className="relative z-10 h-4 w-4 shrink-0 transition group-hover:translate-x-0.5"
                   aria-hidden
@@ -144,7 +141,7 @@ export function HomeHero() {
               </Link>
             </span>
             <p className="text-center text-[10px] font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-neutral-500 sm:text-left sm:text-[11px] sm:pl-1">
-              {t('homeHeroTrustLine' as any)}
+              {t('homeHeroTrustLine')}
             </p>
           </div>
 
@@ -155,11 +152,11 @@ export function HomeHero() {
                   <Wallet className="h-4 w-4 text-amber-700 dark:text-amber-400" aria-hidden />
                 </div>
                 <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-neutral-100 text-xs leading-snug sm:text-[13px]">
-                  {t('homeBullet1Title' as any)}
+                  {t('homeBullet1Title')}
                 </p>
               </div>
               <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-gray-500 break-words dark:text-neutral-400 sm:text-xs">
-                {t('homeBullet1Body' as any)}
+                {t('homeBullet1Body')}
               </p>
             </div>
             <div className="group min-w-0 rounded-lg border border-white/90 bg-white/75 p-3.5 shadow-md shadow-gray-900/[0.04] backdrop-blur-md transition hover:border-amber-300/50 hover:shadow-lg hover:shadow-amber-900/[0.05] dark:border-neutral-700/90 dark:bg-[#0f0f0f] dark:shadow-black/25 dark:hover:border-amber-500/35">
@@ -168,11 +165,11 @@ export function HomeHero() {
                   <Headphones className="h-4 w-4 text-amber-700 dark:text-amber-400" aria-hidden />
                 </div>
                 <p className="min-w-0 flex-1 break-words font-semibold text-slate-800 dark:text-neutral-100 text-xs leading-snug sm:text-[13px]">
-                  {t('homeBullet2Title' as any)}
+                  {t('homeBullet2Title')}
                 </p>
               </div>
               <p className="mt-2 min-w-0 pl-11 text-[11px] leading-relaxed text-gray-500 break-words dark:text-neutral-400 sm:text-xs">
-                {t('homeBullet2Body' as any)}
+                {t('homeBullet2Body')}
               </p>
             </div>
           </div>

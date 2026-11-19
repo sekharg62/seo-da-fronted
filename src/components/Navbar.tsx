@@ -13,11 +13,11 @@ import { NAV_LINKS } from "@/lib/navLinks";
 
 function Brand() {
   const { t } = useLanguage();
-  const name = t("appName" as any);
+  const name = t("appName");
   return (
     <Link
       href="/"
-      aria-label={`${name} — ${t("footerLinkHome" as any)}`}
+      aria-label={`${name} — ${t("footerLinkHome")}`}
       className="flex min-w-0 shrink-0 items-center gap-2 rounded-lg transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
     >
       {/* Both logos are rendered; CSS picks one, avoiding a flash/hydration mismatch on theme load */}
@@ -34,7 +34,7 @@ function DesktopNavLinks() {
   const { t } = useLanguage();
   const pathname = usePathname() ?? "/";
   return (
-    <nav aria-label={t("navPrimaryAriaLabel" as any)} className="hidden lg:block">
+    <nav aria-label={t("navPrimaryAriaLabel")} className="hidden lg:block">
       <ul className="flex items-center gap-1">
         {NAV_LINKS.map(({ href, labelKey, match }) => {
           const active = match(pathname);
@@ -49,7 +49,7 @@ function DesktopNavLinks() {
                     : "text-slate-600 hover:bg-slate-100 hover:text-gray-900 dark:text-neutral-300 dark:hover:bg-neutral-800/70 dark:hover:text-white"
                 }`}
               >
-                {t(labelKey as any)}
+                {t(labelKey)}
                 {active && (
                   <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-amber-500" aria-hidden />
                 )}
@@ -83,7 +83,7 @@ export default function Navbar() {
         href="#main-content"
         className="sr-only rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-neutral-950 focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50"
       >
-        {t("navSkipToContent" as any)}
+        {t("navSkipToContent")}
       </a>
 
       <div className="mx-auto flex w-full max-w-[96rem] flex-col gap-3 px-4 sm:px-6 py-3 md:flex-row md:items-center md:gap-4 lg:gap-6">
@@ -102,10 +102,10 @@ export default function Navbar() {
 
         <DesktopNavLinks />
 
-        <NavbarSearch placeholder={t("navSearchPlaceholder" as any) || "Search products…"} />
+        <NavbarSearch placeholder={t("navSearchPlaceholder") || "Search products…"} />
 
         <div className="hidden shrink-0 items-center gap-2 md:flex lg:gap-3">
-          <CartIcon cartLabel={t("cart" as any)} />
+          <CartIcon cartLabel={t("cart")} />
           <ThemeToggle />
           <LanguageSwitcher />
         </div>

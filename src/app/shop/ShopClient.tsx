@@ -29,10 +29,10 @@ export default function ShopClient({ services, categories, error = null }: Props
     <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-8 md:py-12">
           <div className="mb-6 md:mb-8">
             <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-neutral-50 mb-1">
-              {t('shopPageTitle' as any)}
+              {t('shopPageTitle')}
             </h1>
             <p className="text-sm text-gray-500 dark:text-neutral-400">
-              {t('shopPageSubtitle' as any)}
+              {t('shopPageSubtitle')}
             </p>
           </div>
 

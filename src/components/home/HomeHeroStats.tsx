@@ -1,5 +1,6 @@
 "use client";
 
+import { useReducedMotion } from '@/lib/useReducedMotion'
 import { useEffect, useRef, useState } from 'react'
 import {
   BadgeCheck,
@@ -80,14 +81,13 @@ function easeOutCubic(t: number) {
 }
 
 function useAnimatedCount(target: number, active: boolean, durationMs = 2000, delayMs = 0) {
-  const [value, setValue] = useState(0)
+  const [animated, setValue] = useState(0)
+  const reducedMotion = useReducedMotion()
+  // With reduced motion there is no animation: show the final number straight away.
+  const value = reducedMotion && active ? target : animated
 
   useEffect(() => {
-    if (!active) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setValue(target)
-      return
-    }
+    if (!active || reducedMotion) return
     let frame = 0
     let cancelled = false
 
@@ -111,7 +111,7 @@ function useAnimatedCount(target: number, active: boolean, durationMs = 2000, de
       clearTimeout(timer)
       cancelAnimationFrame(frame)
     }
-  }, [active, target, durationMs, delayMs])
+  }, [active, target, durationMs, delayMs, reducedMotion])
 
   return value
 }
@@ -139,7 +139,7 @@ function StatCell({
         </div>
         <span className="inline-flex min-w-0 max-w-[58%] items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-semibold uppercase leading-tight tracking-wide text-amber-800 shadow-sm ring-1 ring-amber-200/80 dark:bg-[#0f0f0f] dark:text-amber-200 dark:ring-amber-800/60 sm:max-w-[52%] sm:gap-1.5 sm:px-2.5 sm:py-1 sm:text-[10px] md:text-[11px]">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500 shadow-[0_0_0_2px_rgba(16,185,129,0.25)]" aria-hidden />
-          <span className="truncate">{t(statusKey as any)}</span>
+          <span className="truncate">{t(statusKey)}</span>
         </span>
       </div>
 
@@ -149,10 +149,10 @@ function StatCell({
           <span className="text-amber-700 dark:text-amber-400">{suffix}</span>
         </p>
         <p className="break-words text-xs font-semibold text-amber-900 dark:text-amber-200 sm:text-sm">
-          {t(titleKey as any)}
+          {t(titleKey)}
         </p>
         <p className="break-words text-[11px] leading-relaxed text-amber-800/85 dark:text-amber-300/90 sm:text-xs">
-          {t(subKey as any)}
+          {t(subKey)}
         </p>
       </div>
     </div>
@@ -195,10 +195,10 @@ export function HomeHeroStats() {
         <div className="mt-2 min-w-0 rounded-lg border border-gray-200/70 bg-slate-50/70 p-2.5 dark:border-neutral-700/70 dark:bg-[#0f0f0f] sm:mt-3 sm:rounded-xl sm:p-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
             <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-500 dark:text-neutral-400 sm:text-[11px]">
-              {t('homeStatUpdatesLabel' as any)}
+              {t('homeStatUpdatesLabel')}
             </p>
             <span className="inline-flex w-fit shrink-0 items-center rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:text-amber-300 sm:px-2 sm:py-1 sm:text-[11px]">
-              {t('homeStatUpdatesBadge' as any)}
+              {t('homeStatUpdatesBadge')}
             </span>
           </div>
 
@@ -215,7 +215,7 @@ export function HomeHeroStats() {
                       className={`inline-flex max-w-[9.5rem] shrink-0 items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold shadow-sm ring-1 backdrop-blur-sm sm:max-w-none sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-[11px] ${chipClass}`}
                     >
                       <Icon className="h-3 w-3 shrink-0 opacity-95 sm:h-3.5 sm:w-3.5" />
-                      <span className="truncate">{t(labelKey as any)}</span>
+                      <span className="truncate">{t(labelKey)}</span>
                     </span>
                   ))}
                 </div>

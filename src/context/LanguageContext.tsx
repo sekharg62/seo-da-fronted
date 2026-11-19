@@ -372,7 +372,8 @@ type TranslationKey = keyof typeof translations.en
 type LanguageContextValue = {
   language: Language
   setLanguage: (lang: Language) => void
-  t: (key: TranslationKey) => string
+  /** Accepts known keys (autocomplete) or any string; unknown keys render as the key itself. */
+  t: (key: TranslationKey | (string & {})) => string
 }
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(
@@ -386,6 +387,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY) as Language | null
       if (stored === 'en' || stored === 'bn') {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- read browser storage after mount so server and client markup match (no hydration mismatch)
         setLanguageState(stored)
       }
     } catch {
@@ -409,9 +411,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  function t(key: TranslationKey): string {
-    const table = translations[language] ?? translations.en
-    return table[key] ?? translations.en[key]
+  function t(key: TranslationKey | (string & {})): string {
+    const table = (translations[language] ?? translations.en) as Record<string, string>
+    return table[key] ?? (translations.en as Record<string, string>)[key] ?? key
   }
 
   return (

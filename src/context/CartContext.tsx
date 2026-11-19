@@ -72,6 +72,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- read browser storage after mount so server and client markup match (no hydration mismatch)
     setItems(loadCart())
     setMounted(true)
   }, [])

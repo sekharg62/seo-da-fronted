@@ -27,7 +27,7 @@ export function LanguageSwitcher() {
   return (
     <div
       role="group"
-      aria-label={t("navLanguage" as any)}
+      aria-label={t("navLanguage")}
       className="inline-flex items-center overflow-hidden rounded-full border border-slate-300 bg-slate-100 text-[11px] text-slate-700 dark:border-neutral-700 dark:bg-[#0f0f0f] dark:text-neutral-200"
     >
       {option("bn", "বাংলা")}
@@ -41,7 +41,7 @@ export function ThemeToggle() {
   const { toggleTheme } = useTheme();
   const { t } = useLanguage();
   return (
-    <button type="button" onClick={toggleTheme} className={iconButton} aria-label={t("navThemeToggle" as any)}>
+    <button type="button" onClick={toggleTheme} className={iconButton} aria-label={t("navThemeToggle")}>
       <FiMoon className="h-4 w-4 dark:hidden sm:h-5 sm:w-5" aria-hidden />
       <FiSun className="hidden h-4 w-4 dark:block sm:h-5 sm:w-5" aria-hidden />
     </button>

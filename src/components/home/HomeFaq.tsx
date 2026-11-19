@@ -56,10 +56,10 @@ export function HomeFaq() {
       <div className="mx-auto grid w-full max-w-[96rem] gap-6 px-4 py-8 sm:px-6 md:py-10 lg:grid-cols-[1fr_2fr] lg:gap-12">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <h2 className="mb-1 text-xl font-semibold text-gray-900 dark:text-neutral-50 md:text-2xl">
-            {t('faqTitle' as any)}
+            {t('faqTitle')}
           </h2>
           <p className="text-sm text-gray-500 dark:text-neutral-400">
-            {t('faqSubtitle' as any)}
+            {t('faqSubtitle')}
           </p>
         </div>
 

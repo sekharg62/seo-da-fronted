@@ -174,7 +174,7 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
               setActiveIndex(-1)
               inputRef.current?.focus()
             }}
-            aria-label={t('navClearSearch' as any)}
+            aria-label={t('navClearSearch')}
             className="rounded-md p-1 text-slate-400 transition hover:bg-gray-200 hover:text-slate-700 dark:hover:bg-neutral-900 dark:hover:text-neutral-200"
           >
             <X className="h-4 w-4" />
@@ -189,9 +189,9 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
       {showPanel && (
         <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-xl border border-gray-200/80 bg-white shadow-xl shadow-gray-900/10 dark:border-neutral-800 dark:bg-[#0f0f0f] dark:shadow-black/40">
           {status === 'loading' || status === 'idle' ? (
-            <p className="p-3 text-sm text-gray-500" role="status">{t('navSearching' as any)}</p>
+            <p className="p-3 text-sm text-gray-500" role="status">{t('navSearching')}</p>
           ) : results.length ? (
-            <ul id={listboxId} role="listbox" aria-label={t('navSearchResults' as any)} className="max-h-[60vh] overflow-y-auto py-1">
+            <ul id={listboxId} role="listbox" aria-label={t('navSearchResults')} className="max-h-[60vh] overflow-y-auto py-1">
               {results.map((service, index) => {
                 const active = index === activeIndex
                 const price = Number(service.price)
@@ -218,7 +218,7 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
                       </div>
                       {Number.isFinite(price) && price > 0 && (
                         <span className="shrink-0 text-right text-xs text-gray-500 dark:text-neutral-400">
-                          {t('navStartsFrom' as any)}
+                          {t('navStartsFrom')}
                           <span className="block text-sm font-semibold text-amber-700 dark:text-amber-400">
                             {CURRENCY}{price.toLocaleString()}
                           </span>
@@ -231,7 +231,7 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
             </ul>
           ) : (
             <p className="p-3 text-sm text-gray-500" role="status">
-              {status === 'error' ? 'Could not load products. Please try again.' : t('navNoResults' as any)}
+              {status === 'error' ? 'Could not load products. Please try again.' : t('navNoResults')}
             </p>
           )}
         </div>

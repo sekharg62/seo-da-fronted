@@ -9,23 +9,23 @@ export function HomeServices() {
   const services = [
     {
       icon: <MonitorCog className="h-6 w-6 text-amber-700 dark:text-amber-400" />,
-      title: t('homeServiceStreamingTitle' as any),
-      description: t('homeServiceStreamingDesc' as any),
+      title: t('homeServiceStreamingTitle'),
+      description: t('homeServiceStreamingDesc'),
     },
     {
       icon: <Smartphone className="h-6 w-6 text-amber-700 dark:text-amber-400" />,
-      title: t('homeServiceAppsTitle' as any),
-      description: t('homeServiceAppsDesc' as any),
+      title: t('homeServiceAppsTitle'),
+      description: t('homeServiceAppsDesc'),
     },
     {
       icon: <ShieldCheck className="h-6 w-6 text-amber-700 dark:text-amber-400" />,
-      title: t('homeServiceSecurityTitle' as any),
-      description: t('homeServiceSecurityDesc' as any),
+      title: t('homeServiceSecurityTitle'),
+      description: t('homeServiceSecurityDesc'),
     },
     {
       icon: <Clock3 className="h-6 w-6 text-amber-700 dark:text-amber-400" />,
-      title: t('homeServiceAlertsTitle' as any),
-      description: t('homeServiceAlertsDesc' as any),
+      title: t('homeServiceAlertsTitle'),
+      description: t('homeServiceAlertsDesc'),
     },
   ];
 
@@ -37,10 +37,10 @@ export function HomeServices() {
       <div className="mx-auto w-full max-w-[96rem] px-4 py-8 sm:px-6 md:py-10">
         <div className="mb-6 max-w-2xl md:mb-8">
           <h2 className="mb-1 text-xl font-semibold text-gray-900 dark:text-neutral-50 md:text-2xl">
-            {t('homeServicesTitle' as any)}
+            {t('homeServicesTitle')}
           </h2>
           <p className="text-sm text-gray-500 dark:text-neutral-400">
-            {t('homeServicesBody' as any)}
+            {t('homeServicesBody')}
           </p>
         </div>
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-gray-200 bg-gray-200 dark:border-neutral-800 dark:bg-neutral-900 sm:grid-cols-2 lg:grid-cols-4">

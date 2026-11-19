@@ -163,7 +163,7 @@ export function OrderForm() {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-8 md:py-12">
-      <Breadcrumb items={[{ label: t('footerCreateOrder' as any) }]} jsonLd={false} />
+      <Breadcrumb items={[{ label: t('footerCreateOrder') }]} jsonLd={false} />
       <div className="mb-8 text-center sm:text-left">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-neutral-50 sm:text-3xl">
           {t('postOrderFormTitle')}
@@ -369,12 +369,12 @@ export function OrderForm() {
                     <span className="flex min-w-0 items-center gap-2">
                       <img
                         src={selectedPayment.logoSrc}
-                        alt={t(selectedPayment.labelKey as any)}
+                        alt={t(selectedPayment.labelKey)}
                         className="h-6 w-6 shrink-0 rounded-full bg-white object-contain p-1 dark:bg-[#0f0f0f]"
                         loading="lazy"
                         decoding="async"
                       />
-                      <span className="truncate">{t(selectedPayment.labelKey as any)}</span>
+                      <span className="truncate">{t(selectedPayment.labelKey)}</span>
                     </span>
                   ) : (
                     <span className="text-gray-500 dark:text-neutral-400">
@@ -411,12 +411,12 @@ export function OrderForm() {
                         >
                           <img
                             src={p.logoSrc}
-                            alt={t(p.labelKey as any)}
+                            alt={t(p.labelKey)}
                             className="h-7 w-7 rounded-full bg-white object-contain p-1 dark:bg-[#0f0f0f]"
                             loading="lazy"
                             decoding="async"
                           />
-                          <span className="min-w-0 truncate">{t(p.labelKey as any)}</span>
+                          <span className="min-w-0 truncate">{t(p.labelKey)}</span>
                         </button>
                       )
                     })}

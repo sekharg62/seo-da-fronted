@@ -113,14 +113,14 @@ export function MobileMenu() {
             <img src="/Blue.png" alt="" width={32} height={32} className="h-8 w-8 dark:hidden" />
             <img src="/White.png" alt="" width={32} height={32} className="hidden h-8 w-8 dark:block" />
             <h2 id={titleId} className="truncate text-base font-semibold text-gray-900 dark:text-neutral-50">
-              {t('appName' as any)}
+              {t('appName')}
             </h2>
           </div>
           <button
             ref={closeRef}
             type="button"
             onClick={() => setOpen(false)}
-            aria-label={t('navCloseMenu' as any)}
+            aria-label={t('navCloseMenu')}
             className="rounded-lg p-2 text-gray-500 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:text-neutral-400 dark:hover:bg-neutral-900"
           >
             <X className="h-5 w-5" />
@@ -128,7 +128,7 @@ export function MobileMenu() {
         </div>
 
         <div className="flex-1 overflow-y-auto overscroll-contain px-3 py-4">
-          <nav aria-label={t('navPrimaryAriaLabel' as any)}>
+          <nav aria-label={t('navPrimaryAriaLabel')}>
             <ul className="space-y-1">
               {NAV_LINKS.map(({ href, labelKey, match }) => {
                 const active = match(pathname)
@@ -146,7 +146,7 @@ export function MobileMenu() {
                       }`}
                     >
                       <Icon className="h-5 w-5 shrink-0" aria-hidden />
-                      <span className="flex-1">{t(labelKey as any)}</span>
+                      <span className="flex-1">{t(labelKey)}</span>
                       <ChevronRight className={`h-4 w-4 shrink-0 ${active ? 'opacity-100' : 'opacity-40'}`} aria-hidden />
                     </Link>
                   </li>
@@ -163,7 +163,7 @@ export function MobileMenu() {
               onClick={() => setOpen(false)}
               className="flex items-center justify-center gap-1.5 rounded-lg bg-amber-400 px-3 py-2.5 text-sm font-semibold text-neutral-950"
             >
-              <ClipboardPlus className="h-4 w-4" aria-hidden /> {t('footerCreateOrder' as any)}
+              <ClipboardPlus className="h-4 w-4" aria-hidden /> {t('footerCreateOrder')}
             </Link>
             <Link
               href="/track-order"
@@ -171,7 +171,7 @@ export function MobileMenu() {
               aria-current={pathname.startsWith('/track-order') ? 'page' : undefined}
               className="flex items-center justify-center gap-1.5 rounded-lg border border-amber-500/70 px-3 py-2.5 text-sm font-semibold text-amber-700 dark:text-amber-300"
             >
-              <PackageSearch className="h-4 w-4" aria-hidden /> {t('footerTrackOrder' as any)}
+              <PackageSearch className="h-4 w-4" aria-hidden /> {t('footerTrackOrder')}
             </Link>
           </div>
 
@@ -192,7 +192,7 @@ export function MobileMenu() {
                     }`}
                   >
                     <Icon className="h-4 w-4 shrink-0" aria-hidden />
-                    {t(labelKey as any)}
+                    {t(labelKey)}
                   </Link>
                 </li>
               )
@@ -201,18 +201,18 @@ export function MobileMenu() {
 
           <div className="mt-4 space-y-3 rounded-lg border border-gray-200 bg-slate-50 p-3 dark:border-neutral-800 dark:bg-[#0f0f0f]">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm text-slate-600 dark:text-neutral-300">{t('navLanguage' as any)}</span>
+              <span className="text-sm text-slate-600 dark:text-neutral-300">{t('navLanguage')}</span>
               <LanguageSwitcher />
             </div>
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm text-slate-600 dark:text-neutral-300">{t('navTheme' as any)}</span>
+              <span className="text-sm text-slate-600 dark:text-neutral-300">{t('navTheme')}</span>
               <ThemeToggle />
             </div>
           </div>
         </div>
 
         <div className="space-y-2 border-t border-gray-200 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] text-sm dark:border-neutral-800">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t('footerContactTitle' as any)}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t('footerContactTitle')}</p>
           <a
             href={`https://wa.me/${contact.whatsappDigits}`}
             target="_blank"
@@ -247,7 +247,7 @@ export function MobileMenu() {
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={t('navOpenMenu' as any)}
+        aria-label={t('navOpenMenu')}
         aria-expanded={open}
         aria-controls={panelId}
         aria-haspopup="dialog"

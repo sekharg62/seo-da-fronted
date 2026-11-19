@@ -41,7 +41,7 @@ export function CartDrawer() {
       className="fixed inset-0 z-[60] flex justify-end"
       role="dialog"
       aria-modal="true"
-      aria-label={t('shoppingCart' as any)}
+      aria-label={t('shoppingCart')}
     >
       {/* Backdrop */}
       <button
@@ -59,7 +59,7 @@ export function CartDrawer() {
         {/* Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-gray-200 dark:border-neutral-800 px-4 py-3">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-neutral-50">
-            {t('shoppingCart' as any)}
+            {t('shoppingCart')}
           </h2>
           <button
             type="button"
@@ -79,14 +79,14 @@ export function CartDrawer() {
                 <ShoppingCart className="h-10 w-10 text-slate-400 dark:text-neutral-500" strokeWidth={1.25} aria-hidden />
               </div>
               <p className="text-sm text-gray-500 dark:text-neutral-400">
-                {t('emptyCart' as any)}
+                {t('emptyCart')}
               </p>
               <Link
                 href="/shop"
                 onClick={() => setDrawerOpen(false)}
                 className="inline-flex items-center justify-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-semibold text-neutral-950 shadow-sm transition hover:bg-amber-300"
               >
-                {t('continueShopping' as any)}
+                {t('continueShopping')}
               </Link>
             </div>
           ) : (
@@ -109,7 +109,7 @@ export function CartDrawer() {
                           type="button"
                           onClick={() => removeItem(item.serviceId)}
                           className="shrink-0 rounded p-1 text-slate-400 hover:bg-gray-200 dark:hover:bg-neutral-800 hover:text-red-600 dark:hover:text-red-400 transition"
-                          aria-label={t('remove' as any)}
+                          aria-label={t('remove')}
                         >
                           <X className="h-4 w-4" />
                         </button>
@@ -155,7 +155,7 @@ export function CartDrawer() {
         {totalItems > 0 && (
           <div className="shrink-0 border-t border-gray-200 dark:border-neutral-800 p-4 space-y-3">
             <div className="flex items-center justify-between text-base font-semibold text-gray-900 dark:text-neutral-50">
-              <span>{t('subtotal' as any)}</span>
+              <span>{t('subtotal')}</span>
               <span>{CURRENCY}{totalAmount}</span>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
@@ -164,7 +164,7 @@ export function CartDrawer() {
                 onClick={() => setDrawerOpen(false)}
                 className="flex-1 rounded-lg bg-amber-400 px-4 py-2.5 text-center text-sm font-semibold text-neutral-950 shadow-sm hover:bg-amber-300 transition"
               >
-                {t('checkout' as any)}
+                {t('checkout')}
               </Link>
             </div>
           </div>

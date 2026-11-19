@@ -26,6 +26,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- read browser storage after mount so server and client markup match (no hydration mismatch)
     setMounted(true);
     // On mount, read the theme from local storage just in case it differs from initial render
     const initialTheme = readInitialTheme();

@@ -32,24 +32,24 @@ export function MobileBottomNav() {
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 bg-white/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md dark:border-neutral-800 dark:bg-[#0f0f0f] md:hidden"
-      aria-label={t('mobileNavAriaLabel' as any)}
+      aria-label={t('mobileNavAriaLabel')}
     >
       <div className="mx-auto flex max-w-lg items-stretch justify-between">
         <Link href="/" className={navItemClass(pathname === '/')}>
           <Home className="h-[22px] w-[22px] shrink-0" aria-hidden />
-          <span className="truncate">{t('footerLinkHome' as any)}</span>
+          <span className="truncate">{t('footerLinkHome')}</span>
         </Link>
 
         <Link href="/shop" className={navItemClass(shopActive)}>
           <LayoutGrid className="h-[22px] w-[22px] shrink-0" aria-hidden />
-          <span className="truncate">{t('footerLinkShop' as any)}</span>
+          <span className="truncate">{t('footerLinkShop')}</span>
         </Link>
 
         <button
           type="button"
           onClick={() => setDrawerOpen(true)}
           className={`${navItemClass(cartActive)} relative`}
-          aria-label={t('cart' as any)}
+          aria-label={t('cart')}
         >
           <span className="relative inline-flex shrink-0">
             <ShoppingCart className="h-[22px] w-[22px]" aria-hidden />
@@ -62,17 +62,17 @@ export function MobileBottomNav() {
               </span>
             ) : null}
           </span>
-          <span className="truncate">{t('cart' as any)}</span>
+          <span className="truncate">{t('cart')}</span>
         </button>
 
         <Link href="/track-order" className={navItemClass(trackActive)}>
           <PackageSearch className="h-[22px] w-[22px] shrink-0" aria-hidden />
-          <span className="truncate">{t('footerTrackOrder' as any)}</span>
+          <span className="truncate">{t('footerTrackOrder')}</span>
         </Link>
 
         <Link href="/blog" className={navItemClass(blogActive)}>
           <BookOpen className="h-[22px] w-[22px] shrink-0" aria-hidden />
-          <span className="truncate">{t('footerLinkBlog' as any)}</span>
+          <span className="truncate">{t('footerLinkBlog')}</span>
         </Link>
       </div>
     </nav>

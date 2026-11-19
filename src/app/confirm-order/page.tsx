@@ -77,7 +77,7 @@ export default function ConfirmOrderPage() {
       : null
   const instructionText =
     paymentConfig && paymentConfig.instructionKey
-      ? (t(paymentConfig.instructionKey as any) || '').replace(/\{\{number\}\}/g, paymentConfig.accountNumber || '')
+      ? (t(paymentConfig.instructionKey) || '').replace(/\{\{number\}\}/g, paymentConfig.accountNumber || '')
       : ''
 
   const whatsappLocal = formatWhatsappLocalFromDigits(siteConfig.contact.whatsappDigits)
@@ -245,13 +245,13 @@ export default function ConfirmOrderPage() {
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-neutral-900">
             <ShoppingCart className="h-10 w-10 text-slate-400 dark:text-neutral-500" strokeWidth={1.25} aria-hidden />
           </div>
-          <p className="text-slate-600 dark:text-neutral-300 mb-2">{t('emptyCart' as any)}</p>
-          <p className="text-sm text-gray-500 dark:text-neutral-400 mb-6">{t('emptyCartHint' as any)}</p>
+          <p className="text-slate-600 dark:text-neutral-300 mb-2">{t('emptyCart')}</p>
+          <p className="text-sm text-gray-500 dark:text-neutral-400 mb-6">{t('emptyCartHint')}</p>
           <Link
             href="/shop"
             className="inline-flex items-center justify-center rounded-lg bg-amber-400 px-5 py-2.5 text-sm font-semibold text-neutral-950 shadow-sm transition hover:bg-amber-300"
           >
-            {t('continueShopping' as any)}
+            {t('continueShopping')}
           </Link>
         </div>
       </div>
@@ -281,7 +281,7 @@ export default function ConfirmOrderPage() {
   return (
     <div className="mx-auto w-full max-w-[96rem] px-4 sm:px-6 py-6 md:py-10">
       <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-neutral-50 mb-6">
-        {t('confirmOrderTitle' as any)}
+        {t('confirmOrderTitle')}
       </h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8 lg:gap-10">
@@ -289,11 +289,11 @@ export default function ConfirmOrderPage() {
         <div className="flex-1 space-y-6">
           <section className="rounded-lg border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0f0f0f] p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-neutral-50 mb-4">
-              {t('billingDetails' as any)}
+              {t('billingDetails')}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('fullName' as any)}<span className="text-red-500 ml-1">*</span></label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('fullName')}<span className="text-red-500 ml-1">*</span></label>
                 <input
                   type="text"
                   value={form.fullName}
@@ -303,7 +303,7 @@ export default function ConfirmOrderPage() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('phone' as any)}<span className="text-red-500 ml-1">*</span></label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('phone')}<span className="text-red-500 ml-1">*</span></label>
                 <MobilePhoneInput
                   name="phone"
                   value={form.phone}
@@ -316,7 +316,7 @@ export default function ConfirmOrderPage() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('whatsappNumber' as any)}</label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('whatsappNumber')}</label>
                 <input
                   type="tel"
                   value={form.whatsappNumber}
@@ -326,7 +326,7 @@ export default function ConfirmOrderPage() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('email' as any)}<span className="text-red-500 ml-1">*</span></label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('email')}<span className="text-red-500 ml-1">*</span></label>
                 <input
                   type="email"
                   value={form.email}
@@ -336,7 +336,7 @@ export default function ConfirmOrderPage() {
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('orderNotes' as any)}</label>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('orderNotes')}</label>
                 <textarea
                   value={form.orderNotes}
                   onChange={(e) => setForm((f) => ({ ...f, orderNotes: e.target.value }))}
@@ -351,13 +351,13 @@ export default function ConfirmOrderPage() {
           {/* Payment information */}
           <section className="rounded-lg border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0f0f0f] p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-neutral-50 mb-4">
-              {t('paymentInformation' as any)}
+              {t('paymentInformation')}
             </h2>
 
             {/* Payment & contact details */}
             <div className="mb-6 rounded-xl border border-gray-200 dark:border-neutral-700 bg-slate-50 dark:bg-neutral-800/50 p-4">
               <h3 className="text-sm font-semibold text-slate-800 dark:text-neutral-100 mb-3">
-                {t('paymentContactHeading' as any)}
+                {t('paymentContactHeading')}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <div className="flex flex-wrap items-center gap-2">
@@ -381,34 +381,34 @@ export default function ConfirmOrderPage() {
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-gray-500 dark:text-neutral-400">WhatsApp:</span>
                   <span className="text-gray-900 dark:text-neutral-100">{whatsappLocal}</span>
-                  <CopyButton text={whatsappLocal} copyLabel={t('copyLabel' as any)} copiedLabel={t('copiedLabel' as any)} />
+                  <CopyButton text={whatsappLocal} copyLabel={t('copyLabel')} copiedLabel={t('copiedLabel')} />
                 </div>
                 <div className="flex flex-wrap items-center gap-2 sm:col-span-2">
-                  <span className="text-gray-500 dark:text-neutral-400">{t('bkashPersonalLabel' as any)}:</span>
+                  <span className="text-gray-500 dark:text-neutral-400">{t('bkashPersonalLabel')}:</span>
                   <span className="font-mono font-medium text-gray-900 dark:text-neutral-100">
                     {siteConfig.checkoutPayment.bkash.accountNumber}
                   </span>
                   <CopyButton
                     text={siteConfig.checkoutPayment.bkash.accountNumber}
-                    copyLabel={t('copyLabel' as any)}
-                    copiedLabel={t('copiedLabel' as any)}
+                    copyLabel={t('copyLabel')}
+                    copiedLabel={t('copiedLabel')}
                   />
                 </div>
                 <div className="flex flex-wrap items-center gap-2 sm:col-span-2">
-                  <span className="text-gray-500 dark:text-neutral-400">{t('nagadRocketLabel' as any)}:</span>
+                  <span className="text-gray-500 dark:text-neutral-400">{t('nagadRocketLabel')}:</span>
                   <span className="font-mono font-medium text-gray-900 dark:text-neutral-100">
                     {siteConfig.checkoutPayment.nagad.accountNumber}
                   </span>
                   <CopyButton
                     text={siteConfig.checkoutPayment.nagad.accountNumber}
-                    copyLabel={t('copyLabel' as any)}
-                    copiedLabel={t('copiedLabel' as any)}
+                    copyLabel={t('copyLabel')}
+                    copiedLabel={t('copiedLabel')}
                   />
                 </div>
               </div>
             </div>
 
-            <p className="text-sm text-slate-600 dark:text-neutral-400 mb-4">{t('selectPaymentMethod' as any)} <span className="text-red-500">*</span></p>
+            <p className="text-sm text-slate-600 dark:text-neutral-400 mb-4">{t('selectPaymentMethod')} <span className="text-red-500">*</span></p>
 
             <div className="space-y-3">
               {CHECKOUT_PAYMENT_METHODS.map((key) => {
@@ -442,7 +442,7 @@ export default function ConfirmOrderPage() {
                       alt=""
                       className="h-9 w-9 shrink-0 rounded-lg object-contain bg-white dark:bg-neutral-900 p-0.5"
                     />
-                    <span className="text-sm font-medium text-gray-900 dark:text-neutral-100">{t(labelKey as any)}</span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-neutral-100">{t(labelKey)}</span>
                   </label>
                 )
               })}
@@ -465,8 +465,8 @@ export default function ConfirmOrderPage() {
                                   </span>
                                   <CopyButton
                                     text={paymentConfig.accountNumber}
-                                    copyLabel={t('copyLabel' as any)}
-                                    copiedLabel={t('copiedLabel' as any)}
+                                    copyLabel={t('copyLabel')}
+                                    copiedLabel={t('copiedLabel')}
                                   />
                                 </>
                               )}
@@ -515,7 +515,7 @@ export default function ConfirmOrderPage() {
             })()}
 
             <div className="mt-4">
-              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('transactionId' as any)} <span className="text-red-500 ml-1">*</span></label>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('transactionId')} <span className="text-red-500 ml-1">*</span></label>
               <input
                 type="text"
                 value={form.transactionId}
@@ -536,7 +536,7 @@ export default function ConfirmOrderPage() {
         <div className="shrink-0 lg:w-[26rem] xl:w-[30rem]">
           <div className="sticky top-24 rounded-lg border border-gray-200 dark:border-neutral-800 bg-white dark:bg-[#0f0f0f] p-4 sm:p-5">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-neutral-50 mb-4">
-              {t('orderSummary' as any)}
+              {t('orderSummary')}
             </h2>
             <ul className="space-y-3 mb-4 max-h-[26rem] overflow-y-auto pr-1">
               {items.map((item) => {
@@ -562,7 +562,7 @@ export default function ConfirmOrderPage() {
                             type="button"
                             onClick={() => removeItem(item.serviceId)}
                             className="shrink-0 rounded p-1 text-slate-400 hover:bg-gray-200 dark:hover:bg-neutral-800 hover:text-red-600 dark:hover:text-red-400 transition"
-                            aria-label={t('remove' as any)}
+                            aria-label={t('remove')}
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -635,7 +635,7 @@ export default function ConfirmOrderPage() {
               })}
             </ul>
             <div className="flex justify-between border-t border-gray-200 dark:border-neutral-700 pt-3 text-base font-semibold text-gray-900 dark:text-neutral-50">
-              <span>{t('subtotal' as any)}</span>
+              <span>{t('subtotal')}</span>
               <span>{CURRENCY}{totalAmount}</span>
             </div>
 
@@ -696,7 +696,7 @@ export default function ConfirmOrderPage() {
             >
               {submitting
                 ? (language === 'bn' ? 'জমা দেওয়া হচ্ছে…' : 'Submitting…')
-                : t('confirmOrderButton' as any)}
+                : t('confirmOrderButton')}
             </button>
           </div>
         </div>
