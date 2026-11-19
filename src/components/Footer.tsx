@@ -143,14 +143,23 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Disclaimer */}
+        <p className="mt-10 border-t border-gray-200 pt-5 text-center text-xs leading-relaxed text-gray-500 dark:border-neutral-800 dark:text-neutral-400">
+          {t('footerDisclaimer').replace('{{name}}', websiteName)}{' '}
+          <Link href="/disclaimer" className="font-medium underline-offset-2 hover:text-amber-600 hover:underline dark:hover:text-amber-400">
+            {t('footerDisclaimerLink')}
+          </Link>
+        </p>
+
         {/* Bottom bar */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-gray-200 py-5 text-xs text-gray-500 dark:border-neutral-800 dark:text-neutral-400 sm:flex-row">
+        <div className="mt-4 flex flex-col items-center justify-between gap-3 pb-5 text-xs text-gray-500 dark:text-neutral-400 sm:flex-row">
           <p>
             © {new Date().getFullYear()} {companyName}. {t('allRightsReserved')}
           </p>
           <nav className="flex items-center gap-4" aria-label="Legal">
             <Link href="/terms" className="transition-colors hover:text-amber-600 dark:hover:text-amber-400">{t('footerTerms')}</Link>
             <Link href="/privacy" className="transition-colors hover:text-amber-600 dark:hover:text-amber-400">{t('footerPrivacy')}</Link>
+            <Link href="/disclaimer" className="transition-colors hover:text-amber-600 dark:hover:text-amber-400">{t('footerDisclaimerLink')}</Link>
           </nav>
           <p>
             {t('footerTechnologyPartnerLabel')}{' '}

@@ -100,6 +100,8 @@ const translations = {
 
     footerTerms: 'T & C',
     footerPrivacy: 'Privacy Policy',
+    footerDisclaimerLink: 'Disclaimer',
+    footerDisclaimer: '{{name}} is an independent digital service provider and is not officially affiliated with any of the brands mentioned. All trademarks belong to their respective owners.',
     allRightsReserved: 'All rights reserved.',
     footerTagline:
       'Built for digital subscription businesses in Bangladesh. Local payments, human support, instant delivery.',
@@ -276,6 +278,8 @@ const translations = {
 
     footerTerms: 'নিয়ম ও শর্তাবলী',
     footerPrivacy: 'গোপনীয়তা নীতি',
+    footerDisclaimerLink: 'দায়মুক্তি বিবৃতি',
+    footerDisclaimer: '{{name}} একটি স্বাধীন ডিজিটাল সার্ভিস প্রদানকারী এবং উল্লিখিত কোনো ব্র্যান্ডের সাথে অফিসিয়ালি যুক্ত নয়। সব ট্রেডমার্ক তাদের নিজ নিজ মালিকের সম্পত্তি।',
     allRightsReserved: 'সর্বস্বত্ব সংরক্ষিত।',
     footerTagline:
       'বাংলাদেশের ডিজিটাল সাবস্ক্রিপশন ব্যবসার জন্য তৈরি। স্থানীয় পেমেন্ট, মানবিক সহায়তা ও দ্রুত ডেলিভারি।',

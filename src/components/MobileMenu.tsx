@@ -15,7 +15,7 @@ const NAV_ICONS: Record<string, typeof Home> = {
   '/shop': LayoutGrid,
   '/blog': BookOpen,
 }
-const LEGAL_ICONS: Record<string, typeof Home> = { '/terms': FileText, '/privacy': Shield }
+const LEGAL_ICONS: Record<string, typeof Home> = { '/terms': FileText, '/privacy': Shield, '/disclaimer': FileText }
 
 const noopSubscribe = () => () => {}
 

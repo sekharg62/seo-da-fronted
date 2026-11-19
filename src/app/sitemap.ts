@@ -45,6 +45,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/disclaimer`,
+      lastModified: LEGAL_LAST_MODIFIED,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
   ]
 
   try {

@@ -8,4 +8,5 @@ export const NAV_LINKS = [
 export const LEGAL_LINKS = [
   { href: '/terms', labelKey: 'footerTerms' },
   { href: '/privacy', labelKey: 'footerPrivacy' },
+  { href: '/disclaimer', labelKey: 'footerDisclaimerLink' },
 ] as const

@@ -285,3 +285,97 @@ export const termsAndConditions: Record<LegalLanguage, LegalDocument> = {
     contactIntro: 'এই শর্তাবলী বা আপনার অর্ডার সম্পর্কে কোনো প্রশ্ন থাকলে যোগাযোগ করুন:',
   },
 }
+
+const brands = 'Netflix, ExpressVPN, Google Gemini, Amazon Prime Video and CapCut'
+const email = siteConfig.contact.email
+
+export const disclaimer: Record<LegalLanguage, LegalDocument> = {
+  en: {
+    title: 'Disclaimer',
+    intro: `${name} is an independent digital service provider. We are not an official representative, partner, authorized dealer, or affiliate of any company, platform, or brand mentioned on this website, and we do not claim any official relationship, sponsorship, or endorsement.`,
+    sections: [
+      {
+        heading: '1. Trademarks',
+        paragraphs: [
+          `All product and service names and trademarks mentioned on this website, including ${brands}, and any other brand names shown, are the property of their respective owners. These names are used for identification purposes only, to describe which subscription or access service is offered.`,
+        ],
+      },
+      {
+        heading: '2. What We Sell',
+        paragraphs: [
+          'We provide digital subscription and access services only. There are no physical products and no physical delivery. The subscription is activated after payment is confirmed.',
+        ],
+      },
+      {
+        heading: '3. Service Terms',
+        paragraphs: [
+          "Each service is governed by the respective platform's own terms, policies, and privacy policy. Changes to a platform's features, pricing, or policies are beyond our control and may affect the service.",
+        ],
+      },
+      {
+        heading: '4. Support and Guarantee',
+        paragraphs: [
+          `We offer prompt support and replacement, subject to our Terms & Conditions, for the duration of the subscription. This is ${name}'s own service guarantee, not an official warranty from the original platform.`,
+        ],
+      },
+      {
+        heading: '5. Customer Responsibility',
+        paragraphs: [
+          "Customers must follow the respective platform's rules when using the service. We are not responsible for account restrictions caused by rule violations.",
+        ],
+      },
+      {
+        heading: '6. Copyright and Brand Concerns',
+        paragraphs: [
+          `If any brand or rights holder believes their content has been used incorrectly on this site, please contact us at ${email}, and we will promptly review and take appropriate action.`,
+        ],
+      },
+    ],
+    contactHeading: '7. Contact Us',
+    contactIntro: 'For any questions about this disclaimer, contact us:',
+  },
+  bn: {
+    title: 'দায়মুক্তি বিবৃতি (Disclaimer)',
+    intro: `${name} একটি স্বাধীন ডিজিটাল সার্ভিস প্রদানকারী প্রতিষ্ঠান। এই ওয়েবসাইটে উল্লিখিত কোনো কোম্পানি, প্ল্যাটফর্ম বা ব্র্যান্ডের আমরা অফিসিয়াল প্রতিনিধি, পার্টনার, অনুমোদিত ডিলার বা অ্যাফিলিয়েট নই। কোনো ধরনের অফিসিয়াল সম্পর্ক, স্পনসরশিপ বা অনুমোদনের দাবিও আমরা করি না।`,
+    sections: [
+      {
+        heading: '১. ট্রেডমার্ক',
+        paragraphs: [
+          `এই ওয়েবসাইটে উল্লিখিত ${brands} সহ সব পণ্য ও সেবার নাম এবং ট্রেডমার্ক তাদের নিজ নিজ মালিকের সম্পত্তি। কোন সাবস্ক্রিপশন বা অ্যাক্সেস সেবা দেওয়া হচ্ছে তা বোঝানোর জন্যই কেবল এই নামগুলো ব্যবহার করা হয়েছে।`,
+        ],
+      },
+      {
+        heading: '২. আমরা কী বিক্রি করি',
+        paragraphs: [
+          'আমরা শুধুমাত্র ডিজিটাল সাবস্ক্রিপশন ও অ্যাক্সেস সেবা প্রদান করি। কোনো ফিজিক্যাল পণ্য নেই এবং কোনো ফিজিক্যাল ডেলিভারিও নেই। পেমেন্ট নিশ্চিত হওয়ার পর সাবস্ক্রিপশন চালু করা হয়।',
+        ],
+      },
+      {
+        heading: '৩. সেবার শর্ত',
+        paragraphs: [
+          'প্রতিটি সেবা সংশ্লিষ্ট প্ল্যাটফর্মের নিজস্ব শর্ত, নীতিমালা ও প্রাইভেসি পলিসি দ্বারা পরিচালিত। প্ল্যাটফর্মের ফিচার, মূল্য বা নীতিমালার পরিবর্তন আমাদের নিয়ন্ত্রণের বাইরে এবং তা সেবাকে প্রভাবিত করতে পারে।',
+        ],
+      },
+      {
+        heading: '৪. সাপোর্ট ও গ্যারান্টি',
+        paragraphs: [
+          `সাবস্ক্রিপশনের মেয়াদকালে আমাদের নিয়ম ও শর্তাবলী অনুযায়ী আমরা দ্রুত সাপোর্ট ও রিপ্লেসমেন্ট দিয়ে থাকি। এটি ${name}-এর নিজস্ব সেবার গ্যারান্টি, মূল প্ল্যাটফর্মের অফিসিয়াল ওয়ারেন্টি নয়।`,
+        ],
+      },
+      {
+        heading: '৫. গ্রাহকের দায়িত্ব',
+        paragraphs: [
+          'সেবা ব্যবহারের সময় গ্রাহককে সংশ্লিষ্ট প্ল্যাটফর্মের নিয়ম মেনে চলতে হবে। নিয়ম লঙ্ঘনের কারণে কোনো অ্যাকাউন্টে বিধিনিষেধ এলে তার দায় আমাদের নয়।',
+        ],
+      },
+      {
+        heading: '৬. কপিরাইট ও ব্র্যান্ড সংক্রান্ত অভিযোগ',
+        paragraphs: [
+          `কোনো ব্র্যান্ড বা স্বত্বাধিকারী মনে করলে যে এই সাইটে তাদের কনটেন্ট ভুলভাবে ব্যবহার করা হয়েছে, অনুগ্রহ করে ${email} ঠিকানায় যোগাযোগ করুন। আমরা দ্রুত বিষয়টি পর্যালোচনা করে প্রয়োজনীয় ব্যবস্থা নেব।`,
+        ],
+      },
+    ],
+    contactHeading: '৭. যোগাযোগ',
+    contactIntro: 'এই দায়মুক্তি বিবৃতি সম্পর্কে কোনো প্রশ্ন থাকলে যোগাযোগ করুন:',
+  },
+}
