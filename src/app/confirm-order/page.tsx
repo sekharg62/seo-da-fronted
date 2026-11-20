@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Copy, Check, CheckCircle, Download, Minus, Plus, PackageSearch, ShoppingCart, Trash2 } from 'lucide-react'
+import { Copy, Check, CheckCircle, Download, MessageCircle, Minus, Phone, Plus, PackageSearch, ShoppingCart, Trash2 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 import { useCart } from '@/context/CartContext'
 import { createOrder, type OrderDto } from '@/services/orderService'
@@ -489,11 +489,13 @@ export default function ConfirmOrderPage() {
               </p>
             )}
 
+            {/* Payer number + Transaction ID — side by side on desktop */}
+            <div className="mt-4 grid items-start gap-4 md:grid-cols-2">
             {needsPayerNumber(form.paymentMethod) && (() => {
               const lang = language === 'bn' ? 'bn' : 'en'
               const error = payerTouched ? payerNumberError(form.paymentMethod, form.userPaymentMethodNumber, lang) : null
               return (
-                <div className="mt-4">
+                <div>
                   <label htmlFor="payer-number" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">
                     {payerNumberLabel(form.paymentMethod, lang)} <span className="text-red-500 ml-1">*</span>
                   </label>
@@ -520,8 +522,7 @@ export default function ConfirmOrderPage() {
                 </div>
               )
             })()}
-
-            <div className="mt-4">
+            <div className={needsPayerNumber(form.paymentMethod) ? '' : 'md:col-span-2'}>
               <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-neutral-300">{t('transactionId')} <span className="text-red-500 ml-1">*</span></label>
               <input
                 type="text"
@@ -536,20 +537,32 @@ export default function ConfirmOrderPage() {
                 </p>
               )}
             </div>
+            </div>
 
             <div className="mt-6 rounded-lg border border-gray-200 bg-slate-50 p-4 dark:border-neutral-700 dark:bg-neutral-900">
-              <h3 className="mb-3 text-sm font-semibold text-slate-800 dark:text-neutral-100">{t('payHelpHeading')}</h3>
-              <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-gray-500 dark:text-neutral-400">WhatsApp:</span>
-                  <span className="text-gray-900 dark:text-neutral-100">{whatsappLocal}</span>
-                  <CopyButton text={whatsappLocal} copyLabel={t('copyLabel')} copiedLabel={t('copiedLabel')} />
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-gray-500 dark:text-neutral-400">Email:</span>
-                  <a href={`mailto:${siteConfig.contact.email}`} className="break-all text-amber-700 hover:underline dark:text-amber-400">
-                    {siteConfig.contact.email}
+              <h3 className="text-sm font-semibold text-slate-800 dark:text-neutral-100">{t('payHelpHeading')}</h3>
+              <p className="mt-1 text-xs text-gray-500 dark:text-neutral-400">{t('payHelpHint')}</p>
+
+              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a
+                  href={`https://wa.me/${siteConfig.contact.whatsappDigits}?text=${encodeURIComponent(t('payHelpMessage'))}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#1fb857] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
+                >
+                  <MessageCircle className="h-4 w-4" aria-hidden />
+                  {t('payHelpWhatsapp')}
+                </a>
+
+                <div className="flex flex-wrap items-center gap-2 text-sm">
+                  <Phone className="h-4 w-4 shrink-0 text-gray-500 dark:text-neutral-400" aria-hidden />
+                  <a
+                    href={`tel:${siteConfig.contact.phoneTel.replace(/\s/g, '')}`}
+                    className="font-mono font-semibold text-gray-900 hover:underline dark:text-neutral-100"
+                  >
+                    {whatsappLocal}
                   </a>
+                  <CopyButton text={whatsappLocal} copyLabel={t('copyLabel')} copiedLabel={t('copiedLabel')} />
                 </div>
               </div>
             </div>

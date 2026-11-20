@@ -40,7 +40,7 @@ export const siteConfig = {
     bkash: {
       accountNumber: '01521585818',
       instructionKey: 'instructionsBkash',
-      accountLabelKey: 'payToNumber',
+      accountLabelKey: 'payToBkash',
       logoSrc: '/bikash.svg',
     },
     nagad: {
