@@ -9,6 +9,7 @@ const METHOD_LABEL: Record<string, { en: string; bn: string }> = {
   nagad: { en: 'Nagad number', bn: 'নগদ নম্বর' },
   rocket: { en: 'Rocket number', bn: 'রকেট নম্বর' },
   binance: { en: 'Binance Pay ID', bn: 'বাইন্যান্স পে আইডি' },
+  bank_to_wallet: { en: 'Bank account', bn: 'ব্যাংক অ্যাকাউন্ট' },
 }
 
 type Props = {

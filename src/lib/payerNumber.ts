@@ -11,6 +11,17 @@ const LABELS: Record<string, { en: string; bn: string; placeholder: string }> = 
   nagad: { en: 'Your Nagad number', bn: 'আপনার নগদ নম্বর', placeholder: '01XXXXXXXXX' },
   rocket: { en: 'Your Rocket number', bn: 'আপনার রকেট নম্বর', placeholder: '01XXXXXXXXX' },
   binance: { en: 'Your Binance Pay ID / UID', bn: 'আপনার বাইন্যান্স পে আইডি / UID', placeholder: 'e.g. 123456789' },
+  bank_to_wallet: {
+    en: 'Your bank name & account (last 4 digits)',
+    bn: 'আপনার ব্যাংকের নাম ও অ্যাকাউন্ট (শেষ ৪ ডিজিট)',
+    placeholder: 'e.g. City Bank ••1234',
+  },
+}
+
+/** Methods whose payer field is free text rather than a phone number. */
+export function payerInputMode(method: string): 'text' | 'tel' {
+  const m = method.toLowerCase()
+  return m === 'binance' || m === 'bank_to_wallet' ? 'text' : 'tel'
 }
 
 export function needsPayerNumber(method: string): boolean {
@@ -26,6 +37,9 @@ export function payerNumberPlaceholder(method: string): string {
 }
 
 export function payerNumberHint(method: string, lang: Lang): string {
+  if (method.toLowerCase() === 'bank_to_wallet') {
+    return lang === 'bn' ? 'যে ব্যাংক অ্যাকাউন্ট থেকে টাকা পাঠিয়েছেন' : 'The bank account you sent the money from'
+  }
   if (method.toLowerCase() === 'binance') {
     return lang === 'bn' ? 'যে বাইন্যান্স অ্যাকাউন্ট থেকে পেমেন্ট করেছেন' : 'The Binance account you paid from'
   }
@@ -55,6 +69,13 @@ export function payerNumberError(method: string, raw: string, lang: Lang): strin
         ? 'সঠিক মোবাইল নম্বর দিন (যেমন 01XXXXXXXXX)'
         : 'Enter a valid mobile number (e.g. 01XXXXXXXXX)'
   }
+  if (m === 'bank_to_wallet') {
+    return value.length >= 3 && value.length <= 50
+      ? null
+      : lang === 'bn'
+        ? 'ব্যাংকের নাম ও অ্যাকাউন্টের শেষ ৪ ডিজিট লিখুন (৩–৫০ অক্ষর)'
+        : 'Enter your bank name and the last 4 digits of the account (3–50 characters)'
+  }
   return /^[A-Za-z0-9]{4,30}$/.test(value)
     ? null
     : lang === 'bn'
@@ -65,6 +86,11 @@ export function payerNumberError(method: string, raw: string, lang: Lang): strin
 /** Where the customer finds the transaction ID for the chosen method (shown under the field). */
 export function transactionIdHint(method: string, lang: Lang): string | null {
   const m = method.toLowerCase()
+  if (m === 'bank_to_wallet') {
+    return lang === 'bn'
+      ? 'ব্যাংক ট্রান্সফারের রেফারেন্স অথবা বিকাশ/নগদ/রকেটের কনফার্মেশন SMS-এর TrxID দিন'
+      : 'Enter the bank transfer reference, or the TrxID from the bKash/Nagad/Rocket confirmation SMS'
+  }
   if (m === 'binance') {
     return lang === 'bn'
       ? 'বাইন্যান্স অ্যাপের পেমেন্ট হিস্টোরি থেকে অর্ডার / ট্রানজেকশন আইডি দিন'

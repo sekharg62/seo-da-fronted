@@ -1,3 +1,4 @@
+import { paymentMethodLabel } from './paymentLabels'
 import { siteConfig, formatWhatsappLocalFromDigits } from '@/siteConfig'
 
 /** Minimal order shape for a bill — satisfied by both the checkout response and /orders/track. */
@@ -121,7 +122,7 @@ export function buildOrderBillHtml(o: BillOrder): string {
 
   <div class="section-title">Payment Details</div>
   <div class="info-grid">
-    ${row('Payment Method', String(o.paymentMethod).toUpperCase())}
+    ${row('Payment Method', paymentMethodLabel(String(o.paymentMethod)))}
     ${row('Transaction ID', o.transactionId ?? '—', 'font-family:monospace')}
     ${o.userPaymentMethodNumber ? row('Paid From', o.userPaymentMethodNumber, 'font-family:monospace') : ''}
     ${row('Amount Paid', money(o.totalPrice), 'color:#059669;font-weight:700')}

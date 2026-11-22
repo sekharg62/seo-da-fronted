@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Check, ChevronDown, Download, Loader2, PackageSearch, Search, Smartphone, Trash2 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { paymentMethodLabel } from '@/lib/paymentLabels'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import { CartItemThumb } from '@/components/CartItemThumb'
 import { WhatsAppOrderBox } from '@/components/WhatsAppOrderBox'
@@ -162,7 +163,7 @@ function OrderStatusCard({ order, lang, onRemove }: { order: TrackedOrder; lang:
         <dt className="text-gray-500 dark:text-neutral-400">{tx.total}</dt>
         <dd className="text-right font-bold text-amber-700 dark:text-amber-400">{CURRENCY}{Number(order.totalPrice).toFixed(0)}</dd>
         <dt className="text-gray-500 dark:text-neutral-400">{tx.payment}</dt>
-        <dd className="text-right font-medium uppercase text-slate-800 dark:text-neutral-200">{order.paymentMethod}</dd>
+        <dd className="text-right font-medium text-slate-800 dark:text-neutral-200">{paymentMethodLabel(order.paymentMethod, lang)}</dd>
         {order.userPaymentMethodNumber && (
           <>
             <dt className="text-gray-500 dark:text-neutral-400">{tx.paidFrom}</dt>

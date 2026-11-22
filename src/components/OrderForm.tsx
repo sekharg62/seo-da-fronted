@@ -8,11 +8,11 @@ import { ErrorPage } from '@/components/ErrorPage'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import { WhatsAppOrderBox } from '@/components/WhatsAppOrderBox'
 import Link from 'next/link'
-import { Download, PackageSearch } from 'lucide-react'
+import { Download, Landmark, PackageSearch } from 'lucide-react'
 import { printOrderBillAsync } from '@/lib/orderBill'
 import { saveOrder, savedOrdersSnapshot, subscribeSavedOrders } from '@/lib/orderHistory'
 import { trackOrder } from '@/services/trackService'
-import { needsPayerNumber, payerNumberError, payerNumberHint, payerNumberLabel, payerNumberPlaceholder, transactionIdHint } from '@/lib/payerNumber'
+import { needsPayerNumber, payerInputMode, payerNumberError, payerNumberHint, payerNumberLabel, payerNumberPlaceholder, transactionIdHint } from '@/lib/payerNumber'
 import { siteConfig } from '@/siteConfig'
 import { GetServicesList, postOrderForm } from '@/services/serviceService'
 
@@ -35,6 +35,19 @@ const initial = {
  * "Create order" form for customers who already paid (bKash/Nagad/Rocket/Binance).
  * Rendered by the /create-order route; the footer's "Create order" button links there.
  */
+/** Wallet/brand logo, or a bank icon for methods that have no logo file. */
+function PaymentLogo({ src, alt, className }: { src: string | null; alt: string; className: string }) {
+  const frame = `${className} shrink-0 rounded-full bg-white p-1 dark:bg-[#0f0f0f]`
+  if (!src) {
+    return (
+      <span className={`${frame} inline-flex items-center justify-center text-slate-700 dark:text-neutral-200`} role="img" aria-label={alt}>
+        <Landmark className="h-full w-full" aria-hidden />
+      </span>
+    )
+  }
+  return <img src={src} alt={alt} className={`${frame} object-contain`} loading="lazy" decoding="async" />
+}
+
 export function OrderForm() {
   const { t, language } = useLanguage()
   const lang = language === 'bn' ? 'bn' : 'en'
@@ -67,6 +80,7 @@ export function OrderForm() {
     { key: 'nagad', labelKey: 'paymentNagad', logoSrc: siteConfig.checkoutPayment.nagad.logoSrc },
     { key: 'rocket', labelKey: 'paymentRocket', logoSrc: siteConfig.checkoutPayment.rocket.logoSrc },
     { key: 'binance', labelKey: 'paymentBinance', logoSrc: siteConfig.checkoutPayment.binance.logoSrc },
+    { key: 'bank_to_wallet', labelKey: 'paymentBankToWallet', logoSrc: null },
   ] as const
 
   const selectedPayment = paymentOptions.find((p) => p.key === form.paymentMethod) ?? null
@@ -367,13 +381,7 @@ export function OrderForm() {
                 >
                   {selectedPayment ? (
                     <span className="flex min-w-0 items-center gap-2">
-                      <img
-                        src={selectedPayment.logoSrc}
-                        alt={t(selectedPayment.labelKey)}
-                        className="h-6 w-6 shrink-0 rounded-full bg-white object-contain p-1 dark:bg-[#0f0f0f]"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                      <PaymentLogo src={selectedPayment.logoSrc} alt={t(selectedPayment.labelKey)} className="h-6 w-6" />
                       <span className="truncate">{t(selectedPayment.labelKey)}</span>
                     </span>
                   ) : (
@@ -409,13 +417,7 @@ export function OrderForm() {
                               : 'text-slate-800 hover:bg-slate-50 dark:text-neutral-100 dark:hover:bg-neutral-950',
                           ].join(' ')}
                         >
-                          <img
-                            src={p.logoSrc}
-                            alt={t(p.labelKey)}
-                            className="h-7 w-7 rounded-full bg-white object-contain p-1 dark:bg-[#0f0f0f]"
-                            loading="lazy"
-                            decoding="async"
-                          />
+                          <PaymentLogo src={p.logoSrc} alt={t(p.labelKey)} className="h-7 w-7" />
                           <span className="min-w-0 truncate">{t(p.labelKey)}</span>
                         </button>
                       )
@@ -435,7 +437,7 @@ export function OrderForm() {
                   <input
                     type="text"
                     name="userPaymentMethodNumber"
-                    inputMode={form.paymentMethod === 'binance' ? 'text' : 'tel'}
+                    inputMode={payerInputMode(form.paymentMethod)}
                     value={form.userPaymentMethodNumber}
                     onChange={(e) => setForm((f) => ({ ...f, userPaymentMethodNumber: e.target.value }))}
                     onBlur={() => setPayerTouched(true)}
