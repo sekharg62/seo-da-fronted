@@ -42,8 +42,6 @@ export type OrderDto = {
   status: OrderStatus
   createdAt: string
   updatedAt: string
-  issueStatus?: string | null
-  issueNotes?: string | null
   customer: {
     id: string
     fullName: string
