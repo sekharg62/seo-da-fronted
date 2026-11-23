@@ -20,8 +20,6 @@ export type OrderItemDto = {
   orderId: string
   serviceId?: string | null
   serviceName: string
-  mainAcId?: string | null
-  mainAc?: { id: string; email: string } | null
   quantity: number
   price: number | string
   createdAt: string
