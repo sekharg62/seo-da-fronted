@@ -5,6 +5,13 @@ export const NAV_LINKS = [
   { href: '/blog', labelKey: 'footerLinkBlog', match: (p: string) => p.startsWith('/blog') },
 ] as const
 
+/** Desktop navbar only — the mobile drawer and bottom nav have their own Track order buttons. */
+export const TRACK_ORDER_LINK = {
+  href: '/track-order',
+  labelKey: 'footerTrackOrder',
+  match: (p: string) => p.startsWith('/track-order'),
+} as const
+
 export const LEGAL_LINKS = [
   { href: '/terms', labelKey: 'footerTerms' },
   { href: '/privacy', labelKey: 'footerPrivacy' },

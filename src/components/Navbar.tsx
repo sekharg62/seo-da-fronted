@@ -8,7 +8,7 @@ import { CartIcon } from "@/components/CartIcon";
 import { NavbarSearch } from "@/components/NavbarSearch";
 import { MobileMenu } from "@/components/MobileMenu";
 import { LanguageSwitcher, ThemeToggle } from "@/components/HeaderControls";
-import { NAV_LINKS } from "@/lib/navLinks";
+import { NAV_LINKS, TRACK_ORDER_LINK } from "@/lib/navLinks";
 
 
 function Brand() {
@@ -36,7 +36,7 @@ function DesktopNavLinks() {
   return (
     <nav aria-label={t("navPrimaryAriaLabel")} className="hidden lg:block">
       <ul className="flex items-center gap-1">
-        {NAV_LINKS.map(({ href, labelKey, match }) => {
+        {[...NAV_LINKS, TRACK_ORDER_LINK].map(({ href, labelKey, match }) => {
           const active = match(pathname);
           return (
             <li key={href}>

@@ -132,7 +132,7 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
   const activeId = activeIndex >= 0 && results[activeIndex] ? `${listboxId}-opt-${activeIndex}` : undefined
 
   return (
-    <div ref={containerRef} className="relative w-full min-w-0 md:flex-1">
+    <div ref={containerRef} className="relative w-full min-w-0 md:flex-1 lg:ml-auto lg:max-w-xs xl:max-w-sm">
       <Search
         className="pointer-events-none absolute left-3.5 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-neutral-500"
         aria-hidden
@@ -187,7 +187,7 @@ export function NavbarSearch({ placeholder }: { placeholder: string }) {
       </div>
 
       {showPanel && (
-        <div className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-xl border border-gray-200/80 bg-white shadow-xl shadow-gray-900/10 dark:border-neutral-800 dark:bg-[#0f0f0f] dark:shadow-black/40">
+        <div className="absolute left-0 right-0 top-full z-40 mt-2 lg:left-auto lg:w-[26rem] overflow-hidden rounded-xl border border-gray-200/80 bg-white shadow-xl shadow-gray-900/10 dark:border-neutral-800 dark:bg-[#0f0f0f] dark:shadow-black/40">
           {status === 'loading' || status === 'idle' ? (
             <p className="p-3 text-sm text-gray-500" role="status">{t('navSearching')}</p>
           ) : results.length ? (
